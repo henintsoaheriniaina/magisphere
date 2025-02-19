@@ -22,6 +22,10 @@ class User extends Authenticatable
         'lastname',
         'matriculation',
         'password',
+        'email',
+        'role',
+        'image_url',
+        'image_public_id',
     ];
 
     /**
@@ -45,5 +49,9 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function is_admin()
+    {
+        return $this->role === 'admin';
     }
 }

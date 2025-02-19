@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('firstname');
             $table->string('lastname')->nullable();
-            $table->string('matriculation')->unique();
+            $table->string('matriculation')->unique()->nullable();
             $table->string('email')->unique();
             $table->string('password');
             $table->enum('role', ['user', 'admin'])->default('user');
+            $table->string('image_url')->nullable();
+            $table->string('image_public_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
