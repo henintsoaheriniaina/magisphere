@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             localStorage.setItem("theme", isDark ? "dark" : "light");
 
-            // Si l'utilisateur est connecté, on envoie la requête au backend
             if (themeToggleBtn.dataset.authenticated === "true") {
                 fetch("/toggle-theme", {
                     method: "POST",

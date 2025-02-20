@@ -27,7 +27,7 @@ class UsersController extends Controller
 
         Auth::login($user, $remember);
 
-        return redirect()->intended(route("index"));
+        return redirect()->intended(route("public.index"));
     }
 
     public function login(Request $request)
@@ -44,7 +44,7 @@ class UsersController extends Controller
         ]);
         $remember = $request->filled("remember");
         if (Auth::attempt($validated, $remember)) {
-            return redirect()->intended(route("index"));
+            return redirect()->intended(route("public.index"));
         }
         return back()->withErrors([
             'email' => "Email ou mot de passe incorrect.",

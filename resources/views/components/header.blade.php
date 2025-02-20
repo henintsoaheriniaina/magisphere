@@ -8,7 +8,7 @@
             </a>
             <div class="flex items-center justify-center gap-4">
                 <x-mobile-menu />
-                <a href="{{ route('toggleTheme') }}" class="nav-btn">
+                <a href="{{ route('public.toggleTheme') }}" class="nav-btn">
                     <i
                         data-feather="{{ auth()->check() ? (auth()->user()->theme === 'dark' ? 'moon' : 'sun') : (request()->cookie('theme', 'light') === 'dark' ? 'moon' : 'sun') }}"></i>
                 </a>
