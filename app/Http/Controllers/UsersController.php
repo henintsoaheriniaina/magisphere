@@ -20,28 +20,56 @@ class UsersController extends Controller
     public function register(RegisterFormRequest $request)
     {
         $fields = $request->validated();
-        $token =  $request->has("remember_token");
+
         $user = User::create($fields);
-        Auth::login($user, $token);
+
+        $remember = $request->filled("remember");
+
+        Auth::login($user, $remember);
+
         return redirect()->intended(route("index"));
     }
+
     public function login(Request $request)
     {
         $validated = $request->validate([
-            "email" => "email|required",
-            "password" => "required",
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string',
+        ], [
+            'email.required' => 'Le champ email est obligatoire.',
+            'email.string' => 'Le champ email doit être une chaîne de caractères.',
+            'email.email' => 'Le champ email doit être une adresse email valide.',
+            'password.required' => 'Le champ mot de passe est obligatoire.',
+            'password.string' => 'Le champ mot de passe doit être une chaîne de caractères.',
         ]);
-        $token =  $request->has("remember_token");
-        if (Auth::attempt($validated, $token)) {
+        $remember = $request->filled("remember");
+        if (Auth::attempt($validated, $remember)) {
             return redirect()->intended(route("index"));
         }
-        return back()->withErrors(['email' => "Identifiants incorrects", 'password' => "Identifiants incorrects"]);
+        return back()->withErrors([
+            'email' => "Email ou mot de passe incorrect.",
+        ])->withInput($request->except('password'));
     }
+
     public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route("auth.login");
+    }
+    public function toggleTheme()
+    {
+        $user = Auth::user();
+
+        if ($user) {
+            $user->theme = $user->theme === 'dark' ? 'light' : 'dark';
+            $user->save();
+        } else {
+            $theme = request()->cookie('theme', 'light') === 'dark' ? 'light' : 'dark';
+            return redirect()->back()->cookie('theme', $theme, 525600); // Stocke le cookie pour 1 an
+        }
+
+        return redirect()->back();
     }
 }

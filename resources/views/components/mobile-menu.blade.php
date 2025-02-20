@@ -7,7 +7,7 @@
         x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
         class="absolute right-0 top-full mt-2 w-48 overflow-hidden rounded-lg border-2 border-classic-black bg-classic-white dark:border-classic-white dark:bg-classic-black">
         <div class="flex flex-col">
-            <x-nav-link label="Accueil" link="{{ route('index') }}" icon="home" />
+            <x-nav-link label="Accueil" link="{{ route('public.index') }}" icon="home" />
             <x-nav-link label="Articles" link="/posts" icon="book" />
             <x-nav-link label="Annonces" link="/annonces" icon="tag" />
             @guest

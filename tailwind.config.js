@@ -12,12 +12,11 @@ export default {
         extend: {
             fontFamily: {
                 sans: [
-                    "Nunito Sans",
+                    "Poppins",
                     "system-ui",
                     "-apple-system",
                     "BlinkMacSystemFont",
                     "Segoe UI",
-                    "Roboto",
                     "Helvetica Neue",
                     "Arial",
                     "sans-serif",

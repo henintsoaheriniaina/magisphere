@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('role', ['user', 'admin'])->default('user');
             $table->string('image_url')->nullable();
             $table->string('image_public_id')->nullable();
+            $table->enum('theme', ['light', 'dark'])->default('dark');
             $table->rememberToken();
             $table->timestamps();
         });

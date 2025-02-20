@@ -7,7 +7,7 @@
             <div class="auth-group">
                 <label for="firstname" class="auth-label @error('firstname') error @enderror">Nom</label>
                 <input type="text" name="firstname" id="firstname"
-                    class="auth-input @error('firstname') error @enderror">
+                    class="auth-input @error('firstname') error @enderror" value="{{ old('firstname') }}">
                 @error('firstname')
                     <p class="text-red-500">{{ $message }}</p>
                 @enderror
@@ -15,14 +15,15 @@
             <div class="auth-group">
                 <label for="lastname" class="auth-label @error('lastname') error @enderror">Prénoms</label>
                 <input type="text" name="lastname" id="lastname"
-                    class="auth-input @error('lastname') error @enderror">
+                    class="auth-input @error('lastname') error @enderror" value="{{ old('lastname') }}">
                 @error('lastname')
                     <p class="text-red-500">{{ $message }}</p>
                 @enderror
             </div>
             <div class="auth-group">
                 <label for="email" class="auth-label @error('email') error @enderror">Email</label>
-                <input type="email" name="email" id="email" class="auth-input @error('email') error @enderror">
+                <input type="email" name="email" id="email" class="auth-input @error('email') error @enderror"
+                    value="{{ old('email') }}">
                 @error('email')
                     <p class="text-red-500">{{ $message }}</p>
                 @enderror
@@ -31,7 +32,7 @@
                 <label for="matriculation"
                     class="auth-label @error('matriculation') error @enderror">Matriculation</label>
                 <input type="text" name="matriculation" id="matriculation"
-                    class="auth-input @error('matriculation') error @enderror">
+                    class="auth-input @error('matriculation') error @enderror" value="{{ old('matriculation') }}">
                 @error('matriculation')
                     <p class="text-red-500">{{ $message }}</p>
                 @enderror
@@ -64,7 +65,7 @@
                     <label for="custom-checkbox" class="cursor-pointer text-sm" @click="remember = !remember">Se
                         souvenir de
                         moi</label>
-                    <input type="hidden" name="remember_token" :value="remember ? '1' : '0'">
+                    <input type="hidden" name="remember" :value="remember ? '1' : '0'">
                 </div>
                 <div class="space-y-2">
                     <button type="submit" class="auth-button">Inscription</button>

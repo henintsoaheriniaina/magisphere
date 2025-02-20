@@ -23,6 +23,7 @@ class User extends Authenticatable
         'matriculation',
         'password',
         'email',
+        'theme',
         'role',
         'image_url',
         'image_public_id',

@@ -28,11 +28,12 @@
                     <label for="custom-checkbox" class="cursor-pointer text-sm" @click="remember = !remember">Se
                         souvenir de
                         moi</label>
-                    <input type="hidden" name="remember_token" :value="remember ? '1' : '0'">
+                    <input type="hidden" name="remember" :value="remember ? '1' : '0'">
                 </div>
                 <div class="space-y-2">
-                    <button type="submit" class="auth-button">Connexino</button>
-                    <p>Vous n'avez pas decompte? <a href="{{ route('auth.register') }}" class="auth-link">S'inscrire</a>
+                    <button type="submit" class="auth-button">Connexion</button>
+                    <p>Vous n'avez pas de compte? <a href="{{ route('auth.register') }}"
+                            class="auth-link">S'inscrire</a>
                     </p>
                 </div>
             </div>
