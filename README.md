@@ -28,13 +28,12 @@ Magisphere est un réseau social universitaire permettant aux étudiants et aux 
 
     ```sh
     git clone https://github.com/ton-pseudo/magisphere.git
-    cd magisphere
     ```
 
 2. **Backend**
 
     ```sh
-    cd backend
+    cd magisphere
     composer install
     cp .env.example .env
     php artisan serve
