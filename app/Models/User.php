@@ -21,12 +21,14 @@ class User extends Authenticatable
         'firstname',
         'lastname',
         'matriculation',
-        'password',
         'email',
-        'theme',
+        'password',
+        'bio',
+        'class',
         'role',
         'image_url',
         'image_public_id',
+        'theme',
     ];
 
     /**
@@ -51,6 +53,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
     public function is_admin()
     {
         return $this->role === 'admin';
@@ -58,5 +61,9 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+    public function views()
+    {
+        return $this->posts->sum('view');
     }
 }

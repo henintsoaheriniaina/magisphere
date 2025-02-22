@@ -4,19 +4,20 @@
         <form action="" method="POST"
             class="mx-auto grid w-full max-w-full grid-cols-1 gap-6 md:mx-0 md:max-w-full md:grid-cols-2">
             @csrf
+
             <div class="auth-group">
-                <label for="firstname" class="auth-label @error('firstname') error @enderror">Nom</label>
-                <input type="text" name="firstname" id="firstname"
-                    class="auth-input @error('firstname') error @enderror" value="{{ old('firstname') }}">
-                @error('firstname')
+                <label for="lastname" class="auth-label @error('lastname') error @enderror">Nom</label>
+                <input type="text" name="lastname" id="lastname"
+                    class="auth-input @error('lastname') error @enderror" value="{{ old('lastname') }}">
+                @error('lastname')
                     <p class="text-red-500">{{ $message }}</p>
                 @enderror
             </div>
             <div class="auth-group">
-                <label for="lastname" class="auth-label @error('lastname') error @enderror">Prénoms</label>
-                <input type="text" name="lastname" id="lastname"
-                    class="auth-input @error('lastname') error @enderror" value="{{ old('lastname') }}">
-                @error('lastname')
+                <label for="firstname" class="auth-label @error('firstname') error @enderror">Prénoms</label>
+                <input type="text" name="firstname" id="firstname"
+                    class="auth-input @error('firstname') error @enderror" value="{{ old('firstname') }}">
+                @error('firstname')
                     <p class="text-red-500">{{ $message }}</p>
                 @enderror
             </div>
@@ -46,12 +47,12 @@
                 @enderror
             </div>
             <div class="auth-group">
-                <label for="password_confirmation"
-                    class="auth-label @error('password_confirmation') error @enderror">Confirmez votre mot de
+                <label for="password_confirmation" class="auth-label @error('password') error @enderror">Confirmez
+                    votre mot de
                     passe</label>
                 <input type="password" name="password_confirmation" id="password_confirmation"
-                    class="auth-input @error('password_confirmation') error @enderror">
-                @error('password_confirmation')
+                    class="auth-input @error('password') error @enderror">
+                @error('password')
                     <p class="text-red-500">{{ $message }}</p>
                 @enderror
             </div>

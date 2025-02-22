@@ -37,3 +37,6 @@
 .auth-link {
     @apply text-vintageRed-default font-semibold;
 }
+.badge {
+    @apply flex justify-center gap-2 rounded-full border-2 border-classic-black/30 bg-classic-black/10 py-2 px-4 text-sm font-semibold text-classic-black/60 dark:border-classic-white/70 dark:bg-classic-white/40 dark:text-classic-white/80;
+}

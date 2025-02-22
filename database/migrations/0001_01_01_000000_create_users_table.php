@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('matriculation')->unique()->nullable();
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('bio')->nullable();
+            $table->string('class')->nullable();
             $table->enum('role', ['user', 'admin'])->default('user');
             $table->string('image_url')->nullable();
             $table->string('image_public_id')->nullable();

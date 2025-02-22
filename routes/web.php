@@ -2,18 +2,24 @@
 
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController; // Ajouté ce contrôleur
 use Illuminate\Support\Facades\Route;
 
-// Pages publiques
+// Routes publiques
 Route::name('public.')->group(function () {
     Route::get('/', function () {
         return view('pages.index');
     })->name('index');
+
     // Theme
     Route::get('theme', [UsersController::class, 'toggleTheme'])->name('toggleTheme');
 
     // Posts index
     Route::get('posts/', [PostController::class, 'index'])->name('posts.index');
+    Route::get('annonces/', [PostController::class, 'announcements'])->name('announcements.index');
+
+    // Profil 
+    Route::get('profiles/{user}', [UsersController::class, 'showProfile'])->name('profiles.show');
 });
 
 // Auth
@@ -38,4 +44,15 @@ Route::middleware('auth')->group(function () {
         Route::put('/{post}', [PostController::class, 'update'])->name('update');
         Route::delete('/{post}', [PostController::class, 'destroy'])->name('destroy');
     });
+});
+
+// Dashboard , profil
+Route::middleware('auth')->group(function () {
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('/', function () {
+            return view('dashboard.index');
+        })->name('index');
+    });
+    Route::put('profile/edit', [UsersController::class, 'update'])->name('profile.update');
+    Route::get('profile/edit', [UsersController::class, 'edit'])->name('profile.edit');
 });

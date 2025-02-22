@@ -72,4 +72,20 @@ class UsersController extends Controller
 
         return redirect()->back();
     }
+    public function showProfile(User $user)
+    {
+        return view('pages.users.profile', compact('user'));
+    }
+
+    public function edit()
+    {
+        $user = Auth::user();
+        return view('pages.users.edit', compact('user'));
+    }
+
+
+    public function update(User $user, Request $request)
+    {
+        dd($request->all());
+    }
 }
