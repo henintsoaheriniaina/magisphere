@@ -41,7 +41,6 @@ Magisphere est un réseau social universitaire permettant aux étudiants et aux 
 
 3. **Frontend**
     ```sh
-    cd frontend
     npm install
     npm run dev
     ```
