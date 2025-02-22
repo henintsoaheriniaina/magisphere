@@ -29,9 +29,9 @@
                 <h1 class="text-center text-2xl font-bold md:text-3xl">{{ $user->lastname . ' ' . $user->firstname }}
                 </h1>
                 @if ($user->bio)
-                    <p class="text-center text-lg">{{ $user->bio }} </p>
+                    <p class="text-center text-base md:text-lg">{{ $user->bio }} </p>
                 @endif
-                <div class="flex items-center justify-center gap-4">
+                <div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
                     @if ($user->class)
                         <div class="badge">
                             <span> <i data-feather="briefcase"></i> </span>
@@ -46,7 +46,7 @@
             </div>
             @if (auth()->check() && auth()->user()->id === $user->id)
                 <a href="{{ route('profile.edit') }}"
-                    class="absolute right-4 top-4 rounded-md border-2 border-classic-black p-2 dark:border-classic-white"
+                    class="absolute right-4 top-4 rounded-md border-2 border-classic-black bg-classic-white p-2 dark:border-classic-white dark:bg-classic-black"
                     title="Modifier vos informations">
                     <i data-feather="edit"></i>
                 </a>
