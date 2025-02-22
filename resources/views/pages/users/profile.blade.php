@@ -1,13 +1,18 @@
 <x-layouts.app title="Profile">
+    @if (session('success'))
+        <x-message>
+            {{ session('success') }}
+        </x-message>
+    @endif
     {{-- profile card --}}
-    <div class="z-0 mt-32 md:mt-52">
+    <div class="z-0 mt-36 md:mt-52">
         <div
             class="relative rounded-lg border-2 border-classic-black bg-classic-white dark:border-classic-white dark:bg-classic-black">
             <div class="absolute -top-28 left-0 right-0 z-0 flex items-center justify-center md:-top-40">
                 <div
                     class="size-52 items-center justify-center overflow-hidden rounded-full border-2 border-classic-black bg-classic-white p-2 dark:border-classic-white dark:bg-classic-black md:size-80">
-                    <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8bWFufGVufDB8fDB8fHww"
-                        alt="" class="h-full w-full rounded-full object-cover">
+                    <img src="{{ $user->image_url ?? asset('images/users/avatar.png') }}"
+                        alt="Photo de profil de {{ $user->firstname }}" class="h-full w-full rounded-full object-cover">
                 </div>
             </div>
             <div class="mt-28 flex flex-col items-center justify-center gap-6 p-4 md:mt-44 md:p-10">
@@ -48,4 +53,5 @@
             @endif
         </div>
     </div>
+    {{-- latest posts --}}
 </x-layouts.app>

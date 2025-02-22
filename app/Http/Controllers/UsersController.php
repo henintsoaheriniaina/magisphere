@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterFormRequest;
+use App\Http\Requests\UserProfileRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,7 +48,7 @@ class UsersController extends Controller
             return redirect()->intended(route("public.index"));
         }
         return back()->withErrors([
-            'email' => "Email ou mot de passe incorrect.",
+            'credentials' => "Email ou mot de passe incorrect.",
         ])->withInput($request->except('password'));
     }
 
@@ -56,7 +57,7 @@ class UsersController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route("auth.login");
+        return redirect()->route("login");
     }
     public function toggleTheme()
     {
@@ -67,7 +68,7 @@ class UsersController extends Controller
             $user->save();
         } else {
             $theme = request()->cookie('theme', 'light') === 'dark' ? 'light' : 'dark';
-            return redirect()->back()->cookie('theme', $theme, 525600); // Stocke le cookie pour 1 an
+            return redirect()->back()->cookie('theme', $theme, 525600);
         }
 
         return redirect()->back();
@@ -84,8 +85,48 @@ class UsersController extends Controller
     }
 
 
-    public function update(User $user, Request $request)
+    public function update(UserProfileRequest $request)
     {
-        dd($request->all());
+        $user = User::findOrFail(Auth::user()->id);
+        $user->update($request->validated());
+        return redirect()->route('public.profiles.show', Auth::user())
+            ->with('success', 'Votre profil a été mis à jour avec succès.');
+    }
+
+    public function updateProfileImage(Request $request)
+    {
+        $validated = $request->validate([
+            "image_url" => "required|image|file|mimes:png,jpg,jpeg,webp|max:2048",
+        ], [
+            "image_url.required" => "L'image est requise.",
+            "image_url.image" => "Le fichier doit être une image.",
+            "image_url.file" => "Le fichier doit être valide.",
+            "image_url.mimes" => "L'image doit être au format PNG, JPG, JPEG ou WEBP.",
+            "image_url.max" => "L'image ne doit pas dépasser 2 Mo.",
+        ]);
+
+        $fields = [];
+        $user = User::findOrFail(Auth::user()->id);
+        if ($request->hasFile('image_url')) {
+            if ($user->image_public_id) {
+                cloudinary()->destroy($user->image_public_id);
+            }
+            $uploadedFileUrl = cloudinary()->upload($request->file('image_url'), [
+                'folder' => 'magisphere',
+                'transformation' => [
+                    'width' => 400,
+                    'height' => 400,
+                    'crop' => 'fill'
+                ]
+            ]);
+            $fields['image_url'] = $uploadedFileUrl->getSecurePath();
+            $fields['image_public_id'] = $uploadedFileUrl->getPublicId();
+        }
+
+        $user->fill($fields);
+        $user->save();
+
+        return redirect()->route('public.profiles.show', Auth::user())
+            ->with('success', 'Votre photo de profil a été mise à jour avec succès.');
     }
 }

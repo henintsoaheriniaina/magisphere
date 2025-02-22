@@ -23,7 +23,7 @@ Route::name('public.')->group(function () {
 });
 
 // Auth
-Route::prefix('auth')->name('auth.')->group(function () {
+Route::prefix('auth')->group(function () {
     Route::middleware('guest')->group(function () {
         Route::get('login', [UsersController::class, 'loginPage'])->name('login');
         Route::post('login', [UsersController::class, 'login'])->name('login');
@@ -50,9 +50,10 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::get('/', function () {
-            return view('dashboard.index');
+            return view('pages.users.dashboard.index');
         })->name('index');
     });
-    Route::put('profile/edit', [UsersController::class, 'update'])->name('profile.update');
-    Route::get('profile/edit', [UsersController::class, 'edit'])->name('profile.edit');
+    Route::get('/edit-profile', [UsersController::class, 'edit'])->name('profile.edit');
+    Route::put('/edit-profile', [UsersController::class, 'update'])->name('profile.update');
+    Route::put('/update-profile-image', [UsersController::class, 'updateProfileImage'])->name('profile.profileImage');
 });

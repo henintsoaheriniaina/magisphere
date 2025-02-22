@@ -1,6 +1,6 @@
 <x-layouts.app title="Inscription">
     <div class="mt-10 flex min-h-[70vh] flex-col justify-center gap-10 md:gap-20">
-        <h1 class="text-center text-2xl font-bold">Créer un compte</h1>
+        <h1 class="text-center text-2xl font-bold text-vintageRed-default">Créer un compte</h1>
         <form action="" method="POST"
             class="mx-auto grid w-full max-w-full grid-cols-1 gap-6 md:mx-0 md:max-w-full md:grid-cols-2">
             @csrf
@@ -10,7 +10,7 @@
                 <input type="text" name="lastname" id="lastname"
                     class="auth-input @error('lastname') error @enderror" value="{{ old('lastname') }}">
                 @error('lastname')
-                    <p class="text-red-500">{{ $message }}</p>
+                    <x-message variant="error">{{ $message }}</x-message>
                 @enderror
             </div>
             <div class="auth-group">
@@ -18,7 +18,7 @@
                 <input type="text" name="firstname" id="firstname"
                     class="auth-input @error('firstname') error @enderror" value="{{ old('firstname') }}">
                 @error('firstname')
-                    <p class="text-red-500">{{ $message }}</p>
+                    <x-message variant="error">{{ $message }}</x-message>
                 @enderror
             </div>
             <div class="auth-group">
@@ -26,7 +26,7 @@
                 <input type="email" name="email" id="email" class="auth-input @error('email') error @enderror"
                     value="{{ old('email') }}">
                 @error('email')
-                    <p class="text-red-500">{{ $message }}</p>
+                    <x-message variant="error">{{ $message }}</x-message>
                 @enderror
             </div>
             <div class="auth-group">
@@ -35,7 +35,7 @@
                 <input type="text" name="matriculation" id="matriculation"
                     class="auth-input @error('matriculation') error @enderror" value="{{ old('matriculation') }}">
                 @error('matriculation')
-                    <p class="text-red-500">{{ $message }}</p>
+                    <x-message variant="error">{{ $message }}</x-message>
                 @enderror
             </div>
             <div class="auth-group">
@@ -43,7 +43,7 @@
                 <input type="password" name="password" id="password"
                     class="auth-input @error('password') error @enderror">
                 @error('password')
-                    <p class="text-red-500">{{ $message }}</p>
+                    <x-message variant="error">{{ $message }}</x-message>
                 @enderror
             </div>
             <div class="auth-group">
@@ -53,7 +53,7 @@
                 <input type="password" name="password_confirmation" id="password_confirmation"
                     class="auth-input @error('password') error @enderror">
                 @error('password')
-                    <p class="text-red-500">{{ $message }}</p>
+                    <x-message variant="error">{{ $message }}</x-message>
                 @enderror
             </div>
             <div class="space-y-4">
@@ -70,7 +70,7 @@
                 </div>
                 <div class="space-y-2">
                     <button type="submit" class="auth-button">Inscription</button>
-                    <p>Vous avez déjà un compte? <a href="{{ route('auth.login') }}" class="auth-link">Se connecter</a>
+                    <p>Vous avez déjà un compte? <a href="{{ route('login') }}" class="auth-link">Se connecter</a>
                     </p>
                 </div>
             </div>
