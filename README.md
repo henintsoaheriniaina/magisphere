@@ -27,7 +27,7 @@ Magisphere est un réseau social universitaire permettant aux étudiants et aux 
 1. **Cloner le projet**
 
     ```sh
-    git clone https://github.com/ton-pseudo/magisphere.git
+    git clone https://github.com/henintsoaheriniaina/magisphere.git
     ```
 
 2. **Backend**
