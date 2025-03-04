@@ -55,5 +55,6 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('/edit-profile', [UsersController::class, 'edit'])->name('profile.edit');
     Route::put('/edit-profile', [UsersController::class, 'update'])->name('profile.update');
-    Route::put('/update-profile-image', [UsersController::class, 'updateProfileImage'])->name('profile.profileImage');
+    Route::put('/update-profile-image', [UsersController::class, 'updateProfileImage'])->name('profile.updateProfileImage');
+    Route::get('/delete-profile-image', [UsersController::class, 'deleteProfileImage'])->name('profile.deleteProfileImage');
 });

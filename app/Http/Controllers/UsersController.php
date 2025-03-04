@@ -129,4 +129,17 @@ class UsersController extends Controller
         return redirect()->route('public.profiles.show', Auth::user())
             ->with('success', 'Votre photo de profil a été mise à jour avec succès.');
     }
+    public function deleteProfileImage()
+    {
+        $user = User::findOrFail(Auth::user()->id);
+        if ($user->image_public_id) {
+            cloudinary()->destroy($user->image_public_id);
+            $user->image_public_id = null;
+            $user->image_url = null;
+            $user->save();
+            return redirect()->route('public.profiles.show', Auth::user())
+                ->with('success', 'Votre photo de profil a été supprimée avec succès.');
+        }
+        return back()->withErrors('image_url', 'zzzz');
+    }
 }

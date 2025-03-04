@@ -1,7 +1,7 @@
 <x-layouts.app title="Connexion">
     <div class="mt-10 flex min-h-[70vh] flex-col justify-center gap-10 md:gap-20">
-        <h1 class="text-center text-2xl font-bold text-vintageRed-default">Se connecter à votre compte</h1>
         <form action="{{ route('login') }}" method="POST" class="mx-auto grid w-full max-w-xl grid-cols-1 gap-6">
+            <h1 class="text-2xl font-bold text-vintageRed-default">Se connecter à votre compte</h1>
             @csrf
             <div class="auth-group">
                 <label for="email" class="auth-label @error('email') error @enderror">Email</label>

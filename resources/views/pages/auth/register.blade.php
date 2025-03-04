@@ -1,10 +1,9 @@
 <x-layouts.app title="Inscription">
     <div class="mt-10 flex min-h-[70vh] flex-col justify-center gap-10 md:gap-20">
-        <h1 class="text-center text-2xl font-bold text-vintageRed-default">Créer un compte</h1>
         <form action="" method="POST"
-            class="mx-auto grid w-full max-w-full grid-cols-1 gap-6 md:mx-0 md:max-w-full md:grid-cols-2">
+            class="mx-auto grid w-full grid-cols-1 gap-6 md:mx-0 md:max-w-full md:grid-cols-2">
             @csrf
-
+            <h1 class="text-2xl font-bold text-vintageRed-default md:col-span-2">Créer un compte</h1>
             <div class="auth-group">
                 <label for="lastname" class="auth-label @error('lastname') error @enderror">Nom</label>
                 <input type="text" name="lastname" id="lastname"

@@ -14,13 +14,17 @@ class Post extends Model
         'title',
         'slug',
         'description',
-        'body',
         'user_id',
         'views',
+        'category'
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function images()
+    {
+        return $this->hasMany(PostImage::class);
     }
 }

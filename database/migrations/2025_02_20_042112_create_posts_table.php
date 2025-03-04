@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
             $table->string('slug')->unique();
-            $table->text('description');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->integer('views')->default(0);
+            $table->string('title');
+            $table->text('description');
             $table->enum('category', ['post', "annoucement"])->default('post');
             $table->timestamps();
         });
