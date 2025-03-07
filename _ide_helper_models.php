@@ -21,6 +21,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
+ * @method static \Database\Factories\AffiliationFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Affiliation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Affiliation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Affiliation query()
