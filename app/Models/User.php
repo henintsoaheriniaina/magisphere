@@ -29,6 +29,7 @@ class User extends Authenticatable
         'image_url',
         'image_public_id',
         'theme',
+        "affiliation_id"
     ];
 
     /**
