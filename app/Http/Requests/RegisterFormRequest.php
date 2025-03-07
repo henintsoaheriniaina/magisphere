@@ -32,6 +32,7 @@ class RegisterFormRequest extends FormRequest
             ],
             'password' => 'required|string|min:8|confirmed',
             'email' => 'required|string|email|max:255|unique:users',
+            'affiliation' => 'required|exists:affiliations,id',
         ];
     }
     public function messages()
@@ -56,6 +57,8 @@ class RegisterFormRequest extends FormRequest
             'email.email' => 'Le champ email doit être une adresse email valide.',
             'email.max' => 'Le champ email ne doit pas dépasser 255 caractères.',
             'email.unique' => 'Cette adresse email est déjà utilisée.',
+            'affiliation.required' => 'Le champ affiliation est obligatoire.',
+            'affiliation.exists' => 'La valeur de l\'affiliation est invalide.',
         ];
     }
 }

@@ -26,10 +26,18 @@
                 @enderror
             </div>
             <div class="auth-group">
-                <label for="class" class="auth-label @error('class') error @enderror">classe</label>
-                <input type="class" name="class" id="class" class="auth-input @error('class') error @enderror"
-                    value="{{ old('class', auth()->user()->class) }}">
-                @error('class')
+                <label for="affiliation" class="auth-label @error('affiliation') error @enderror">Affiliation</label>
+                <select name="affiliation" id="affiliation"
+                    class="auth-input select @error('affiliation') error @enderror">
+                    <option value="">Sélectionnez votre affiliation</option>
+                    @foreach ($affiliations as $affiliation)
+                        <option value="{{ $affiliation->id }}"
+                            {{ old('affiliation', auth()->user()->affiliation_id) == $affiliation->id ? 'selected' : '' }}>
+                            {{ $affiliation->label }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('affiliation')
                     <x-message variant="error">{{ $message }}</x-message>
                 @enderror
             </div>

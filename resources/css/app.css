@@ -31,6 +31,9 @@
 .auth-input.error {
     @apply border-red-500;
 }
+.select {
+    padding: 0.5rem 1rem !important;
+}
 .btn {
     @apply px-4 py-2 rounded transition-colors duration-300 font-semibold;
 }

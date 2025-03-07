@@ -16,14 +16,37 @@ namespace App\Models{
  * 
  *
  * @property int $id
- * @property string $title
+ * @property string $label
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read int|null $users_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Affiliation newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Affiliation newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Affiliation query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Affiliation whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Affiliation whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Affiliation whereLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Affiliation whereUpdatedAt($value)
+ */
+	class Affiliation extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
  * @property string $slug
- * @property string $description
  * @property int $user_id
  * @property int $views
+ * @property string $title
+ * @property string $description
  * @property string $category
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PostImage> $images
+ * @property-read int|null $images_count
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\PostFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Post newModelQuery()
@@ -47,6 +70,28 @@ namespace App\Models{
  * 
  *
  * @property int $id
+ * @property string $image_url
+ * @property string $image_public_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Post|null $post
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PostImage newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PostImage newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PostImage query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PostImage whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PostImage whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PostImage whereImagePublicId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PostImage whereImageUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PostImage whereUpdatedAt($value)
+ */
+	class PostImage extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
  * @property string $firstname
  * @property string|null $lastname
  * @property string|null $matriculation
@@ -61,6 +106,8 @@ namespace App\Models{
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $affiliation_id
+ * @property-read \App\Models\Affiliation|null $affiliation
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Post> $posts
@@ -69,6 +116,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereAffiliationId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereBio($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereClass($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)

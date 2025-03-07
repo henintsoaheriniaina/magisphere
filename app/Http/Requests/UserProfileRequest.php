@@ -31,7 +31,7 @@ class UserProfileRequest extends FormRequest
                 Rule::unique('users')->ignore($this->user()->id),
                 'regex:/^(ETSI|ETS|SE)-\d{4}$/'
             ],
-            "class" => "nullable|string|max:255",
+            'affiliation' => 'required|exists:affiliations,id',
             "bio" => "nullable|string|max:2000",
         ];
     }
@@ -51,8 +51,8 @@ class UserProfileRequest extends FormRequest
             'matriculation.unique' => 'Cette matriculation est déjà utilisée.',
             'matriculation.regex' => 'Le format de la matriculation est incorrect. Il doit suivre le format ETSI-XXXX, ETS-XXXX ou SE-XXXX.',
 
-            'class.string' => 'Le champ classe doit être une chaîne de caractères.',
-            'class.max' => 'Le champ classe ne doit pas dépasser 255 caractères.',
+            'affiliation.required' => 'Le champ affiliation est obligatoire.',
+            'affiliation.exists' => 'La valeur de l\'affiliation est invalide.',
 
             'bio.string' => 'Le champ biographie doit être une chaîne de caractères.',
             'bio.max' => 'Le champ biographie ne doit pas dépasser 2000 caractères.',

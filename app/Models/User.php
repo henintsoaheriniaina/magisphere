@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Authenticatable
 {
@@ -55,16 +57,20 @@ class User extends Authenticatable
         ];
     }
 
-    public function is_admin()
+    public function is_admin(): bool
     {
         return $this->role === 'admin';
     }
-    public function posts()
+    public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
-    public function views()
+    public function views(): int
     {
         return $this->posts->sum('view');
+    }
+    public function affiliation(): BelongsTo
+    {
+        return $this->belongsTo(Affiliation::class);
     }
 }

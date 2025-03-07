@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegisterFormRequest;
 use App\Http\Requests\UserProfileRequest;
 use App\Models\User;
+use App\Models\Affiliation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,18 +17,26 @@ class UsersController extends Controller
     }
     public function registerPage()
     {
-        return view('pages.auth.register');
+        $affiliations = Affiliation::all();
+        return view('pages.auth.register', compact('affiliations'));
     }
     public function register(RegisterFormRequest $request)
     {
         $fields = $request->validated();
 
-        $user = User::create($fields);
+        $user = User::create([
+            'firstname' => $fields['firstname'],
+            'lastname' => $fields['lastname'],
+            'email' => $fields['email'],
+            'password' => $fields['password'],
+            'matriculation' => $fields['matriculation'],
+        ]);
+
+        $user->affiliation()->associate($fields['affiliation']);
+        $user->save();
 
         $remember = $request->filled("remember");
-
         Auth::login($user, $remember);
-
         return redirect()->intended(route("public.index"));
     }
 
@@ -81,14 +90,23 @@ class UsersController extends Controller
     public function edit()
     {
         $user = Auth::user();
-        return view('pages.users.edit', compact('user'));
+        $affiliations = Affiliation::all();
+        return view('pages.users.edit', compact('user', 'affiliations'));
     }
 
 
     public function update(UserProfileRequest $request)
     {
         $user = User::findOrFail(Auth::user()->id);
-        $user->update($request->validated());
+        $validated = $request->validated();
+        $user->update([
+            'firstname' => $validated['firstname'],
+            'lastname' => $validated['lastname'],
+            'matriculation' => $validated['matriculation'],
+            'bio' => $validated['bio'],
+        ]);
+        $user->affiliation()->associate($validated['affiliation']);
+        $user->save();
         return redirect()->route('public.profiles.show', Auth::user())
             ->with('success', 'Votre profil a été mis à jour avec succès.');
     }

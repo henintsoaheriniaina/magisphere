@@ -34,10 +34,10 @@
                     <p class="text-center text-base md:text-lg">{{ $user->bio }} </p>
                 @endif
                 <div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
-                    @if ($user->class)
+                    @if ($user->affiliation)
                         <div class="badge">
                             <span><i data-feather="briefcase"></i></span>
-                            <span>{{ $user->class }}</span>
+                            <span>{{ $user->affiliation->label }}</span>
                         </div>
                     @endif
                     <div class="badge">

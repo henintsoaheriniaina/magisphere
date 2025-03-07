@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('affiliations', function (Blueprint $table) {
             $table->id();
             $table->string('label');
-            $table->string('value');
             $table->timestamps();
         });
     }

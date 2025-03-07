@@ -10,6 +10,10 @@ Route::name('public.')->group(function () {
     Route::get('/', function () {
         return view('pages.index');
     })->name('index');
+    Route::get('/create-affiliations', function () {
+        $affiliations = Affiliation::all();
+        return view('pages.auth.create-affiliations', compact('affiliations'));
+    })->name('create-affiliations');
 
     // Theme
     Route::get('theme', [UsersController::class, 'toggleTheme'])->name('toggleTheme');
@@ -18,7 +22,7 @@ Route::name('public.')->group(function () {
     Route::get('posts/', [PostController::class, 'index'])->name('posts.index');
     Route::get('annonces/', [PostController::class, 'announcements'])->name('announcements.index');
 
-    // Profil 
+    // Profil
     Route::get('profiles/{user}', [UsersController::class, 'showProfile'])->name('profiles.show');
 });
 
