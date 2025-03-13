@@ -10,6 +10,7 @@ class Media extends Model
     protected $fillable = [
         'post_id',
         'url',
+        'public_id',
         'type'
     ];
     public function post(): BelongsTo

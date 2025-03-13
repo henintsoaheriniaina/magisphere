@@ -55,6 +55,7 @@ class PostController extends Controller
                 ]);
                 $post->medias()->create([
                     'url' => $uploadedFile->getSecurePath(),
+                    'public_id' => $uploadedFile->getPublicId(),
                     'type' => $file->getClientMimeType(),
                 ]);
             }
