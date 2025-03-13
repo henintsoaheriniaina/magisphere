@@ -37,7 +37,7 @@ class UsersController extends Controller
 
         $remember = $request->filled("remember");
         Auth::login($user, $remember);
-        return redirect()->intended(route("public.index"));
+        return redirect()->intended(route("index"));
     }
 
     public function login(Request $request)
@@ -54,7 +54,7 @@ class UsersController extends Controller
         ]);
         $remember = $request->filled("remember");
         if (Auth::attempt($validated, $remember)) {
-            return redirect()->intended(route("public.index"));
+            return redirect()->intended(route("index"));
         }
         return back()->withErrors([
             'credentials' => "Email ou mot de passe incorrect.",
@@ -95,19 +95,17 @@ class UsersController extends Controller
     }
 
 
-    public function update(UserProfileRequest $request)
+    public function update(Request $request)
     {
         $user = User::findOrFail(Auth::user()->id);
-        $validated = $request->validated();
+        $validated = $request->validate([
+            "bio" => "nullable|string|max:255",
+        ]);
         $user->update([
-            'firstname' => $validated['firstname'],
-            'lastname' => $validated['lastname'],
-            'matriculation' => $validated['matriculation'],
             'bio' => $validated['bio'],
         ]);
-        $user->affiliation()->associate($validated['affiliation']);
         $user->save();
-        return redirect()->route('public.profiles.show', Auth::user())
+        return redirect()->route('profiles.show', Auth::user())
             ->with('success', 'Votre profil a été mis à jour avec succès.');
     }
 
@@ -144,7 +142,7 @@ class UsersController extends Controller
         $user->fill($fields);
         $user->save();
 
-        return redirect()->route('public.profiles.show', Auth::user())
+        return redirect()->route('profiles.show', Auth::user())
             ->with('success', 'Votre photo de profil a été mise à jour avec succès.');
     }
     public function deleteProfileImage()
@@ -155,7 +153,7 @@ class UsersController extends Controller
             $user->image_public_id = null;
             $user->image_url = null;
             $user->save();
-            return redirect()->route('public.profiles.show', Auth::user())
+            return redirect()->route('profiles.show', Auth::user())
                 ->with('success', 'Votre photo de profil a été supprimée avec succès.');
         }
         return back()->withErrors('image_url', 'zzzz');

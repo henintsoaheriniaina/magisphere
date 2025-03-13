@@ -3,28 +3,10 @@
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController; // Ajouté ce contrôleur
+use App\Models\Affiliation;
 use Illuminate\Support\Facades\Route;
 
-// Routes publiques
-Route::name('public.')->group(function () {
-    Route::get('/', function () {
-        return view('pages.index');
-    })->name('index');
-    Route::get('/create-affiliations', function () {
-        $affiliations = Affiliation::all();
-        return view('pages.auth.create-affiliations', compact('affiliations'));
-    })->name('create-affiliations');
 
-    // Theme
-    Route::get('theme', [UsersController::class, 'toggleTheme'])->name('toggleTheme');
-
-    // Posts index
-    Route::get('posts/', [PostController::class, 'index'])->name('posts.index');
-    Route::get('annonces/', [PostController::class, 'announcements'])->name('announcements.index');
-
-    // Profil
-    Route::get('profiles/{user}', [UsersController::class, 'showProfile'])->name('profiles.show');
-});
 
 // Auth
 Route::prefix('auth')->group(function () {
@@ -38,8 +20,8 @@ Route::prefix('auth')->group(function () {
     Route::middleware('auth')->delete('logout', [UsersController::class, 'logout'])->name('logout');
 });
 
-// Posts
 Route::middleware('auth')->group(function () {
+    // Posts
     Route::prefix('posts')->name('posts.')->group(function () {
         Route::get('/create', [PostController::class, 'create'])->name('create');
         Route::post('/', [PostController::class, 'store'])->name('store');
@@ -48,15 +30,21 @@ Route::middleware('auth')->group(function () {
         Route::put('/{post}', [PostController::class, 'update'])->name('update');
         Route::delete('/{post}', [PostController::class, 'destroy'])->name('destroy');
     });
-});
 
-// Dashboard , profil
-Route::middleware('auth')->group(function () {
-    Route::prefix('dashboard')->name('dashboard.')->group(function () {
-        Route::get('/', function () {
-            return view('pages.users.dashboard.index');
-        })->name('index');
-    });
+    Route::get('/', function () {
+        return view('pages.index');
+    })->name('index');
+
+    // Theme
+    Route::get('theme', [UsersController::class, 'toggleTheme'])->name('toggleTheme');
+
+    // Posts index
+    Route::get('posts/', [PostController::class, 'index'])->name('posts.index');
+    Route::get('annonces/', [PostController::class, 'announcements'])->name('announcements.index');
+
+    // Profil
+    Route::get('profiles/{user}', [UsersController::class, 'showProfile'])->name('profiles.show');
+
     Route::get('/edit-profile', [UsersController::class, 'edit'])->name('profile.edit');
     Route::put('/edit-profile', [UsersController::class, 'update'])->name('profile.update');
     Route::put('/update-profile-image', [UsersController::class, 'updateProfileImage'])->name('profile.updateProfileImage');

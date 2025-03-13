@@ -5,16 +5,6 @@
             @csrf
             <h1 class="text-2xl font-bold text-vintageRed-default md:col-span-2">Publier</h1>
             <div class="auth-group md:col-span-2">
-                <label for="title" class="auth-label @error('title') error @enderror">Titre</label>
-                
-                <input type="text" name="title" id="title" class="auth-input @error('title') error @enderror"
-                    value="{{ old('title') }}">
-                @error('title')
-                    <x-message variant="error">{{ $message }}</x-message>
-                @enderror
-            </div>
-
-            <div class="auth-group md:col-span-2">
                 <label for="description" class="auth-label @error('description') error @enderror">Description</label>
                 <textarea name="description" rows="4" id="description"
                     class="auth-input @error('description') error @enderror col-span-3">{{ old('description') }}</textarea>

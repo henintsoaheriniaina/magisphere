@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('slug')->unique();
+            $table->string('slug')->unique()->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->integer('views')->default(0);
-            $table->string('title');
             $table->text('description');
             $table->enum('category', ['post', "annoucement"])->default('post');
             $table->timestamps();
