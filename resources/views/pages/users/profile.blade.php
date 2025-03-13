@@ -1,5 +1,5 @@
 <x-layouts.app title="Profile">
-    <div class="lg:col-span-12">
+    <div class="lg:col-span-9">
         @if (session('success'))
             <x-message>
                 {{ session('success') }}

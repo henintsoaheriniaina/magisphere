@@ -31,9 +31,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{post}', [PostController::class, 'destroy'])->name('destroy');
     });
 
-    Route::get('/', function () {
-        return view('pages.index');
-    })->name('index');
+    Route::get('/', [PostController::class, 'index'])->name('index');
 
     // Theme
     Route::get('theme', [UsersController::class, 'toggleTheme'])->name('toggleTheme');

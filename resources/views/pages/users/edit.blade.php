@@ -1,5 +1,5 @@
 <x-layouts.app title="Modifier Votre Profile">
-    <div class="lg:col-span-12">
+    <div class="lg:col-span-9">
         <h1 class="mt-12 text-center text-2xl font-bold sm:text-left">Modifier votre profile</h1>
 
         <x-profile-image-form />

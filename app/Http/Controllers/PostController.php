@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -12,7 +15,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('pages.posts.index');
+        $posts = Post::latest()->paginate(10);
+        return view('pages.index', ['posts' => $posts]);
     }
     public function announcements()
     {
@@ -30,10 +34,35 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
-        //
+        $fields = $request->validated();
+
+        // Génération du slug unique
+        $slug = Str::slug(substr($fields['description'], 0, 50));
+        $count = Post::where('slug', 'like', "$slug%")->count();
+        $fields['slug'] = $count ? "{$slug}-{$count}" : $slug;
+
+        // Création du post
+        $post = Auth::user()->posts()->create($fields);
+
+        // Upload des fichiers si présents
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
+                $uploadedFile = cloudinary()->upload($file->getRealPath(), [
+                    'folder' => 'magisphere/posts',
+                    'resource_type' => str_contains($file->getMimeType(), 'video') ? 'video' : 'auto'
+                ]);
+                $post->medias()->create([
+                    'url' => $uploadedFile->getSecurePath(),
+                    'type' => $file->getClientMimeType(),
+                ]);
+            }
+        }
+
+        return redirect()->route('index')->with('success', 'Publié avec succès !');
     }
+
 
     /**
      * Display the specified resource.

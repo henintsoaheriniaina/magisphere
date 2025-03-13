@@ -3,14 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class PostImage extends Model
+class Media extends Model
 {
     protected $fillable = [
-        "image_url",
-        "image_public_id"
+        'post_id',
+        'url',
+        'type'
     ];
-    public function post()
+    public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);
     }

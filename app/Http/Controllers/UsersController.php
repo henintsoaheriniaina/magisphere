@@ -128,7 +128,7 @@ class UsersController extends Controller
                 cloudinary()->destroy($user->image_public_id);
             }
             $uploadedFileUrl = cloudinary()->upload($request->file('image_url'), [
-                'folder' => 'magisphere',
+                'folder' => 'magisphere/users',
                 'transformation' => [
                     'width' => 400,
                     'height' => 400,
