@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('post_id')->constrained()->onDelete('cascade');
             $table->string('type');
+            $table->string('size');
+            $table->string('name');
             $table->string('url');
             $table->string('public_id');
             $table->timestamps();

@@ -15,8 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::latest()->paginate(10);
-        return view('pages.index', ['posts' => $posts]);
+        return view('pages.index');
     }
     public function announcements()
     {
@@ -38,25 +37,26 @@ class PostController extends Controller
     {
         $fields = $request->validated();
 
-        // Génération du slug unique
         $slug = Str::slug(substr($fields['description'], 0, 50));
         $count = Post::where('slug', 'like', "$slug%")->count();
         $fields['slug'] = $count ? "{$slug}-{$count}" : $slug;
 
-        // Création du post
         $post = Auth::user()->posts()->create($fields);
 
-        // Upload des fichiers si présents
+        // Upload
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
                 $uploadedFile = cloudinary()->upload($file->getRealPath(), [
                     'folder' => 'magisphere/posts',
                     'resource_type' => str_contains($file->getMimeType(), 'video') ? 'video' : 'auto'
                 ]);
+
                 $post->medias()->create([
                     'url' => $uploadedFile->getSecurePath(),
                     'public_id' => $uploadedFile->getPublicId(),
                     'type' => $file->getClientMimeType(),
+                    'name' => $file->getClientOriginalName(),
+                    'size' => $file->getSize(),
                 ]);
             }
         }

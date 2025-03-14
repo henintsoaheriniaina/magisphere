@@ -1,6 +1,5 @@
 <x-layouts.app>
-    <x-profile />
-    <div class="min-h-screen lg:col-span-6">
+    <div class="min-h-screen lg:col-span-6 lg:col-start-2">
         @if (session('success'))
             <div class="mb-6">
                 <x-message>
@@ -9,7 +8,6 @@
             </div>
         @endif
         <x-home-form />
-        <x-post-grid :posts="$posts" />
+        <livewire:post-list />
     </div>
-
 </x-layouts.app>

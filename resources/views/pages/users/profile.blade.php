@@ -1,5 +1,5 @@
 <x-layouts.app title="Profile">
-    <div class="lg:col-span-9">
+    <div class="lg:col-span-6 lg:col-start-2">
         @if (session('success'))
             <x-message>
                 {{ session('success') }}
@@ -70,10 +70,8 @@
                 </div>
             </div>
         </div>
-
     </div>
-    {{-- latest posts --}}
-    <div class="lg:col-span-6">
-        <x-post-grid :posts="$user->posts" />
+    <div class="lg:col-span-6 lg:col-start-2">
+        <livewire:post-list :userId="$user->id" />
     </div>
 </x-layouts.app>

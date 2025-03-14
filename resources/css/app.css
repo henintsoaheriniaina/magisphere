@@ -6,7 +6,7 @@
     display: none;
 }
 .default-container {
-    @apply mx-auto max-w-6xl py-6 px-6 sm:px-10 lg:px-12 grid grid-cols-1 lg:grid-cols-9 lg:gap-6;
+    @apply lg:grid-cols-8 lg:grid  mx-auto max-w-6xl py-6 px-6 sm:px-10 lg:px-12 grid grid-cols-1 lg:gap-6;
 }
 .nav-btn {
     @apply rounded-lg border-2 p-2 cursor-pointer border-classic-black dark:border-classic-white;
