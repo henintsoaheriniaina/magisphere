@@ -84,7 +84,9 @@ class UsersController extends Controller
     }
     public function showProfile(User $user)
     {
-        return view('pages.users.profile', compact('user'));
+        return view('pages.users.profile', [
+            "user" => $user
+        ]);
     }
 
     public function edit()
@@ -105,7 +107,7 @@ class UsersController extends Controller
             'bio' => $validated['bio'],
         ]);
         $user->save();
-        return redirect()->route('profiles.show', Auth::user())
+        return redirect()->route('profile.show', Auth::user())
             ->with('success', 'Votre profil a été mis à jour avec succès.');
     }
 
@@ -142,7 +144,7 @@ class UsersController extends Controller
         $user->fill($fields);
         $user->save();
 
-        return redirect()->route('profiles.show', Auth::user())
+        return redirect()->route('profile.show', Auth::user())
             ->with('success', 'Votre photo de profil a été mise à jour avec succès.');
     }
     public function deleteProfileImage()
@@ -153,7 +155,7 @@ class UsersController extends Controller
             $user->image_public_id = null;
             $user->image_url = null;
             $user->save();
-            return redirect()->route('profiles.show', Auth::user())
+            return redirect()->route('profile.show', Auth::user())
                 ->with('success', 'Votre photo de profil a été supprimée avec succès.');
         }
         return back()->withErrors('image_url', 'zzzz');

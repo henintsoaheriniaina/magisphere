@@ -71,6 +71,9 @@
             </div>
         </div>
 
-        {{-- latest posts --}}
+    </div>
+    {{-- latest posts --}}
+    <div class="lg:col-span-6">
+        <x-post-grid :posts="$user->posts" />
     </div>
 </x-layouts.app>

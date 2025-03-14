@@ -31,6 +31,7 @@ class UserFactory extends Factory
             // 'email_verified_at' => now(),
             'password' => Hash::make('p@ssw0rd9*'),
             'remember_token' => Str::random(10),
+            'affiliation_id' => 1,
         ];
     }
 

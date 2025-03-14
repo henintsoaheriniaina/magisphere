@@ -26,19 +26,18 @@
 
     <div class="flex flex-col gap-4">
         <input type="file" name="image_url" id="profileImageInput" accept="image/*" class="hidden"
-            @change="let file = $event.target.files[0]; 
-                     if (file) { 
-                         let reader = new FileReader(); 
-                         reader.onload = e => imagePreview = e.target.result; 
-                         reader.readAsDataURL(file); 
+            @change="let file = $event.target.files[0];
+                     if (file) {
+                         let reader = new FileReader();
+                         reader.onload = e => imagePreview = e.target.result;
+                         reader.readAsDataURL(file);
                      }">
         <button type="submit" class="profile-btn border-vintageRed-default bg-vintageRed-default text-classic-white">
             Enregistrer
         </button>
         <a href="{{ route('profile.deleteProfileImage') }}"
             class="profile-btn border-classic-black text-classic-black opacity-50 dark:border-classic-white dark:text-classic-white"
-            :class="{ 'opacity-100 cursor-pointer': hasImage, 'opacity-50 cursor-not-allowed': !hasImage }"
-            @click.prevent="if (!hasImage) return false;">
+            :class="{ 'opacity-100 cursor-pointer': hasImage, 'opacity-50 cursor-not-allowed': !hasImage }">
             Supprimer
         </a>
     </div>

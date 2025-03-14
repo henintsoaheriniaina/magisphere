@@ -70,6 +70,5 @@
 
     <div class="space-y-4">
         <button type="submit" class="auth-button">Publier</button>
-        <a href="{{ route('posts.create') }}" class="ml-6 underline">Plus d'options</a>
     </div>
 </form>

@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(1)->create();
         $this->call(AffiliationSeeder::class);
+        User::factory(1)->create();
     }
 }

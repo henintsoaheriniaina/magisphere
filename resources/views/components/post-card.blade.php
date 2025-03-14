@@ -7,7 +7,8 @@
         <img src="{{ $post->user->image_url ?? asset('images/users/avatar.png') }}" alt="Avatar"
             class="h-10 w-10 rounded-full">
         <div>
-            <h3 class="font-semibold text-classic-black dark:text-classic-white">{{ $post->user->firstname }}</h3>
+            <a href="{{ route('profile.show', $post->user) }}"
+                class="font-semibold text-classic-black dark:text-classic-white">{{ $post->user->firstname }}</a>
             <p class="text-sm text-gray-500 dark:text-gray-400">{{ $post->created_at->diffForHumans() }}</p>
         </div>
     </div>
@@ -23,23 +24,33 @@
     <!-- Grille d'images/vidéos -->
     @if ($imagesAndVideos->isNotEmpty())
         <div class="mt-3 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4">
-            @foreach ($imagesAndVideos as $file)
+            @foreach ($imagesAndVideos->take(3) as $file)
                 <div x-data="{ open: false }">
                     @if (Str::contains($file->type, 'image'))
-                        <img @click="open = true" src="{{ $file->url }}"
-                            class="h-32 w-full cursor-pointer rounded-lg object-fill" alt="Image">
+                        <div @click="open = true" class="relative h-32 cursor-pointer overflow-hidden rounded-lg">
+                            <x-cld-image public-id="{{ $file->public_id }}" width="300" class="object-cover" />
+                        </div>
                     @elseif(Str::contains($file->type, 'video'))
-                        <video @click="open = true" class="h-32 w-full cursor-pointer rounded-lg" muted>
-                            <source src="{{ $file->url }}" type="video/mp4">
-                        </video>
+                        <div x-ref="videoContainer" class="relative cursor-pointer" @click="open = true">
+                            <video x-ref="videoThumb" class="h-40 w-full rounded-lg object-cover" muted
+                                playsinline></video>
+                            <button
+                                class="absolute inset-0 flex items-center justify-center rounded-lg bg-black bg-opacity-40 text-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 9l6 3-6 3V9z" />
+                                </svg>
+                            </button>
+                        </div>
                     @endif
 
                     <!-- Modal pour afficher en grand -->
                     <div x-show="open" x-cloak x-transition
-                        class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-                        <div class="relative w-full max-w-4xl">
+                        class="fixed inset-0 top-0 z-50 flex h-screen items-center justify-center overflow-hidden bg-black p-6">
+                        <div class="relative max-h-full w-full">
                             <button @click="open = false"
-                                class="absolute right-2 top-2 rounded-full bg-white px-3 py-1 text-black">
+                                class="absolute right-2 top-2 z-10 rounded-full bg-white px-3 py-1 text-black">
                                 ✕
                             </button>
                             @if (Str::contains($file->type, 'image'))
@@ -53,6 +64,12 @@
                     </div>
                 </div>
             @endforeach
+            @if ($imagesAndVideos->count() > 3)
+                <a href="{{ route('posts.show', $post) }}"
+                    class="flex h-32 w-full items-center justify-center rounded-lg bg-black bg-opacity-50 text-lg font-semibold text-white">
+                    +{{ $imagesAndVideos->count() - 3 }} autres
+                </a>
+            @endif
         </div>
     @endif
 

@@ -1,6 +1,6 @@
 <div class="hidden gap-6 lg:flex">
     <x-nav-link link="{{ route('index') }}" icon="home" />
-    <x-nav-link link="{{ route('profiles.show', auth()->user()) }}" icon="user" />
+    <x-nav-link link="{{ route('profile.show', auth()->user()) }}" icon="user" />
     <form action="{{ route('logout') }}" method="post" class="w-full">
         @csrf
         @method('delete')

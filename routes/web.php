@@ -41,10 +41,14 @@ Route::middleware('auth')->group(function () {
     Route::get('annonces/', [PostController::class, 'announcements'])->name('announcements.index');
 
     // Profil
-    Route::get('profiles/{user}', [UsersController::class, 'showProfile'])->name('profiles.show');
+    Route::get('profile/{user}', [UsersController::class, 'showProfile'])->name('profile.show');
 
     Route::get('/edit-profile', [UsersController::class, 'edit'])->name('profile.edit');
     Route::put('/edit-profile', [UsersController::class, 'update'])->name('profile.update');
     Route::put('/update-profile-image', [UsersController::class, 'updateProfileImage'])->name('profile.updateProfileImage');
     Route::get('/delete-profile-image', [UsersController::class, 'deleteProfileImage'])->name('profile.deleteProfileImage');
 });
+
+Route::get('/test', function () {
+    return view('test');
+})->name('test');
