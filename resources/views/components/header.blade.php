@@ -5,7 +5,7 @@
             <a href="{{ route('index') }}">
                 <div class="font-black text-vintageRed-default">
                     <h1 class="text-2xl lg:hidden">M</h1>
-                    <h1 class="hidden text-3xl lg:inline">Magisphere</h1>
+                    <h1 class="hidden text-3xl lg:inline">Magisphère</h1>
                 </div>
                 {{-- <img src="{{ asset('images/logo.png') }}" alt="Logo" class="size-14 object-cover object-center"> --}}
             </a>

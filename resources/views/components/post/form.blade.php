@@ -69,7 +69,7 @@
                 <i data-feather="trash"></i>
             </button>
         </div>
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <template x-for="(file, index) in files" :key="index">
                 <div class="relative rounded-lg border p-2 dark:border-classic-white">
                     <template x-if="file.type.includes('image')">

@@ -50,7 +50,7 @@
                                     <source src="{{ $file->url }}" type="video/mp4">
                                 </video>
                                 <button
-                                    class="absolute inset-0 m-4 flex items-center justify-center rounded-lg bg-black bg-opacity-40 text-white"
+                                    class="absolute inset-0 flex items-center justify-center rounded-lg bg-black bg-opacity-40 text-white"
                                     @click="modalSrc = '{{ $file->url }}'; isVideo = true; showModal = true">
                                     <i data-feather="play"></i>
                                 </button>
