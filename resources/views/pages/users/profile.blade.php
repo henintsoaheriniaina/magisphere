@@ -57,7 +57,7 @@
                 @endif
             </div>
 
-            <div x-show="showModal" x-transition.opacity.duration.400ms
+            <div x-show="showModal" x-transition.opacity.duration.400ms x-cloak
                 class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
                 @click.self="showModal = false">
                 <div class="relative max-w-3xl">

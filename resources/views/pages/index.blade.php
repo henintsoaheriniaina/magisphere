@@ -7,7 +7,7 @@
                 </x-message>
             </div>
         @endif
-        <x-home-form />
+        <x-post.form />
         <livewire:post-list />
     </div>
 </x-layouts.app>

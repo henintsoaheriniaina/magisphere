@@ -1,5 +1,4 @@
 <x-layouts.auth title="Connexion">
-
     <form action="{{ route('login') }}" method="POST" class="mx-auto grid w-full max-w-xl grid-cols-1 gap-6">
         <h1 class="text-2xl font-bold text-vintageRed-default">Se connecter à votre compte</h1>
         @csrf

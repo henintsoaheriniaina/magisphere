@@ -6,13 +6,14 @@
         x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100"
         x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100"
         x-transition:leave-end="opacity-0 transform scale-95"
-        class="absolute right-0 z-10 mt-2 w-48 rounded-lg border border-classic-black bg-classic-white shadow-lg dark:border-classic-white dark:bg-classic-black">
-        <a href="#"
-            class="block px-4 py-2 text-sm text-classic-black hover:bg-vintageRed-light dark:text-classic-white dark:hover:bg-vintageRed-dark">
+        class="-2 absolute right-0 z-10 mt-2 w-48 overflow-hidden rounded-lg border border-classic-black bg-classic-white shadow-lg dark:border-classic-white dark:bg-classic-black">
+        <a href="#" class="card-link">
+            Voir plus
+        </a>
+        <a href="#" class="card-link">
             Modifier
         </a>
-        <a href="#"
-            class="block px-4 py-2 text-sm text-classic-black hover:bg-vintageRed-light dark:text-classic-white dark:hover:bg-vintageRed-dark">
+        <a href="#" class="card-link">
             Supprimer
         </a>
     </div>

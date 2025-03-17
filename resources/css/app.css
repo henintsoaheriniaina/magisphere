@@ -40,7 +40,7 @@
     @apply px-4 py-2 rounded transition-colors duration-300 font-semibold;
 }
 .auth-button {
-    @apply btn bg-vintageRed-default text-classic-white hover:bg-vintageRed-light;
+    @apply btn bg-vintageRed-default text-classic-white hover:bg-vintageRed-dark;
 }
 .auth-link {
     @apply text-vintageRed-default font-semibold;
@@ -50,4 +50,7 @@
 }
 .profile-btn {
     @apply btn border-2;
+}
+.card-link {
+    @apply block px-4 py-2 text-sm text-classic-black dark:text-classic-white hover:bg-vintageRed-default;
 }

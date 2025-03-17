@@ -8,7 +8,7 @@
             <a href="{{ route('profile.show', $post->user) }}" class="font-semibold">
                 {{ $post->user->firstname }}
             </a>
-            <p class="text-sm text-gray-500 dark:text-gray-400">{{ $post->created_at->diffForHumans() }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">{{ ucfirst($post->created_at->diffForHumans()) }}</p>
         </div>
     </div>
 

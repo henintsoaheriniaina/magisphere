@@ -20,7 +20,7 @@ class StorePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'description' => 'required|string|max:1000',
+            'description' => 'required|string',
             'category' => 'nullable|in:post,annoucement',
             'files' => 'nullable|array',
             'files.*' => 'file|max:10240|mimes:jpg,jpeg,png,gif,mp4,mov,avi,pdf,doc,docx,txt',
