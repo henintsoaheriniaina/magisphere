@@ -1,5 +1,5 @@
 <x-layouts.app>
-    <div class="min-h-screen lg:col-span-6 lg:col-start-2">
+    <div class="min-h-screen secondary-container">
         @if (session('success'))
             <div class="mb-6">
                 <x-message>

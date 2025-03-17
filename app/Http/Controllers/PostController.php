@@ -43,7 +43,6 @@ class PostController extends Controller
 
         $post = Auth::user()->posts()->create($fields);
 
-        // Upload
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
                 $uploadedFile = cloudinary()->upload($file->getRealPath(), [
@@ -70,7 +69,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('pages.posts.show', compact('post'));
     }
 
     /**

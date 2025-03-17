@@ -3,9 +3,10 @@
     <div class="default-container">
         <div class="flex items-center justify-between lg:col-span-9">
             <a href="{{ route('index') }}">
-                <h1 class="text-3xl font-black text-vintageRed-default">
-                    M
-                </h1>
+                <div class="font-black text-vintageRed-default">
+                    <h1 class="text-2xl lg:hidden">M</h1>
+                    <h1 class="hidden text-3xl lg:inline">Magisphere</h1>
+                </div>
                 {{-- <img src="{{ asset('images/logo.png') }}" alt="Logo" class="size-14 object-cover object-center"> --}}
             </a>
             <div class="flex items-center justify-center gap-6">

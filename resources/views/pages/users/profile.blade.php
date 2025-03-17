@@ -1,5 +1,5 @@
 <x-layouts.app title="Profile">
-    <div class="lg:col-span-6 lg:col-start-2">
+    <div class="secondary-container">
         @if (session('success'))
             <x-message>
                 {{ session('success') }}
@@ -71,7 +71,7 @@
             </div>
         </div>
     </div>
-    <div class="lg:col-span-6 lg:col-start-2">
+    <div class="secondary-container">
         <livewire:post-list :userId="$user->id" />
     </div>
 </x-layouts.app>

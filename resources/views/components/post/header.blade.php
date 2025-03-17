@@ -12,5 +12,5 @@
         </div>
     </div>
 
-    <x-post.menu />
+    <x-post.menu :post="$post" />
 </div>

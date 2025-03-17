@@ -24,9 +24,9 @@ export default {
             },
             colors: {
                 vintageRed: {
-                    default: "#B22222", // Rouge principal vintage
-                    dark: "#8B0000", // Rouge foncé pour les accents
-                    light: "#CD5C5C", // Rouge clair pour les arrière-plans clairs
+                    default: "#B22222",
+                    dark: "#8B0000",
+                    light: "#CD5C5C",
                 },
                 classic: {
                     white: "#F2F2F2",

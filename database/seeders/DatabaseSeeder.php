@@ -16,6 +16,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(AffiliationSeeder::class);
         User::factory(1)->create();
-        Post::factory(1000)->create();
+        // Post::factory(1000)->create();
     }
 }

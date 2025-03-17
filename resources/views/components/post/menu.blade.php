@@ -1,3 +1,4 @@
+@props(['post'])
 <div class="relative" x-data="{ open: false }">
     <button @click="open = !open" class="p-1">
         <i data-feather="more-vertical"></i>
@@ -7,10 +8,10 @@
         x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100"
         x-transition:leave-end="opacity-0 transform scale-95"
         class="-2 absolute right-0 z-10 mt-2 w-48 overflow-hidden rounded-lg border border-classic-black bg-classic-white shadow-lg dark:border-classic-white dark:bg-classic-black">
-        <a href="#" class="card-link">
+        <a href="{{ route('posts.show', $post) }}" class="card-link">
             Voir plus
         </a>
-        <a href="#" class="card-link">
+        <a href="{{ route('posts.edit', $post) }}" class="card-link">
             Modifier
         </a>
         <a href="#" class="card-link">
