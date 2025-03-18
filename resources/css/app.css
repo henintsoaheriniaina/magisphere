@@ -34,7 +34,7 @@
     @apply text-red-500;
 }
 .auth-input {
-    @apply outline-none bg-transparent  border-b-2 transition-all duration-300 dark:border-b-classic-white border-b-classic-black py-2 dark:focus:bg-classic-white focus:bg-classic-black focus:rounded focus:px-4  dark:focus:text-classic-black focus:text-classic-white;
+    @apply outline-none bg-transparent  border-b-2 transition-all duration-300 dark:border-b-classic-white border-b-classic-black py-2 dark:focus:bg-classic-white focus:bg-classic-black/10  focus:rounded focus:px-4  dark:focus:text-classic-black;
 }
 .auth-input.error {
     @apply border-red-500;
@@ -58,5 +58,5 @@
     @apply btn border-2;
 }
 .card-link {
-    @apply block px-4 py-2 text-sm text-classic-black dark:text-classic-white hover:bg-vintageRed-default;
+    @apply block px-4 py-2 text-sm text-classic-black dark:text-classic-white hover:bg-vintageRed-default hover:text-classic-white transition-colors;
 }

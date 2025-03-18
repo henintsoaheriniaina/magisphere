@@ -18,7 +18,7 @@
             'image_url'),
     ]) @click="document.getElementById('profileImageInput').click()">
         <div
-            class="absolute bottom-0 left-0 right-0 top-0 m-2 flex items-center justify-center rounded-full bg-vintageRed-default/50 p-2">
+            class="absolute bottom-0 left-0 right-0 top-0 m-2 flex items-center justify-center rounded-full bg-vintageRed-default/40 p-2 text-classic-white">
             <i data-feather="upload" class="size-5"></i>
         </div>
         <img :src="imagePreview" alt="Profile Image" class="h-full w-full rounded-full object-cover">

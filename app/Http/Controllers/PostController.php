@@ -77,7 +77,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('pages.posts.edit', compact('post'));
     }
 
     /**
@@ -85,7 +85,16 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        if ($post->user_id !== Auth::id()) {
+            abort(403);
+        }
+        $fields = $request->validate([
+            'description' => 'required|string',
+        ]);
+
+        $post->update($fields);
+
+        return redirect()->route('posts.show', $post)->with('success', 'Publication Modifiée avec succès !');
     }
 
     /**
@@ -93,6 +102,15 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        if ($post->user_id !== Auth::id()) {
+            abort(403);
+        }
+        if ($post->medias->count() > 0) {
+            foreach ($post->medias as $media) {
+                cloudinary()->destroy($media->public_id);
+            }
+        }
+        $post->delete();
+        return redirect()->route('index')->with('success', 'Publication Supprimée avec succès !');
     }
 }

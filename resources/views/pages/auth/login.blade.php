@@ -33,7 +33,7 @@
             </div>
             <div class="space-y-2">
                 <button type="submit" class="auth-button">Connexion</button>
-                <p>Vous n'avez pas de compte? <a href="{{ route('register') }}" class="auth-link">S'inscrire</a>
+                {{-- <p>Vous n'avez pas de compte? <a href="{{ route('register') }}" class="auth-link">S'inscrire</a> --}}
                 </p>
             </div>
         </div>

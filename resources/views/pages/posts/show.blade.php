@@ -3,7 +3,21 @@
     $otherFiles = $post->medias->reject(fn($file) => Str::contains($file->type, ['image', 'video']));
 @endphp
 <x-layouts.app title="Détails">
-    <div class="secondary-container space-y-8">
+    @if (session('success'))
+        <div class="secondary-container">
+            <div class="my-4">
+                <x-message>
+                    {{ session('success') }}
+                </x-message>
+            </div>
+        </div>
+    @endif
+
+    <div class="secondary-container my-4">
+        <a href="{{ route('posts.index') }}" class="flex items-center font-semibold text-vintageRed-default"> <i
+                data-feather="arrow-left"></i> Retour </a>
+    </div>
+    <div class="secondary-container min-h-screen space-y-8">
         <div class="card">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-3">

@@ -7,15 +7,16 @@
         x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100"
         x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100"
         x-transition:leave-end="opacity-0 transform scale-95"
-        class="-2 absolute right-0 z-10 mt-2 w-48 overflow-hidden rounded-lg border border-classic-black bg-classic-white shadow-lg dark:border-classic-white dark:bg-classic-black">
+        class="-2 absolute right-0 z-10 mt-2 w-48 overflow-hidden rounded-lg border-2 border-classic-black bg-classic-white shadow-lg dark:border-classic-white dark:bg-classic-black">
         <a href="{{ route('posts.show', $post) }}" class="card-link">
             Voir plus
         </a>
-        <a href="{{ route('posts.edit', $post) }}" class="card-link">
-            Modifier
-        </a>
-        <a href="#" class="card-link">
-            Supprimer
-        </a>
+        @if (auth()->user()->is($post->user))
+            <form action="{{ route('posts.destroy', $post) }}" method="POST" class="w-full">
+                @csrf
+                @method('delete')
+                <button type="submit" class="card-link w-full text-left">Supprimer</button>
+            </form>
+        @endif
     </div>
 </div>
