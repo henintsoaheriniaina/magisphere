@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('password');
             $table->string('bio')->nullable();
             $table->string('class')->nullable();
-            $table->enum('role', ['user', 'admin'])->default('user');
             $table->string('image_url')->nullable();
             $table->string('image_public_id')->nullable();
             $table->enum('theme', ['light', 'dark'])->default('dark');

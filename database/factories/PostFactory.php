@@ -20,6 +20,7 @@ class PostFactory extends Factory
         return [
             'description' => $this->faker->sentence(10),
             'user_id' => User::first()->id,
+            'status' => 'approved',
         ];
     }
 }

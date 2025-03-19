@@ -28,10 +28,10 @@ class User extends Authenticatable
         'password',
         'bio',
         'class',
-        'role',
         'image_url',
         'image_public_id',
         'theme',
+        'status',
         "affiliation_id"
     ];
 

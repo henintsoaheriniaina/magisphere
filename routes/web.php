@@ -17,7 +17,7 @@ Route::prefix('auth')->group(function () {
         Route::get('login', [UsersController::class, 'loginPage'])->name('login');
         Route::post('login', [UsersController::class, 'login'])->name('login');
 
-        // Route::get('register', [UsersController::class, 'registerPage'])->name('register');
+        Route::get('register', [UsersController::class, 'registerPage'])->name('register');
         Route::post('register', [UsersController::class, 'register'])->name('register');
     });
     Route::middleware('auth')->delete('logout', [UsersController::class, 'logout'])->name('logout');

@@ -1,4 +1,4 @@
-@props(['title' => 'Magisphère'])
+@props(['title' => 'Magisphère', 'isAdmin' => false])
 <!DOCTYPE html>
 <html lang="fr"
     class="{{ auth()->check() ? auth()->user()->theme : (request()->cookie('theme', 'light') === 'dark' ? 'dark' : '') }}">

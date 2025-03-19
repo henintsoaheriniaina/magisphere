@@ -32,6 +32,7 @@ class UserFactory extends Factory
             'password' => Hash::make('p@ssw0rd9*'),
             'remember_token' => Str::random(10),
             'affiliation_id' => 1,
+            'status' => 'approved',
         ];
     }
 
