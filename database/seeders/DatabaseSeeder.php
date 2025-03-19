@@ -15,7 +15,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(AffiliationSeeder::class);
+        $this->call(RoleSeeder::class);
         User::factory(1)->create();
-        // Post::factory(1000)->create();
+        $user = User::first();
+        $user->assignRole('admin');
     }
 }

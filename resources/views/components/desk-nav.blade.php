@@ -1,5 +1,8 @@
 <div class="hidden gap-6 lg:flex">
     <x-nav-link link="{{ route('index') }}" icon="home" />
+    @role('admin')
+        <x-nav-link link="{{ route('admin.dashboard') }}" icon="shield" />
+    @endrole
     <x-nav-link link="{{ route('profile.show', auth()->user()) }}" icon="user" />
     <form action="{{ route('logout') }}" method="post" class="w-full">
         @csrf

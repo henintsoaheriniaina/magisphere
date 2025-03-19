@@ -20,7 +20,7 @@
             event.target.submit();
         }
     }" @submit.prevent="submitForm">
-    <h1 class="text-2xl font-bold text-vintageRed-default">Créer une nouvelle publication</h1>
+    {{-- <h1 class="text-2xl font-bold text-vintageRed-default">Créer une nouvelle publication</h1> --}}
     @csrf
     <div class="auth-group">
         <textarea name="description" id="description" class="@error('description') error @enderror auth-input" rows="4">{{ old('description') }}</textarea>

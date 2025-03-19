@@ -4,7 +4,7 @@
         <div class="flex items-center justify-between lg:col-span-9">
             <a href="{{ route('index') }}" class="flex items-center gap-2">
                 {{-- <img src="{{ asset('images/logo.png') }}" alt="Logo" class="size-12 object-cover object-center"> --}}
-                <h1 class="hidden text-3xl font-black text-vintageRed-default lg:inline">Magisphère</h1>
+                <h1 class="text-3xl font-black text-vintageRed-default">Magisphère</h1>
             </a>
             <div class="flex items-center justify-center gap-6">
                 <x-desk-nav />

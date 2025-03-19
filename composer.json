@@ -13,7 +13,8 @@
         "cloudinary-labs/cloudinary-laravel": "^2.2",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.9",
-        "livewire/livewire": "^3.6"
+        "livewire/livewire": "^3.6",
+        "spatie/laravel-permission": "^6.16"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.5",

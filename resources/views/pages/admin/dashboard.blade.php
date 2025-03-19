@@ -1,3 +1,3 @@
 <x-layouts.app title="Dashboard">
-    <h1>Dashboard</h1>
+    <h1>Dashboard Administration</h1>
 </x-layouts.app>

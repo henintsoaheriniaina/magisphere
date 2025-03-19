@@ -13,6 +13,9 @@
         </div>
         <div class="flex flex-col gap-6">
             <x-nav-link label="Accueil" link="{{ route('index') }}" icon="home" />
+            @role('admin')
+                <x-nav-link label="Administration" link="{{ route('admin.dashboard') }}" icon="shield" />
+            @endrole
             <x-nav-link label="Profile" link="{{ route('profile.show', auth()->user()) }}" icon="user" />
             <form action="{{ route('logout') }}" method="post" class="w-full">
                 @csrf
