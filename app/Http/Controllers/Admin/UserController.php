@@ -54,19 +54,14 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        //
+        return view('pages.admin.users.edit', [
+            'user' => User::findOrFail($id),
+            'affiliations' => Affiliation::get()
+        ]);
     }
 
     /**
@@ -74,7 +69,7 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        dd($request->all());
     }
 
     /**

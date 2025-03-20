@@ -12,9 +12,8 @@
                         </svg>
 
                     </div>
-                    <a href="{{ route('admin.users.index') }}"
-                        class="hover:text-vintageRed-default hover:underline">Voir
-                        plus</a>
+                    <a href="{{ route('admin.users.create') }}"
+                        class="hover:text-vintageRed-default hover:underline">Créer un utilisateur</a>
                 </div>
                 <p>Utilisateurs</p>
                 <div class="admin-card-body">
@@ -33,7 +32,7 @@
 
                     </div>
                     <a href="{{ route('admin.posts.index') }}"
-                        class="hover:text-vintageRed-default hover:underline">Voir plus</a>
+                        class="hover:text-vintageRed-default hover:underline">Voir tout</a>
                 </div>
                 <p>Publications</p>
                 <div class="admin-card-body">
