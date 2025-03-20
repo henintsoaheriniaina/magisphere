@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AffiliationSeeder::class);
         $this->call(RoleSeeder::class);
         User::factory(1)->create();
+
         // Post::factory(100)->create();
         $user = User::first();
         $user->assignRole('admin');

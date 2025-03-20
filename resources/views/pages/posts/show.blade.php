@@ -12,10 +12,8 @@
             </div>
         </div>
     @endif
-
     <div class="secondary-container my-4">
-        <a href="{{ route('posts.index') }}" class="flex items-center font-semibold text-vintageRed-default"> <i
-                data-feather="arrow-left"></i> Retour </a>
+        <x-back />
     </div>
     <div class="secondary-container min-h-screen space-y-8">
         <div class="card">
@@ -66,7 +64,11 @@
                                 <button
                                     class="absolute inset-0 flex items-center justify-center rounded-lg bg-black bg-opacity-40 text-white"
                                     @click="modalSrc = '{{ $file->url }}'; isVideo = true; showModal = true">
-                                    <i data-feather="play"></i>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="2.3" stroke="currentColor" class="size-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
+                                    </svg>
                                 </button>
                             @endif
                         </div>
@@ -83,7 +85,11 @@
                             <button
                                 class="absolute -right-4 -top-4 z-10 rounded-lg bg-vintageRed-default p-2 text-white"
                                 @click="showModal = false; if (isVideo) { $refs.videoPlayer.pause(); }">
-                                <i data-feather="x"></i>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2.3" stroke="currentColor" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                </svg>
+
                             </button>
                             <template x-if="!isVideo">
                                 <img :src="modalSrc" class="max-h-[90vh] w-auto rounded-lg">
@@ -122,7 +128,12 @@
                             </div>
                             <a href="{{ $file->url }}"
                                 class="mt-auto flex items-center rounded-lg bg-vintageRed-default p-2 text-white hover:bg-vintageRed-dark">
-                                <i data-feather="download"></i>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2.3" stroke="currentColor" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                                </svg>
+
                             </a>
                         </div>
                     @endforeach

@@ -5,7 +5,7 @@ use App\Http\Controllers\Admin\ModerationController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\ProfileController; // Ajouté ce contrôleur
+use App\Http\Controllers\ProfileController;
 use App\Models\Affiliation;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +24,7 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+
     // Posts
     Route::prefix('posts')->name('posts.')->group(function () {
         Route::get('/', [PostController::class, 'index'])->name('index');
@@ -50,18 +51,18 @@ Route::middleware('auth')->group(function () {
 // Admin
 Route::middleware(['auth', 'role:admin|verificator|moderator'])->prefix('admin')->name("admin.")->group(function () {
 
-    // Tableau de bord (accessible à tous les rôles admin)
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-    // Gestion des publications (Admin + Moderators)
-    Route::middleware('role:admin|moderator')->group(function () {
-        Route::resource('posts', \App\Http\Controllers\Admin\PostController::class)->except(['show']);
-    });
 
     // Gestion des utilisateurs (Admin + Vérificateurs)
     Route::middleware('role:admin|verificator')->group(function () {
-        Route::resource('users', UserController::class)->except(['show']);
+        Route::resource('users', UserController::class);
     });
+    // Gestion des publications (Admin + Moderators)
+    Route::middleware('role:admin|moderator')->group(function () {
+        Route::resource('posts', \App\Http\Controllers\Admin\PostController::class);
+    });
+
+
 
     // Modération des posts (Admin + Moderator)
     Route::middleware('role:admin|moderator')->group(function () {

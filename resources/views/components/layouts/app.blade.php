@@ -1,4 +1,4 @@
-@props(['title' => 'Magisphère', 'isAdmin' => false])
+@props(['title' => 'Magisphère'])
 <!DOCTYPE html>
 <html lang="fr"
     class="{{ auth()->check() ? auth()->user()->theme : (request()->cookie('theme', 'light') === 'dark' ? 'dark' : '') }}">
@@ -7,7 +7,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title !== 'Magisphère' ? $title . ' | Magisphère' : 'Magisphère' }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
@@ -19,6 +18,20 @@
     </main>
     <x-footer />
     @livewireScripts
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        document.addEventListener("livewire:load", () => {
+            feather.replace();
+        });
+
+        document.addEventListener("livewire:update", () => {
+            setTimeout(() => {
+                feather.replace();
+            }, 100); // Délai pour laisser Livewire terminer son rendu
+        });
+    </script>
+
+
 </body>
 
 </html>

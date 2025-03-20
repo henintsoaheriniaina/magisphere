@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Affiliation;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -12,7 +13,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return view("pages.admin.users.index");
     }
 
     /**
@@ -20,7 +21,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $affiliations = Affiliation::get();
+        return view("pages.admin.users.create", [
+            "affiliations" => $affiliations
+        ]);
     }
 
     /**

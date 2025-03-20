@@ -1,7 +1,11 @@
 @props(['post'])
 <div class="relative" x-data="{ open: false }">
     <button @click="open = !open" class="p-1">
-        <i data-feather="more-vertical"></i>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.3" stroke="currentColor"
+            class="size-5">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
+        </svg>
     </button>
     <div x-show="open" @click.away="open = false" x-cloak x-transition:enter="transition ease-out duration-200"
         x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100"

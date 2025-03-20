@@ -2,6 +2,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+* {
+    scrollbar-width: thin;
+}
+
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+}
+
+*::-webkit-scrollbar-track {
+    border-radius: 4px;
+}
+th,
+td {
+    @apply whitespace-nowrap;
+}
 [x-cloak] {
     display: none;
 }
