@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@preline/select':
+        specifier: ^3.0.0
+        version: 3.0.0
       alpinejs:
         specifier: ^3.14.8
         version: 3.14.9
@@ -233,6 +236,9 @@ packages:
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
+
+  '@preline/select@3.0.0':
+    resolution: {integrity: sha512-naNGUnlvDbuTsXOmKaOFnJ4aa59o9iCx6NYfvvLF0y1Fp1cZaGI7HFKpqpBtQnffzXe43QYRWG4W7VparDjE9Q==}
 
   '@rollup/rollup-android-arm-eabi@4.36.0':
     resolution: {integrity: sha512-jgrXjjcEwN6XpZXL0HUeOVGfjXhPyxAbbhD0BlXUB+abTOpbPiN5Wb3kOT7yb+uEtATNYF5x5gIfwutmuBA26w==}
@@ -1102,6 +1108,8 @@ snapshots:
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
+
+  '@preline/select@3.0.0': {}
 
   '@rollup/rollup-android-arm-eabi@4.36.0':
     optional: true
