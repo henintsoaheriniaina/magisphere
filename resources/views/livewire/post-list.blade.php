@@ -3,7 +3,7 @@
         <x-post.post-card :post="$post" wire:key="post-{{ $post->id }}" />
     @endforeach
 
-    <div class="mt-12 flex items-center justify-center">
+    <div class="mt-24 flex items-center justify-center">
         <div wire:loading class="mt-4 flex justify-center">
             <svg class="h-8 w-8 animate-spin text-vintageRed-default" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24">

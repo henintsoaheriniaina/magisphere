@@ -1,3 +1,11 @@
+@php
+    $roleTranslations = [
+        'admin' => 'Administrateur',
+        'verificator' => 'Vérificateur',
+        'moderator' => 'Modérateur',
+        'user' => 'Utilisateur',
+    ];
+@endphp
 <div>
     @if ($details)
         <div class="mb-10 flex flex-col items-center justify-between gap-6">
@@ -54,16 +62,13 @@
 
                         <td class="px-6 py-2">{{ $user->email }}</td>
                         <td class="px-6 py-2">
-                            <span @class([
-                                'rounded px-2.5 py-0.5 text-xs font-semibold',
-                                'bg-[#B22222] text-white' => $user->hasRole('admin'),
-                                'bg-[#8B0000] text-white' => $user->hasRole('verificator'),
-                                'bg-[#CD5C5C] text-black' => $user->hasRole('moderator'),
-                                'bg-gray-100 text-gray-800 dark:bg-gray-200 dark:text-gray-900' => !$user->hasRole(
-                                    ['admin', 'verificator', 'moderator']),
-                            ])>
-                                {{ $user->getRoleNames()->first() ?? 'Utilisateur' }}
-                            </span>
+
+
+                            @foreach ($user->getRoleNames() as $role)
+                                <span class="mr-1 rounded bg-[#B22222] px-2.5 py-0.5 text-xs font-semibold text-white">
+                                    {{ $roleTranslations[$role] ?? ucfirst($role) }}
+                                </span>
+                            @endforeach
                         </td>
                         <td class="px-6 py-2">{{ $user->affiliation->label }}</td>
                         <td class="flex gap-2 px-6 py-2">

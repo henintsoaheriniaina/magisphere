@@ -23,7 +23,7 @@
     </div>
 
     <div x-show="open" @click.away="open = false" x-transition
-        class="absolute left-0 z-10 mt-2 w-full overflow-hidden rounded border-2">
+        class="absolute left-0 z-10 mt-2 w-full overflow-hidden rounded border-2 bg-classic-white dark:bg-classic-black">
         <template
             x-for="role in [{value: 'user', label: 'Utilisateur'}, {value: 'moderator', label: 'Modérateur'}, {value: 'verificator', label: 'Vérificateur'}, {value: 'admin', label: 'Administrateur'}]"
             :key="role.value">
@@ -34,10 +34,15 @@
         </template>
     </div>
 
-    <!-- Input caché pour conserver la logique backend -->
     <select name="roles[]" id="roles" multiple class="hidden">
         <template x-for="role in selectedRoles" :key="role">
             <option :value="role" selected x-text="role"></option>
         </template>
     </select>
+
+    @error('roles')
+        <div class="mt-auto">
+            <x-message variant="error">{{ $message }}</x-message>
+        </div>
+    @enderror
 </div>

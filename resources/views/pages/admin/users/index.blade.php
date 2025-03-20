@@ -1,6 +1,13 @@
 <x-layouts.app title="Utilisateurs">
 
     <div class="lg:col-span-8">
+        @if (session('success'))
+            <div class="mb-6">
+                <x-message>
+                    {{ session('success') }}
+                </x-message>
+            </div>
+        @endif
         <x-back />
         <div class="my-10 flex flex-col items-center justify-between gap-6 sm:flex-row">
             <h1 class="text-3xl font-black md:text-4xl">Utilisateurs</h1>

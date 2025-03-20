@@ -34,7 +34,7 @@ class UsersController extends Controller
 
         $user->affiliation()->associate($fields['affiliation']);
         $user->save();
-
+        $user->assignRole('user');
         $remember = $request->filled("remember");
         Auth::login($user, $remember);
         return redirect()->intended(route("index"));

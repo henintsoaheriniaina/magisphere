@@ -16,22 +16,8 @@
     <main class="default-container">
         {{ $slot }}
     </main>
-    <x-footer />
+    {{-- <x-footer /> --}}
     @livewireScripts
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        document.addEventListener("livewire:load", () => {
-            feather.replace();
-        });
-
-        document.addEventListener("livewire:update", () => {
-            setTimeout(() => {
-                feather.replace();
-            }, 100); // Délai pour laisser Livewire terminer son rendu
-        });
-    </script>
-
-
 </body>
 
 </html>
