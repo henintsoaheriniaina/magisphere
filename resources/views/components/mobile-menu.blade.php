@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="flex flex-col gap-6">
-            @role('admin')
+            @role('admin|moderator|verificator')
                 <x-nav-link label="Administration" link="{{ route('admin.dashboard') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.3"
                         stroke="currentColor" class="size-5">

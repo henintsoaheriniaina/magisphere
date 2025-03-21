@@ -1,5 +1,5 @@
 <div class="hidden gap-6 lg:flex">
-    @role('admin')
+    @role('admin|moderator|verificator')
         <x-nav-link link="{{ route('admin.dashboard') }}">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.3" stroke="currentColor"
                 class="size-5">

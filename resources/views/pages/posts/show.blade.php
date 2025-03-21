@@ -3,15 +3,11 @@
     $otherFiles = $post->medias->reject(fn($file) => Str::contains($file->type, ['image', 'video']));
 @endphp
 <x-layouts.app title="Détails">
-    @if (session('success'))
-        <div class="secondary-container">
-            <div class="my-4">
-                <x-message>
-                    {{ session('success') }}
-                </x-message>
-            </div>
+    <div class="secondary-container">
+        <div class="my-4">
+            <x-success-message />
         </div>
-    @endif
+    </div>
     <div class="secondary-container my-4">
         <x-back />
     </div>
@@ -62,7 +58,7 @@
                                     <source src="{{ $file->url }}" type="video/mp4">
                                 </video>
                                 <button
-                                    class="absolute inset-0 flex items-center justify-center rounded-lg bg-black bg-opacity-40 text-white"
+                                    class="absolute inset-0 flex items-center justify-center rounded-lg bg-black bg-opacity-40 text-classic-white"
                                     @click="modalSrc = '{{ $file->url }}'; isVideo = true; showModal = true">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="2.3" stroke="currentColor" class="size-5">
@@ -83,7 +79,7 @@
                         @click.away="showModal = false; if (isVideo) { $refs.videoPlayer.pause(); }">
                         <div class="relative" @click.stop>
                             <button
-                                class="absolute -right-4 -top-4 z-10 rounded-lg bg-vintageRed-default p-2 text-white"
+                                class="absolute -right-4 -top-4 z-10 rounded-lg bg-vintageRed-default p-2 text-classic-white"
                                 @click="showModal = false; if (isVideo) { $refs.videoPlayer.pause(); }">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="2.3" stroke="currentColor" class="size-5">
@@ -127,7 +123,7 @@
                                 </div>
                             </div>
                             <a href="{{ $file->url }}"
-                                class="mt-auto flex items-center rounded-lg bg-vintageRed-default p-2 text-white hover:bg-vintageRed-dark">
+                                class="mt-auto flex items-center rounded-lg bg-vintageRed-default p-2 text-classic-white hover:bg-vintageRed-dark">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="2.3" stroke="currentColor" class="size-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"

@@ -12,7 +12,8 @@
                 <video class="h-full w-full object-cover" muted playsinline>
                     <source src="{{ $file->url }}" type="video/mp4">
                 </video>
-                <button class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 text-white"
+                <button
+                    class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 text-classic-white"
                     @click="modalSrc = '{{ $file->url }}'; isVideo = true; showModal = true">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.3"
                         stroke="currentColor" class="size-5">
@@ -26,7 +27,7 @@
 
             @if ($medias->count() > 4 && $loop->last)
                 <a href="{{ route('posts.show', $post) }}"
-                    class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-lg font-semibold text-white">
+                    class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-lg font-semibold text-classic-white">
                     +{{ $medias->count() - 4 }} autres
                 </a>
             @endif
@@ -41,7 +42,7 @@
         @keydown.escape.window="showModal = false; if (isVideo) { $refs.videoPlayer.pause(); }"
         @click.away="showModal = false; if (isVideo) { $refs.videoPlayer.pause(); }">
         <div class="relative" @click.stop>
-            <button class="absolute -right-4 -top-4 z-10 rounded-lg bg-vintageRed-default px-4 py-2 text-white"
+            <button class="absolute -right-4 -top-4 z-10 rounded-lg bg-vintageRed-default px-4 py-2 text-classic-white"
                 @click="showModal = false; if (isVideo) { $refs.videoPlayer.pause(); }">
                 X
             </button>

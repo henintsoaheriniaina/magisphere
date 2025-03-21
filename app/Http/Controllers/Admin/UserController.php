@@ -100,4 +100,13 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route("admin.users.index")->with("success", "Utilisateur supprimé avec succès");
     }
+    public function setSTatus(Request $request, User $user)
+    {
+        $fields = $request->validate([
+            'status' => 'required|in:banned,approved'
+        ]);
+        $user->status = $fields['status'];
+        $user->save();
+        return redirect()->back()->with("success", "Status du compte mis à jour avec succès");
+    }
 }

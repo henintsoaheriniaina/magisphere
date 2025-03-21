@@ -1,10 +1,6 @@
 <x-layouts.app title="Profile">
     <div class="secondary-container">
-        @if (session('success'))
-            <x-message>
-                {{ session('success') }}
-            </x-message>
-        @endif
+        <x-success-message />
         <div class="z-0 mt-36 md:mt-52" x-data="{ showModal: false }">
             <div
                 class="relative rounded-lg border-2 border-classic-black bg-classic-white dark:border-classic-white dark:bg-classic-black">
@@ -67,11 +63,12 @@
                             <span>{{ $user->matriculation }}</span>
                         </div>
                     </div>
-                    @role('admin')
+                    @role('admin|verificator')
                         <span @class([
                             'rounded px-4 py-2 text-sm font-semibold ',
-                            'bg-green-500 text-white' => $user->status === 'approved',
-                            'bg-yellow-500 text-black' => $user->status === 'pending',
+                            'bg-green-500 text-classic-white' => $user->status === 'approved',
+                            'bg-yellow-500 text-classic-black' => $user->status === 'pending',
+                            'bg-red-500 text-classic-white' => $user->status === 'pending',
                         ])>
                             {{ $user->status === 'approved' ? 'Approuvé' : 'En attente' }}
                         </span>
@@ -89,7 +86,7 @@
                             </svg>
                         </a>
                     @endif
-                    @role('admin')
+                    @role('admin|verificator')
                         <div class="relative" x-data="{ open: false }">
                             <div @click="open = !open"
                                 class="cursor-pointer rounded-lg border-2 border-classic-black bg-classic-white p-2 dark:border-classic-white dark:bg-classic-black">
@@ -110,9 +107,13 @@
                                 class="absolute -right-0 top-12 w-48 overflow-hidden rounded-lg border-2 border-classic-black bg-classic-white shadow-lg dark:border-classic-white dark:bg-classic-black">
                                 <a href="{{ route('admin.users.edit', $user) }}" class="card-link">Modifier</a>
                                 @if ($user->status === 'pending')
-                                    <a href="#" class="card-link">Vérifier</a>
+                                    <a href="{{ route('admin.users.verify', $user) }}" class="card-link">Approuver</a>
                                 @endif
-                                <a href="{{ route('admin.users.destroy', $user) }}" class="card-link">Supprimer</a>
+                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="w-full">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="card-link w-full text-left">Supprimer</button>
+                                </form>
                             </div>
                         </div>
                     @endrole
@@ -124,7 +125,7 @@
                 @click.self="showModal = false">
                 <div class="relative max-w-3xl">
                     <button @click="showModal = false"
-                        class="absolute -right-4 -top-4 rounded-full bg-red-600 p-2 text-white shadow-lg hover:bg-red-700">
+                        class="absolute -right-4 -top-4 rounded-full bg-red-600 p-2 text-classic-white shadow-lg hover:bg-red-700">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.3"
                             stroke="currentColor" class="size-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />

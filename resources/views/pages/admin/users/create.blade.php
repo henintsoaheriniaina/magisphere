@@ -60,7 +60,7 @@
             <div x-data="{ open: false, selectedAffiliation: '' }" class="relative space-y-1">
                 <label for="affiliation" class="auth-label @error('affiliation') error @enderror">Affiliation</label>
 
-                <div class="cursor-pointer border-b-2 border-gray-300 border-b-classic-black bg-transparent bg-white p-2 py-2 outline-none transition-all duration-300 focus:bg-classic-black/10 focus:px-4 dark:border-b-classic-white dark:focus:bg-classic-white dark:focus:text-classic-black"
+                <div class="cursor-pointer border-b-2 border-b-classic-black bg-transparent p-2 outline-none transition-all duration-300 dark:border-b-classic-white"
                     @click="open = !open">
                     <span x-text="selectedAffiliation ? selectedAffiliation : 'Sélectionner une affiliation'"></span>
                 </div>
@@ -108,14 +108,14 @@
                 }
             }" class="relative space-y-1">
                 <label for="roles" class="auth-label">Rôles :</label>
-                <div class="cursor-pointer border-b-2 border-gray-300 border-b-classic-black bg-transparent bg-white p-2 py-2 outline-none transition-all duration-300 focus:bg-classic-black/10 focus:px-4 dark:border-b-classic-white dark:focus:bg-classic-white dark:focus:text-classic-black"
+                <div class="cursor-pointer border-b-2 border-b-classic-black bg-transparent p-2 outline-none transition-all duration-300 dark:border-b-classic-white"
                     @click="open = !open">
                     <span
                         x-text="selectedRoles.length ? selectedRoles.map(role => roleLabels[role]).join(', ') : 'Sélectionner des rôles'"></span>
                 </div>
 
                 <div x-show="open" @click.away="open = false" x-transition
-                    class="absolute left-0 z-10 mt-2 w-full overflow-hidden rounded border-2 bg-classic-white dark:bg-classic-black">
+                    class="absolute left-0 z-10 w-full overflow-hidden rounded border-2 bg-classic-white dark:bg-classic-black">
                     <template
                         x-for="role in [{value: 'user', label: 'Utilisateur'}, {value: 'moderator', label: 'Modérateur'}, {value: 'verificator', label: 'Vérificateur'}, {value: 'admin', label: 'Administrateur'}]"
                         :key="role.value">

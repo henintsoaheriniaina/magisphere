@@ -23,7 +23,7 @@
             class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4" @click.self="showModal = false">
             <div class="relative max-w-3xl">
                 <button @click="showModal = false"
-                    class="absolute -right-4 -top-4 rounded-full bg-red-600 p-2 text-white shadow-lg hover:bg-red-700">
+                    class="absolute -right-4 -top-4 rounded-full bg-red-600 p-2 text-classic-white shadow-lg hover:bg-red-700">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.3"
                         stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />

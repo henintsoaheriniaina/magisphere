@@ -69,4 +69,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Affiliation::class);
     }
+    public function verify(): void
+    {
+        $this->status = 'approved';
+    }
 }

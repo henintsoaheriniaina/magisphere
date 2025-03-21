@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <a href="{{ $file->url }}"
-                    class="mt-auto rounded-lg bg-vintageRed-default p-2 text-white hover:bg-vintageRed-dark">
+                    class="mt-auto rounded-lg bg-vintageRed-default p-2 text-classic-white hover:bg-vintageRed-dark">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.3"
                         stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round"
