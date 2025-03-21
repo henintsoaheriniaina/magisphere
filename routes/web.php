@@ -58,6 +58,7 @@ Route::middleware(['auth', 'role:admin|verificator|moderator'])->prefix('admin')
         Route::resource('users', UserController::class);
         Route::post('/users/{user}/status', [UserController::class, 'setStatus'])->name('users.setStatus');
     });
+
     // Gestion des publications (Admin + Moderators)
     Route::middleware('role:admin|moderator')->group(function () {
         Route::resource('posts', \App\Http\Controllers\Admin\PostController::class);

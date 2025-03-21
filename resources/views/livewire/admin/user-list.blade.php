@@ -32,9 +32,7 @@
         </div>
     @endif
     <div class="relative overflow-x-auto">
-        <div class="mb-6">
-            <x-success-message />
-        </div>
+
         <table class="w-full text-left text-sm rtl:text-right">
 
             <thead class="bg-classic-black text-classic-white dark:bg-classic-white dark:text-classic-black">
@@ -107,19 +105,34 @@
                             </a>
                             @role('admin|verificator')
                                 @if ($user->status !== 'banned')
-                                    <form action="{{ route('admin.users.setStatus', $user) }}" method="POST"
-                                        class="flex items-center justify-center">
-                                        @csrf
-                                        <input type="hidden" value="banned" name="status">
-                                        <button
-                                            class="flex items-center justify-center rounded-lg bg-red-500 p-2 text-classic-white"><svg
-                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="2.3" stroke="currentColor" class="size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636" />
-                                            </svg>
-                                        </button>
-                                    </form>
+                                    @if ($user->status !== 'approved')
+                                        <form action="{{ route('admin.users.setStatus', $user) }}" method="POST"
+                                            class="flex items-center justify-center">
+                                            @csrf
+                                            <input type="hidden" value="banned" name="status">
+                                            <button
+                                                class="flex items-center justify-center rounded-lg bg-red-500 p-2 text-classic-white"><svg
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="2.3" stroke="currentColor" class="size-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route('admin.users.setStatus', $user) }}" method="POST"
+                                            class="flex items-center justify-center">
+                                            @csrf
+                                            <input type="hidden" value="approved" name="status">
+                                            <button
+                                                class="flex items-center justify-center rounded-lg bg-blue-500 p-2 text-classic-white"><svg
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="2.3" stroke="currentColor" class="size-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                                                </svg></button>
+                                        </form>
+                                    @endif
                                 @else
                                     <form action="{{ route('admin.users.setStatus', $user) }}" method="POST"
                                         class="flex items-center justify-center">

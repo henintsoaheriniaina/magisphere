@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\Affiliation;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -97,6 +98,9 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        if (!Auth::user()->hasRole('admin')) {
+            abort(403, "Action non autorisée");
+        }
         $user->delete();
         return redirect()->route("admin.users.index")->with("success", "Utilisateur supprimé avec succès");
     }
