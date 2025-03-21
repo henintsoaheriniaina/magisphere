@@ -4,21 +4,13 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateeUserRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
@@ -27,11 +19,9 @@ class UpdateeUserRequest extends FormRequest
             'matriculation' => [
                 'required',
                 'string',
-                'unique:users',
                 'regex:/^(ETSI|ETS|SE)-\d{4}$/'
             ],
-            'password' => 'required|string|min:8|confirmed',
-            'email' => 'required|string|email|max:255|unique:table,column,except,id',
+            'email' => 'required|string|email|max:255',
             'affiliation' => 'required|exists:affiliations,id',
             'roles'   => ['nullable', 'array'],
             'roles.*' => ['in:user,moderator,verificator,admin'],

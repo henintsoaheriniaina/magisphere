@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateeUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\Affiliation;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -38,19 +40,24 @@ class UserController extends Controller
         $fields = $request->validated();
 
         $user = User::create([
-            'firstname' => $fields['firstname'],
-            'lastname' => $fields['lastname'],
-            'email' => $fields['email'],
-            'password' => $fields['password'],
-            'matriculation' => $fields['matriculation'],
+            "firstname" => $fields["firstname"],
+            "lastname" => $fields["lastname"],
+            "email" => $fields["email"],
+            "password" => $fields["password"],
+            "matriculation" => $fields["matriculation"],
         ]);
 
-        $user->affiliation()->associate($fields['affiliation']);
+        $user->affiliation()->associate($fields["affiliation"]);
         $user->save();
-        foreach ($fields['roles'] as $role) {
-            $user->assignRole($role);
-        }
-        return redirect()->route('admin.users.index')->with('success', 'Utilisateur créé avec succès');
+
+        $roles = [];
+        empty($fields["roles"]) ?
+            $roles = ["user"] :
+            $roles = array_merge($roles, $fields["roles"]);
+
+        $user->syncRoles($roles);
+
+        return redirect()->route("admin.users.index")->with("success", "Utilisateur créé avec succès");
     }
 
     /**
@@ -58,25 +65,39 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        return view('pages.admin.users.edit', [
-            'user' => User::findOrFail($id),
-            'affiliations' => Affiliation::get()
+        return view("pages.admin.users.edit", [
+            "user" => User::findOrFail($id),
+            "affiliations" => Affiliation::get()
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        dd($request->all());
+        $fields = $request->validated();
+        $user->update([
+            "firstname" => $fields["firstname"],
+            "lastname" => $fields["lastname"],
+            "matriculation" => $fields["matriculation"],
+            "email" => $fields["email"],
+            "status" => "pending"
+        ]);
+        $roles = [];
+        empty($fields["roles"]) ?
+            $roles = ["user"] :
+            $roles = array_merge($roles, $fields["roles"]);
+        $user->syncRoles($roles);
+        return redirect()->route("admin.users.index")->with("success", "Utilisateur modifié avec succès");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return redirect()->route("admin.users.index")->with("success", "Utilisateur supprimé avec succès");
     }
 }

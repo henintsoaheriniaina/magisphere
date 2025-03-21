@@ -1,7 +1,9 @@
 <div class="mt-6 space-y-4">
-    @foreach ($posts as $post)
+    @forelse ($posts as $post)
         <x-post.post-card :post="$post" wire:key="post-{{ $post->id }}" />
-    @endforeach
+    @empty
+        <p class="text-center text-gray-500">Aucune publication disponible.</p>
+    @endforelse
 
     <div class="mt-24 flex items-center justify-center">
         <div wire:loading class="mt-4 flex justify-center">
@@ -14,5 +16,5 @@
         </div>
     </div>
 
-    <div x-intersect="$wire.loadMore()" class="h-2"></div>
+    <div x-show="$wire.hasMore" x-intersect="$wire.loadMore()" class="h-2"></div>
 </div>

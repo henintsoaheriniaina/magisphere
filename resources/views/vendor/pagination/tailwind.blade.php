@@ -3,24 +3,24 @@
         <div class="flex flex-1 justify-between sm:hidden">
             @if ($paginator->onFirstPage())
                 <span
-                    class="relative inline-flex cursor-default items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium leading-5 text-gray-500">
+                    class="relative inline-flex cursor-default items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium leading-5 text-gray-500">
                     Précédent
                 </span>
             @else
                 <a href="{{ $paginator->previousPageUrl() }}"
-                    class="focus:outline-hidden focus:ring-3 relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium leading-5 text-gray-700 ring-gray-300 transition duration-150 ease-in-out hover:text-gray-500 focus:border-blue-300 active:bg-gray-100 active:text-gray-700">
+                    class="focus:outline-hidden focus:ring-3 relative inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium leading-5 text-gray-700 ring-gray-300 transition duration-150 ease-in-out hover:text-gray-500 focus:border-blue-300 active:bg-gray-100 active:text-gray-700">
                     Précédent
                 </a>
             @endif
 
             @if ($paginator->hasMorePages())
                 <a href="{{ $paginator->nextPageUrl() }}"
-                    class="focus:outline-hidden focus:ring-3 relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium leading-5 text-gray-700 ring-gray-300 transition duration-150 ease-in-out hover:text-gray-500 focus:border-blue-300 active:bg-gray-100 active:text-gray-700">
+                    class="focus:outline-hidden focus:ring-3 relative ml-3 inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium leading-5 text-gray-700 ring-gray-300 transition duration-150 ease-in-out hover:text-gray-500 focus:border-blue-300 active:bg-gray-100 active:text-gray-700">
                     Suivant
                 </a>
             @else
                 <span
-                    class="relative ml-3 inline-flex cursor-default items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium leading-5 text-gray-500">
+                    class="relative ml-3 inline-flex cursor-default items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium leading-5 text-gray-500">
                     Suivant
                 </span>
             @endif
@@ -44,7 +44,7 @@
             </div>
 
             <div>
-                <span class="relative z-0 inline-flex rounded-md rtl:flex-row-reverse">
+                <span class="relative z-0 inline-flex rounded-lg rtl:flex-row-reverse">
                     {{-- Lien vers la page précédente --}}
                     @if ($paginator->onFirstPage())
                         <span aria-disabled="true" aria-label="Précédent">

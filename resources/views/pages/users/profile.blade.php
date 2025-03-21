@@ -5,7 +5,6 @@
                 {{ session('success') }}
             </x-message>
         @endif
-        {{-- profile card --}}
         <div class="z-0 mt-36 md:mt-52" x-data="{ showModal: false }">
             <div
                 class="relative rounded-lg border-2 border-classic-black bg-classic-white dark:border-classic-white dark:bg-classic-black">
@@ -20,11 +19,11 @@
 
                 <div class="mt-28 flex flex-col items-center justify-center gap-6 p-4 md:mt-44 md:p-10">
                     <div class="grid grid-cols-2 gap-4">
-                        <div class="flex flex-col items-center justify-center gap-2 rounded-md p-2">
+                        <div class="flex flex-col items-center justify-center gap-2 rounded-lg p-2">
                             <h3 class="text-2xl font-black">{{ $user->views() }}</h3>
                             <p>Vues</p>
                         </div>
-                        <div class="flex flex-col items-center justify-center gap-2 rounded-md p-2">
+                        <div class="flex flex-col items-center justify-center gap-2 rounded-lg p-2">
                             <h3 class="text-2xl font-black">{{ $user->posts->count() }}</h3>
                             <p>Publications</p>
                         </div>
@@ -32,6 +31,17 @@
                     <h1 class="text-center text-2xl font-bold md:text-3xl">
                         {{ $user->lastname . ' ' . $user->firstname }}
                     </h1>
+                    <a href="mailto:{{ $user->email }}"
+                        class="flex items-center justify-center gap-2 transition-colors hover:text-vintageRed-default">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="2.3" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                            </svg>
+                        </span>
+                        <span>{{ $user->email }}</span>
+                    </a>
                     @if ($user->bio)
                         <p class="text-center text-base md:text-lg">{{ $user->bio }} </p>
                     @endif
@@ -66,20 +76,47 @@
                             {{ $user->status === 'approved' ? 'Approuvé' : 'En attente' }}
                         </span>
                     @endrole
-
                 </div>
-                @if (auth()->check() && auth()->user()->id === $user->id)
-                    <a href="{{ route('profile.edit') }}"
-                        class="absolute right-4 top-4 rounded-md border-2 border-classic-black bg-classic-white p-2 dark:border-classic-white dark:bg-classic-black"
-                        title="Modifier vos informations">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.3"
-                            stroke="currentColor" class="size-5">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                        </svg>
+                <div class="absolute right-4 top-4 flex items-center justify-center gap-4">
+                    @if (auth()->user()->id === $user->id)
+                        <a href="{{ route('profile.edit') }}"
+                            class="rounded-lg border-2 border-classic-black bg-classic-white p-2 dark:border-classic-white dark:bg-classic-black"
+                            title="Modifier vos informations">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="2.3" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                            </svg>
+                        </a>
+                    @endif
+                    @role('admin')
+                        <div class="relative" x-data="{ open: false }">
+                            <div @click="open = !open"
+                                class="cursor-pointer rounded-lg border-2 border-classic-black bg-classic-white p-2 dark:border-classic-white dark:bg-classic-black">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2.3" stroke="currentColor" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
+                                </svg>
+                            </div>
 
-                    </a>
-                @endif
+                            <div x-show="open" @click.away="open = false" x-cloak
+                                x-transition:enter="transition ease-out duration-200"
+                                x-transition:enter-start="opacity-0 transform scale-95"
+                                x-transition:enter-end="opacity-100 transform scale-100"
+                                x-transition:leave="transition ease-in duration-150"
+                                x-transition:leave-start="opacity-100 transform scale-100"
+                                x-transition:leave-end="opacity-0 transform scale-95"
+                                class="absolute -right-0 top-12 w-48 overflow-hidden rounded-lg border-2 border-classic-black bg-classic-white shadow-lg dark:border-classic-white dark:bg-classic-black">
+                                <a href="{{ route('admin.users.edit', $user) }}" class="card-link">Modifier</a>
+                                @if ($user->status === 'pending')
+                                    <a href="#" class="card-link">Vérifier</a>
+                                @endif
+                                <a href="{{ route('admin.users.destroy', $user) }}" class="card-link">Supprimer</a>
+                            </div>
+                        </div>
+                    @endrole
+                </div>
             </div>
 
             <div x-show="showModal" x-transition.opacity.duration.400ms x-cloak

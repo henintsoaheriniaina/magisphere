@@ -126,7 +126,7 @@
             </div>
 
             <div class="space-y-4">
-                <button type="submit" class="auth-button">Modifier</button>
+                <button type="submit" class="auth-button">Enregistrer</button>
             </div>
         </form>
     </div>
