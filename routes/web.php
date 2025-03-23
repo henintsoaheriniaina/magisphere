@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ModerationController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\UsersController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,16 +12,21 @@ use Illuminate\Support\Facades\Route;
 // Auth
 Route::prefix('auth')->group(function () {
     Route::middleware('guest')->group(function () {
-        Route::get('login', [UsersController::class, 'loginPage'])->name('login');
-        Route::post('login', [UsersController::class, 'login'])->name('login');
+        Route::get('login', [AuthController::class, 'loginPage'])->name('login');
+        Route::post('login', [AuthController::class, 'login'])->name('login');
 
-        Route::get('register', [UsersController::class, 'registerPage'])->name('register');
-        Route::post('register', [UsersController::class, 'register'])->name('register');
+        Route::get('register', [AuthController::class, 'registerPage'])->name('register');
+        Route::post('register', [AuthController::class, 'register'])->name('register');
     });
-    Route::middleware(['auth', 'approved'])->delete('logout', [UsersController::class, 'logout'])->name('logout');
+    Route::middleware(['auth', 'approved'])->delete('logout', [AuthController::class, 'logout'])->name('logout');
 });
+// email
+Route::get('/email/verify', [AuthController::class, 'verifyEmailPage'])->middleware('auth')->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'handleVerifyEmail'])->middleware(['auth', 'signed'])->name('verification.verify');
+Route::post('/email/verification-notification', [AuthController::class, 'resendEMailVerification'])->middleware(['auth'])->name('verification.send');
 
-Route::middleware(['auth', 'approved'])->group(function () {
+// users
+Route::middleware(['auth', 'verified'])->group(function () {
 
     // Posts
     Route::prefix('posts')->name('posts.')->group(function () {
@@ -36,18 +41,18 @@ Route::middleware(['auth', 'approved'])->group(function () {
     Route::get('/', [PostController::class, 'index'])->name('index');
 
     // Theme
-    Route::get('theme', [UsersController::class, 'toggleTheme'])->name('toggleTheme');
+    Route::get('theme', [AuthController::class, 'toggleTheme'])->name('toggleTheme');
 
     // Profil
-    Route::get('profile/{user}', [UsersController::class, 'showProfile'])->name('profile.show');
-    Route::get('/edit-profile', [UsersController::class, 'edit'])->name('profile.edit');
-    Route::put('/edit-profile', [UsersController::class, 'update'])->name('profile.update');
-    Route::put('/update-profile-image', [UsersController::class, 'updateProfileImage'])->name('profile.updateProfileImage');
-    Route::get('/delete-profile-image', [UsersController::class, 'deleteProfileImage'])->name('profile.deleteProfileImage');
+    Route::get('profile/{user}', [AuthController::class, 'showProfile'])->name('profile.show');
+    Route::get('/edit-profile', [AuthController::class, 'edit'])->name('profile.edit');
+    Route::put('/edit-profile', [AuthController::class, 'update'])->name('profile.update');
+    Route::put('/update-profile-image', [AuthController::class, 'updateProfileImage'])->name('profile.updateProfileImage');
+    Route::get('/delete-profile-image', [AuthController::class, 'deleteProfileImage'])->name('profile.deleteProfileImage');
 });
 
 // Admin
-Route::prefix('admin')->name("admin.")->group(function () {
+Route::prefix('admin')->name("admin.")->middleware('verified')->group(function () {
     Route::middleware(['auth', 'approved', 'role:admin|verificator|moderator'])->get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Gestion des utilisateurs

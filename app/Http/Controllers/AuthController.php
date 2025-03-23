@@ -6,10 +6,12 @@ use App\Http\Requests\RegisterFormRequest;
 use App\Http\Requests\UserProfileRequest;
 use App\Models\User;
 use App\Models\Affiliation;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class UsersController extends Controller
+class AuthController extends Controller
 {
     public function loginPage()
     {
@@ -35,7 +37,26 @@ class UsersController extends Controller
         $user->affiliation()->associate($fields['affiliation']);
         $user->save();
         $user->assignRole('user');
+        Auth::login($user);
+
+        event(new Registered($user));
+
         return redirect()->route('login')->with('success', 'Votre compte a été créé. Un administrateur doit l\'approuver avant que vous puissiez vous connecter.');
+    }
+    public function verifyEmailPage()
+    {
+        return view('pages.auth.verify-email');
+    }
+    public function handleVerifyEmail(EmailVerificationRequest $request)
+    {
+        $request->fulfill();
+        return redirect()->route('index');
+    }
+
+    public function resendEMailVerification(Request $request)
+    {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('success', 'Un lien de vérification a été envoyé à votre adresse email !');
     }
 
     public function login(Request $request)

@@ -15,9 +15,7 @@
         </div>
     @endif
     <div class="relative overflow-x-auto">
-
         <table class="w-full text-left text-sm rtl:text-right">
-
             <thead class="bg-classic-black text-classic-white dark:bg-classic-white dark:text-classic-black">
                 <tr>
                     <th></th>
@@ -30,9 +28,7 @@
                     <th scope="col" class="cursor-pointer px-6 py-3" wire:click="sortBy('matriculation')">
                         Matricule {!! $sortField === 'matriculation' ? ($sortDirection === 'asc' ? '⬆' : '⬇') : '' !!}
                     </th>
-                    <th scope="col" class="cursor-pointer px-6 py-3" wire:click="sortBy('status')">
-                        Statut {!! $sortField === 'status' ? ($sortDirection === 'asc' ? '⬆' : '⬇') : '' !!}
-                    </th>
+
                     <th scope="col" class="cursor-pointer px-6 py-3" wire:click="sortBy('email')">
                         Email {!! $sortField === 'email' ? ($sortDirection === 'asc' ? '⬆' : '⬇') : '' !!}
                     </th>
@@ -42,7 +38,9 @@
                     <th scope="col" class="cursor-pointer px-6 py-3" wire:click="sortBy('affiliation')">
                         Affiliation {!! $sortField === 'affiliation' ? ($sortDirection === 'asc' ? '⬆' : '⬇') : '' !!}
                     </th>
-
+                    <th scope="col" class="cursor-pointer px-6 py-3" wire:click="sortBy('status')">
+                        Statut {!! $sortField === 'status' ? ($sortDirection === 'asc' ? '⬆' : '⬇') : '' !!}
+                    </th>
                     <th scope="col" class="px-6 py-3">Actions</th>
                 </tr>
             </thead>
@@ -52,12 +50,34 @@
                         class="border-b-2 border-b-classic-black bg-classic-black/10 dark:border-b-classic-white dark:bg-classic-white/10">
                         <td class="flex min-h-20 min-w-20 items-center justify-center">
                             <img src="{{ $user->image_url ?? asset('images/users/avatar.png') }}"
-                                alt="Photo de profil de {{ $user->firstname }}"
-                                class="size-12 rounded-full ring-2 ring-classic-black ring-offset-4 ring-offset-classic-white dark:ring-classic-white dark:ring-offset-classic-black">
+                                alt="Photo de profil de {{ $user->firstname }}" class="size-8 rounded-full">
                         </td>
                         <td class="px-6 py-2">{{ $user->lastname }}</td>
                         <td class="px-6 py-2">{{ $user->firstname }}</td>
                         <td class="px-6 py-2">{{ $user->matriculation }}</td>
+                        <td class="px-6 py-2">
+                            <div class="flex items-center justify-start gap-1">
+                                @if ($user->email_verified_at)
+                                    <span class="rounded-full bg-blue-600 text-classic-white">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="2.3" stroke="currentColor" class="size-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                                        </svg></span>
+                                @endif
+                                {{ $user->email }}
+                            </div>
+
+                        </td>
+                        <td class="px-6 py-2">
+                            @foreach ($user->getRoleNames() as $role)
+                                <span
+                                    class="mr-1 rounded bg-vintageRed-default px-2.5 py-0.5 text-xs font-semibold text-classic-white">
+                                    {{ $roleTranslations[$role] ?? ucfirst($role) }}
+                                </span>
+                            @endforeach
+                        </td>
+                        <td class="px-6 py-2">{{ $user->affiliation->label }}</td>
                         <td class="px-6 py-2">
                             <span @class([
                                 'rounded px-2.5 py-0.5 text-xs font-semibold ',
@@ -68,20 +88,7 @@
                                 {{ $user->status === 'approved' ? 'Approuvé' : ($user->status === 'banned' ? 'Banni' : 'En attente') }}
                             </span>
                         </td>
-
-                        <td class="px-6 py-2">{{ $user->email }}</td>
-                        <td class="px-6 py-2">
-
-                            @foreach ($user->getRoleNames() as $role)
-                                <span
-                                    class="mr-1 rounded bg-vintageRed-default px-2.5 py-0.5 text-xs font-semibold text-classic-white">
-                                    {{ $roleTranslations[$role] ?? ucfirst($role) }}
-                                </span>
-                            @endforeach
-                        </td>
-                        <td class="px-6 py-2">{{ $user->affiliation->label }}</td>
                         <td class="flex gap-2 px-6 py-2">
-
                             <a href="{{ route('profile.show', $user) }}"
                                 class="rounded-lg bg-classic-black p-2 text-classic-white dark:bg-classic-white dark:text-classic-black">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -114,12 +121,14 @@
                                             @csrf
                                             <input type="hidden" value="approved" name="status">
                                             <button
-                                                class="flex items-center justify-center rounded-lg bg-blue-500 p-2 text-classic-white"><svg
-                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                class="flex items-center justify-center rounded-lg bg-blue-500 p-2 text-classic-white">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="2.3" stroke="currentColor" class="size-5">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
-                                                </svg></button>
+                                                        d="m4.5 12.75 6 6 9-13.5" />
+                                                </svg>
+
+                                            </button>
                                         </form>
                                     @endif
                                 @else

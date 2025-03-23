@@ -13,10 +13,9 @@
 
 <body class="bg-classic-white text-classic-black dark:bg-classic-black dark:text-classic-white">
     <div
-        class="mx-auto mt-10 flex min-h-screen max-w-4xl flex-col justify-center gap-10 px-6 py-6 sm:px-10 md:gap-20 lg:px-12">
+        class="mx-auto mt-10 flex min-h-[90vh] max-w-4xl flex-col justify-center gap-10 px-6 py-6 sm:px-10 md:gap-20 lg:px-12">
         {{ $slot }}
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
 
 </html>
