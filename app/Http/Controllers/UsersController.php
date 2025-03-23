@@ -35,9 +35,7 @@ class UsersController extends Controller
         $user->affiliation()->associate($fields['affiliation']);
         $user->save();
         $user->assignRole('user');
-        $remember = $request->filled("remember");
-        Auth::login($user, $remember);
-        return redirect()->intended(route("index"));
+        return redirect()->route('login')->with('success', 'Votre compte a été créé. Un administrateur doit l\'approuver avant que vous puissiez vous connecter.');
     }
 
     public function login(Request $request)

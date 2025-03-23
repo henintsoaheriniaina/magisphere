@@ -11,24 +11,7 @@
         <div class="mb-10 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
             <input type="text" wire:model.live.debounce.500ms="search" placeholder="Rechercher..."
                 class="auth-input w-full max-w-md px-4">
-            @role('admin')
-                <div class="flex items-center justify-center gap-4" x-data="{ toggle: '0' }">
-                    <div class="relative h-6 w-12 cursor-pointer rounded-full transition duration-200 ease-linear"
-                        :class="[toggle === '1' ? 'bg-vintageRed-default' :
-                            'bg-classic-black/10 dark:bg-classic-white/40'
-                        ]">
-                        <label for="toggle"
-                            class="absolute left-0 mb-2 h-6 w-6 transform cursor-pointer rounded-full border-2 bg-classic-white transition duration-100 ease-linear"
-                            :class="[toggle === '1' ? 'translate-x-full border-vintageRed-default' :
-                                'translate-x-0 border-gray-400'
-                            ]"></label>
-                        <input type="checkbox" id="toggle" name="toggle" wire:model='showAdmin'
-                            class="h-full w-full cursor-pointer appearance-none focus:outline-none active:outline-none"
-                            @click="toggle === '0' ? toggle = '1' : toggle = '0'" />
-                    </div>
-                    <div class="whitespace-nowrap">Voir les administrateurs</div>
-                </div>
-            @endrole
+
         </div>
     @endif
     <div class="relative overflow-x-auto">
@@ -37,6 +20,7 @@
 
             <thead class="bg-classic-black text-classic-white dark:bg-classic-white dark:text-classic-black">
                 <tr>
+                    <th></th>
                     <th scope="col" class="cursor-pointer px-6 py-3" wire:click="sortBy('lastname')">
                         Nom {!! $sortField === 'lastname' ? ($sortDirection === 'asc' ? '⬆' : '⬇') : '' !!}
                     </th>
@@ -66,6 +50,11 @@
                 @foreach ($users as $user)
                     <tr
                         class="border-b-2 border-b-classic-black bg-classic-black/10 dark:border-b-classic-white dark:bg-classic-white/10">
+                        <td class="flex min-h-20 min-w-20 items-center justify-center">
+                            <img src="{{ $user->image_url ?? asset('images/users/avatar.png') }}"
+                                alt="Photo de profil de {{ $user->firstname }}"
+                                class="size-12 rounded-full ring-2 ring-classic-black ring-offset-4 ring-offset-classic-white dark:ring-classic-white dark:ring-offset-classic-black">
+                        </td>
                         <td class="px-6 py-2">{{ $user->lastname }}</td>
                         <td class="px-6 py-2">{{ $user->firstname }}</td>
                         <td class="px-6 py-2">{{ $user->matriculation }}</td>
@@ -105,7 +94,7 @@
                             </a>
                             @role('admin|verificator')
                                 @if ($user->status !== 'banned')
-                                    @if ($user->status !== 'approved')
+                                    @if ($user->status === 'approved')
                                         <form action="{{ route('admin.users.setStatus', $user) }}" method="POST"
                                             class="flex items-center justify-center">
                                             @csrf

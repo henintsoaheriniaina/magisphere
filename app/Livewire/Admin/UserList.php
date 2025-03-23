@@ -8,7 +8,6 @@ use Livewire\Component;
 class UserList extends Component
 {
     public $search = '';
-    public $showAdmin = false;
     public $sortField = 'lastname';
     public $details = false;
 
@@ -29,19 +28,12 @@ class UserList extends Component
             $this->sortDirection = 'asc';
         }
     }
-    public function toggle()
-    {
-        $this->showAdmin = !$this->showAdmin;
-    }
+
 
     public function render()
     {
         $query = User::query()->with('affiliation', 'roles');
-        if (!$this->showAdmin) {
-            $query->whereDoesntHave('roles', function ($q) {
-                $q->where('name', 'admin');
-            });
-        }
+
 
         if (!empty($this->search)) {
             $query->where(function ($q) {

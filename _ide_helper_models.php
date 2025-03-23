@@ -38,16 +38,46 @@ namespace App\Models{
  * 
  *
  * @property int $id
- * @property string $slug
+ * @property int $post_id
+ * @property string $type
+ * @property string $size
+ * @property string $name
+ * @property string $url
+ * @property string $public_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Post $post
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Media newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Media newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Media query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Media whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Media whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Media whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Media wherePostId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Media wherePublicId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Media whereSize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Media whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Media whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Media whereUrl($value)
+ */
+	class Media extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property string|null $slug
  * @property int $user_id
  * @property int $views
- * @property string $title
  * @property string $description
  * @property string $category
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PostImage> $images
- * @property-read int|null $images_count
+ * @property string $status
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Media> $medias
+ * @property-read int|null $medias_count
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\PostFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Post newModelQuery()
@@ -58,34 +88,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Post whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Post whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Post whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Post whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Post whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Post whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Post whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Post whereViews($value)
  */
 	class Post extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * 
- *
- * @property int $id
- * @property string $image_url
- * @property string $image_public_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Post|null $post
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PostImage newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PostImage newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PostImage query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PostImage whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PostImage whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PostImage whereImagePublicId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PostImage whereImageUrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PostImage whereUpdatedAt($value)
- */
-	class PostImage extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -100,7 +108,6 @@ namespace App\Models{
  * @property string $password
  * @property string|null $bio
  * @property string|null $class
- * @property string $role
  * @property string|null $image_url
  * @property string|null $image_public_id
  * @property string $theme
@@ -108,15 +115,22 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $affiliation_id
+ * @property string $status
  * @property-read \App\Models\Affiliation|null $affiliation
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
+ * @property-read int|null $permissions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Post> $posts
  * @property-read int|null $posts_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
+ * @property-read int|null $roles_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User permission($permissions, $without = false)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User role($roles, $guard = null, $without = false)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereAffiliationId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereBio($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereClass($value)
@@ -130,9 +144,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereMatriculation($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTheme($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutPermission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutRole($roles, $guard = null)
  */
 	class User extends \Eloquent {}
 }

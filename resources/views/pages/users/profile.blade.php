@@ -68,9 +68,9 @@
                             'rounded px-4 py-2 text-sm font-semibold ',
                             'bg-green-500 text-classic-white' => $user->status === 'approved',
                             'bg-yellow-500 text-classic-black' => $user->status === 'pending',
-                            'bg-red-500 text-classic-white' => $user->status === 'pending',
+                            'bg-red-500 text-classic-white' => $user->status === 'banned',
                         ])>
-                            {{ $user->status === 'approved' ? 'Approuvé' : 'En attente' }}
+                            {{ $user->status === 'approved' ? 'Approuvé' : ($user->status === 'banned' ? 'Banni' : 'En attente') }}
                         </span>
                     @endrole
                 </div>
@@ -106,8 +106,29 @@
                                 x-transition:leave-end="opacity-0 transform scale-95"
                                 class="absolute -right-0 top-12 w-48 overflow-hidden rounded-lg border-2 border-classic-black bg-classic-white shadow-lg dark:border-classic-white dark:bg-classic-black">
                                 <a href="{{ route('admin.users.edit', $user) }}" class="card-link">Modifier</a>
-                                @if ($user->status === 'pending')
-                                    <a href="{{ route('admin.users.verify', $user) }}" class="card-link">Approuver</a>
+                                @if ($user->status !== 'banned')
+                                    @if ($user->status === 'approved')
+                                        <form action="{{ route('admin.users.setStatus', $user) }}" method="POST"
+                                            class="w-full">
+                                            @csrf
+                                            <input type="hidden" value="banned" name="status">
+                                            <button class="card-link w-full text-left">Bannir</button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route('admin.users.setStatus', $user) }}" method="POST"
+                                            class="w-full">
+                                            @csrf
+                                            <input type="hidden" value="approved" name="status">
+                                            <button class="card-link w-full text-left">Approuver</button>
+                                        </form>
+                                    @endif
+                                @else
+                                    <form action="{{ route('admin.users.setStatus', $user) }}" method="POST"
+                                        class="w-full">
+                                        @csrf
+                                        <input type="hidden" value="approved" name="status">
+                                        <button class="card-link w-full text-left">Approuver</button>
+                                    </form>
                                 @endif
                                 <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="w-full">
                                     @csrf
@@ -126,8 +147,8 @@
                 <div class="relative max-w-3xl">
                     <button @click="showModal = false"
                         class="absolute -right-4 -top-4 rounded-full bg-red-600 p-2 text-classic-white shadow-lg hover:bg-red-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.3"
-                            stroke="currentColor" class="size-5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="2.3" stroke="currentColor" class="size-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                         </svg>
                     </button>

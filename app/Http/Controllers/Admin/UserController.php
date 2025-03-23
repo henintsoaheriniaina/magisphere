@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateeUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Affiliation;
 use App\Models\User;
+use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,8 +39,6 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $fields = $request->validated();
-        $fields = $request->validated();
-
         $user = User::create([
             "firstname" => $fields["firstname"],
             "lastname" => $fields["lastname"],
@@ -64,10 +63,11 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
+        Gate::authorize("manage", $user);
         return view("pages.admin.users.edit", [
-            "user" => User::findOrFail($id),
+            "user" => $user,
             "affiliations" => Affiliation::get()
         ]);
     }
@@ -77,13 +77,14 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        Gate::authorize("manage", $user);
         $fields = $request->validated();
         $user->update([
             "firstname" => $fields["firstname"],
             "lastname" => $fields["lastname"],
             "matriculation" => $fields["matriculation"],
             "email" => $fields["email"],
-            "status" => "pending"
+            "status" => "approved"
         ]);
         $roles = [];
         empty($fields["roles"]) ?
@@ -98,6 +99,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        Gate::authorize("manage", $user);
+
         if (!Auth::user()->hasRole('admin')) {
             abort(403, "Action non autorisée");
         }
@@ -106,6 +109,8 @@ class UserController extends Controller
     }
     public function setSTatus(Request $request, User $user)
     {
+        Gate::authorize("manage", $user);
+
         $fields = $request->validate([
             'status' => 'required|in:banned,approved'
         ]);

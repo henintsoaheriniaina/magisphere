@@ -5,8 +5,6 @@ use App\Http\Controllers\Admin\ModerationController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\ProfileController;
-use App\Models\Affiliation;
 use Illuminate\Support\Facades\Route;
 
 
@@ -20,10 +18,10 @@ Route::prefix('auth')->group(function () {
         Route::get('register', [UsersController::class, 'registerPage'])->name('register');
         Route::post('register', [UsersController::class, 'register'])->name('register');
     });
-    Route::middleware('auth')->delete('logout', [UsersController::class, 'logout'])->name('logout');
+    Route::middleware(['auth', 'approved'])->delete('logout', [UsersController::class, 'logout'])->name('logout');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'approved'])->group(function () {
 
     // Posts
     Route::prefix('posts')->name('posts.')->group(function () {
@@ -49,25 +47,22 @@ Route::middleware('auth')->group(function () {
 });
 
 // Admin
-Route::middleware(['auth', 'role:admin|verificator|moderator'])->prefix('admin')->name("admin.")->group(function () {
+Route::prefix('admin')->name("admin.")->group(function () {
+    Route::middleware(['auth', 'approved', 'role:admin|verificator|moderator'])->get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-    // Gestion des utilisateurs (Admin + Vérificateurs)
-    Route::middleware('role:admin|verificator')->group(function () {
+    // Gestion des utilisateurs
+    Route::middleware(['auth', 'approved', 'role:admin|verificator'])->group(function () {
         Route::resource('users', UserController::class);
         Route::post('/users/{user}/status', [UserController::class, 'setStatus'])->name('users.setStatus');
     });
 
-    // Gestion des publications (Admin + Moderators)
-    Route::middleware('role:admin|moderator')->group(function () {
+    // Gestion des publications
+    Route::middleware(['auth', 'approved', 'role:admin|moderator'])->group(function () {
         Route::resource('posts', \App\Http\Controllers\Admin\PostController::class);
     });
 
-
-
-    // Modération des posts (Admin + Moderator)
-    Route::middleware('role:admin|moderator')->group(function () {
+    // Modération des posts
+    Route::middleware(['auth', 'approved', 'role:admin|moderator'])->group(function () {
         Route::get('/moderation', [ModerationController::class, 'index'])->name('moderation');
         Route::post('/moderation/{post}/approve', [ModerationController::class, 'approve'])->name('moderation.approve');
         Route::post('/moderation/{post}/reject', [ModerationController::class, 'reject'])->name('moderation.reject');
