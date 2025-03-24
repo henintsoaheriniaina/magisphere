@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
             'remember_token' => Str::random(10),
             'affiliation_id' => 1,
             'status' => 'approved',
+            'email_verified_at' => now(),
         ]);
         $user->assignRole('admin');
     }

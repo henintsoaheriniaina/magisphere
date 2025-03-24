@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\Response;
 class UserPolicy
 {
 
-    public function manage(User $verificator, User $user)
+    public function manage_user(User $verificator, User $user)
     {
         if ($verificator->hasRole('admin')) {
             return true;

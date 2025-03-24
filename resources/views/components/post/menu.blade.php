@@ -15,6 +15,13 @@
         <a href="{{ route('posts.show', $post) }}" class="card-link">
             Voir plus
         </a>
+        @can('manage_posts', $post)
+            <form action="{{ route('admin.posts.setStatus', $post) }}" method="POST" class="w-full">
+                @csrf
+                <input type="hidden" value="rejected" name="status">
+                <button type="submit" class="card-link w-full text-left">Rejeter</button>
+            </form>
+        @endcan
         @if (auth()->user()->is($post->user))
             <form action="{{ route('posts.destroy', $post) }}" method="POST" class="w-full">
                 @csrf
@@ -22,5 +29,6 @@
                 <button type="submit" class="card-link w-full text-left">Supprimer</button>
             </form>
         @endif
+
     </div>
 </div>

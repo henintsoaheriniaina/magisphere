@@ -49,6 +49,14 @@
                 </div>
                 <livewire:admin.user-list />
             </div>
+            <div class="mt-10 md:col-span-2">
+                <div class="mb-6 flex items-center justify-between">
+                    <h3 class="text-2xl font-bold">Publications récentes</h3>
+                    <a href="{{ route('admin.posts.index') }}"
+                        class="hover:text-vintageRed-default hover:underline">Voir tout</a>
+                </div>
+                <livewire:admin.post-list />
+            </div>
         </div>
     </div>
 </x-layouts.app>

@@ -26,7 +26,7 @@ Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'handleVerifyEma
 Route::post('/email/verification-notification', [AuthController::class, 'resendEMailVerification'])->middleware(['auth'])->name('verification.send');
 
 // users
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'approved'])->group(function () {
 
     // Posts
     Route::prefix('posts')->name('posts.')->group(function () {
@@ -53,21 +53,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 // Admin
 Route::prefix('admin')->name("admin.")->middleware('verified')->group(function () {
-    Route::middleware(['auth', 'approved', 'role:admin|verificator|moderator'])->get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::middleware(['auth', 'role:admin|verificator|moderator', 'approved'])->get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Gestion des utilisateurs
-    Route::middleware(['auth', 'approved', 'role:admin|verificator'])->group(function () {
+    Route::middleware(['auth', 'role:admin|verificator|moderator', 'approved'])->group(function () {
         Route::resource('users', UserController::class);
         Route::post('/users/{user}/status', [UserController::class, 'setStatus'])->name('users.setStatus');
     });
 
     // Gestion des publications
-    Route::middleware(['auth', 'approved', 'role:admin|moderator'])->group(function () {
+    Route::middleware(['auth', 'role:admin|moderator', 'approved'])->group(function () {
         Route::resource('posts', \App\Http\Controllers\Admin\PostController::class);
+        Route::post('/post/{post}/status', [\App\Http\Controllers\Admin\PostController::class, 'setStatus'])->name('posts.setStatus');
     });
 
     // Modération des posts
-    Route::middleware(['auth', 'approved', 'role:admin|moderator'])->group(function () {
+    Route::middleware(['auth', 'role:admin|moderator', 'approved'])->group(function () {
         Route::get('/moderation', [ModerationController::class, 'index'])->name('moderation');
         Route::post('/moderation/{post}/approve', [ModerationController::class, 'approve'])->name('moderation.approve');
         Route::post('/moderation/{post}/reject', [ModerationController::class, 'reject'])->name('moderation.reject');

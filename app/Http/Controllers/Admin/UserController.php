@@ -65,7 +65,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        Gate::authorize("manage", $user);
+        Gate::authorize("manage_user", $user);
         return view("pages.admin.users.edit", [
             "user" => $user,
             "affiliations" => Affiliation::get()
@@ -77,7 +77,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        Gate::authorize("manage", $user);
+        Gate::authorize("manage_user", $user);
         $fields = $request->validated();
         $user->update([
             "firstname" => $fields["firstname"],
@@ -99,7 +99,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        Gate::authorize("manage", $user);
+        Gate::authorize("manage_user", $user);
 
         if (!Auth::user()->hasRole('admin')) {
             abort(403, "Action non autorisée");
@@ -109,7 +109,7 @@ class UserController extends Controller
     }
     public function setSTatus(Request $request, User $user)
     {
-        Gate::authorize("manage", $user);
+        Gate::authorize("manage_user", $user);
 
         $fields = $request->validate([
             'status' => 'required|in:banned,approved'

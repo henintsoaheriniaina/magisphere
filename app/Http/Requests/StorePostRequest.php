@@ -21,7 +21,7 @@ class StorePostRequest extends FormRequest
     {
         return [
             'description' => 'required|string',
-            'category' => 'nullable|in:post,annoucement',
+            'category' => 'nullable|in:post,announcement',
             'files' => 'nullable|array',
             'files.*' => 'file|max:10240|mimes:jpg,jpeg,png,gif,mp4,mov,avi,pdf,doc,docx,txt',
         ];

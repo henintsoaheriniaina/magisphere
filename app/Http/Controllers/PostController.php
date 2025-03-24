@@ -36,13 +36,10 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         $fields = $request->validated();
-
         $slug = Str::slug(substr($fields['description'], 0, 50));
         $count = Post::where('slug', 'like', "$slug%")->count();
         $fields['slug'] = $count ? "{$slug}-{$count}" : $slug;
-
         $post = Auth::user()->posts()->create($fields);
-
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
                 $uploadedFile = cloudinary()->upload($file->getRealPath(), [
@@ -69,6 +66,9 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        if ($post->status !== "approved" && !Auth::user()->hasRole('admin|moderator')) {
+            abort(404);
+        }
         return view('pages.posts.show', compact('post'));
     }
 

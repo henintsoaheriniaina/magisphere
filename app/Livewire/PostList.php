@@ -3,14 +3,18 @@
 namespace App\Livewire;
 
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class PostList extends Component
 {
-    public  $posts = [];
+    /**
+     * @var \Illuminate\Database\Eloquent\Collection|\App\Models\Post[]
+     */
+    public $posts = [];
     public $count = 10;
     public $userId;
-    public $hasMore = true; // Permet de savoir s'il reste des posts à charger
+    public $hasMore = true;
 
     public function mount($userId = null)
     {
@@ -20,7 +24,7 @@ class PostList extends Component
 
     public function loadMore()
     {
-        if (!$this->hasMore) return; // Empêche le chargement s'il n'y a plus de posts
+        if (!$this->hasMore) return;
 
         $this->count += 10;
         $this->loadPosts();
@@ -29,6 +33,9 @@ class PostList extends Component
     private function loadPosts()
     {
         $query = Post::latest();
+        if (!Auth::user()->hasROle('admin|moderator')) {
+            $query->where("status", "approved");
+        }
 
         if ($this->userId) {
             $query->where('user_id', $this->userId);
