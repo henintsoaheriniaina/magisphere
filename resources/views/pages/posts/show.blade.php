@@ -1,6 +1,11 @@
 @php
     $medias = $post->medias->filter(fn($file) => Str::contains($file->type, ['image', 'video']));
     $otherFiles = $post->medias->reject(fn($file) => Str::contains($file->type, ['image', 'video']));
+    $statusTranslations = [
+        'pending' => 'En attente',
+        'approved' => 'Approuvé',
+        'rejected' => 'Rejeté',
+    ];
 @endphp
 <x-layouts.app title="Détails">
     <div class="secondary-container">
@@ -21,8 +26,19 @@
                         <a href="{{ route('profile.show', $post->user) }}" class="font-semibold">
                             {{ $post->user->firstname }}
                         </a>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">
-                            {{ ucfirst($post->created_at->diffForHumans()) }}</p>
+                        @role('admin|moderator')
+                            <p class="text-sm text-gray-500 dark:text-gray-400">
+                                {{ ucfirst($post->created_at->diffForHumans()) }}
+                                <span @class([
+                                    'rounded ml-1 px-2 py-0.5 text-xs font-semibold mt-auto',
+                                    'bg-green-500 text-classic-white' => $post->status === 'approved',
+                                    'bg-yellow-500 text-classic-black' => $post->status === 'pending',
+                                    'bg-red-500 text-classic-white' => $post->status === 'rejected',
+                                ])>
+                                    {{ $statusTranslations[$post->status] ?? ucfirst($post->status) }}
+                                </span>
+                            @endrole
+                        </p>
                     </div>
                 </div>
 

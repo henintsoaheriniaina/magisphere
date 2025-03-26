@@ -33,8 +33,6 @@ class UserList extends Component
     public function render()
     {
         $query = User::query()->with('affiliation', 'roles');
-
-
         if (!empty($this->search)) {
             $query->where(function ($q) {
                 $q->where('firstname', 'like', "%{$this->search}%")

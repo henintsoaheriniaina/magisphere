@@ -1,4 +1,11 @@
 @props(['post'])
+@php
+    $transitions = [
+        'pending' => ['rejected' => 'Rejeter', 'approved' => 'Approuver'],
+        'approved' => ['rejected' => 'Rejeter'],
+        'rejected' => ['approved' => 'Approuver'],
+    ];
+@endphp
 <div class="relative" x-data="{ open: false }">
     <button @click="open = !open" class="p-1">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.3" stroke="currentColor"
@@ -16,11 +23,16 @@
             Voir plus
         </a>
         @can('manage_posts', $post)
-            <form action="{{ route('admin.posts.setStatus', $post) }}" method="POST" class="w-full">
-                @csrf
-                <input type="hidden" value="rejected" name="status">
-                <button type="submit" class="card-link w-full text-left">Rejeter</button>
-            </form>
+
+
+            @foreach ($transitions[$post->status] as $newStatus => $label)
+                <form action="{{ route('admin.posts.setStatus', $post) }}" method="POST" class="w-full">
+                    @csrf
+                    <input type="hidden" value="{{ $newStatus }}" name="status">
+                    <button type="submit" class="card-link w-full text-left">{{ $label }}</button>
+                </form>
+            @endforeach
+
         @endcan
         @if (auth()->user()->is($post->user))
             <form action="{{ route('posts.destroy', $post) }}" method="POST" class="w-full">

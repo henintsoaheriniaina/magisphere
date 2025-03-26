@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\Post;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class PostList extends Component
@@ -16,16 +15,34 @@ class PostList extends Component
     public $userId;
     public $hasMore = true;
 
+    public $typeFilter = '';
+    public $statusFilter = '';
+
     public function mount($userId = null)
     {
         $this->userId = $userId;
         $this->loadPosts();
     }
 
+    public function updatedTypeFilter()
+    {
+        $this->resetPagination();
+    }
+
+    public function updatedStatusFilter()
+    {
+        $this->resetPagination();
+    }
+
+    public function resetPagination()
+    {
+        $this->count = 10;
+        $this->loadPosts();
+    }
+
     public function loadMore()
     {
         if (!$this->hasMore) return;
-
         $this->count += 10;
         $this->loadPosts();
     }
@@ -33,17 +50,20 @@ class PostList extends Component
     private function loadPosts()
     {
         $query = Post::latest();
-        if (!Auth::user()->hasROle('admin|moderator')) {
-            $query->where("status", "approved");
-        }
 
         if ($this->userId) {
             $query->where('user_id', $this->userId);
         }
 
-        // Récupérer les publications demandées
-        $this->posts = $query->take($this->count)->get();
+        if ($this->typeFilter) {
+            $query->where('category', $this->typeFilter);
+        }
 
+        if ($this->statusFilter) {
+            $query->where('status', $this->statusFilter);
+        }
+
+        $this->posts = $query->take($this->count)->get();
         $this->hasMore = $query->count() > $this->posts->count();
     }
 

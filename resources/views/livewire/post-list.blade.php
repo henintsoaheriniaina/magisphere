@@ -1,4 +1,30 @@
 <div class="mt-6 space-y-4">
+    {{-- Filtres --}}
+    <div
+        class="fixed right-8 top-28 z-10 space-y-4 rounded-lg border-2 border-classic-black bg-classic-white p-2 dark:border-classic-white dark:bg-classic-black">
+        <h1 class="border-b-2 border-b-classic-black p-2 text-center font-semibold dark:border-b-classic-white">
+            Filtrer par</h1>
+        <div class="auth-group">
+            <label class="auth-label">Type:</label>
+            <select wire:model.live="typeFilter" class="auth-input select">
+                <option value="" selected></option>
+                <option value="post">Publication</option>
+                <option value="announcement">Annonces</option>
+            </select>
+        </div>
+        @role('admin|moderator')
+            <div class="auth-group">
+                <label class="auth-label">Status:</label>
+                <select wire:model.live="statusFilter" class="auth-input select">
+                    <option value="" selected></option>
+                    <option value="approved">Publié</option>
+                    <option value="pending">En attente</option>
+                    <option value="rejected">Rejeté</option>
+                </select>
+            </div>
+        @endrole
+    </div </div>
+
     @forelse ($posts as $post)
         <x-post.post-card :post="$post" wire:key="post-{{ $post->id }}" />
     @empty
@@ -16,5 +42,6 @@
         </div>
     </div>
 
+    {{-- Chargement infini --}}
     <div x-show="$wire.hasMore" x-intersect="$wire.loadMore()" class="h-2"></div>
 </div>
