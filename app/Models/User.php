@@ -63,10 +63,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Post::class);
     }
-    public function views(): int
+    public function totalLikes()
     {
-        return $this->posts->sum('view');
+        return $this->posts()->withCount('likes')->get()->sum('likes_count');
     }
+
+
     public function affiliation(): BelongsTo
     {
         return $this->belongsTo(Affiliation::class);

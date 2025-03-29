@@ -16,8 +16,8 @@
                 <div class="mt-28 flex flex-col items-center justify-center gap-6 p-4 md:mt-44 md:p-10">
                     <div class="grid grid-cols-2 gap-4">
                         <div class="flex flex-col items-center justify-center gap-2 rounded-lg p-2">
-                            <h3 class="text-2xl font-black">{{ $user->views() }}</h3>
-                            <p>Vues</p>
+                            <h3 class="text-2xl font-black">{{ $user->totalLikes() }}</h3>
+                            <p>Yazzz</p>
                         </div>
                         <div class="flex flex-col items-center justify-center gap-2 rounded-lg p-2">
                             <h3 class="text-2xl font-black">{{ $user->posts->count() }}</h3>
