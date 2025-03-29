@@ -30,15 +30,15 @@ class PostController extends Controller
         return view('pages.posts.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StorePostRequest $request)
     {
         $fields = $request->validated();
         $slug = Str::slug(substr($fields['description'], 0, 50));
         $count = Post::where('slug', 'like', "$slug%")->count();
         $fields['slug'] = $count ? "{$slug}-{$count}" : $slug;
+        if (Auth::user()->hasRole("admin|moderator")) {
+            $fields['status'] = 'approved';
+        }
         $post = Auth::user()->posts()->create($fields);
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {

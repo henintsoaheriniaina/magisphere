@@ -75,4 +75,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->status = 'approved';
     }
+    public function likedPosts()
+    {
+        return $this->belongsToMany(Post::class, 'likes')->withTimestamps();
+    }
 }

@@ -16,51 +16,11 @@
     <div class="secondary-container my-4">
         <x-back />
     </div>
-    <div class="secondary-container min-h-screen space-y-8">
+    <div class="secondary-container min-h-screen space-y-6">
         <div class="card">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                    <img src="{{ $post->user->image_url ?? asset('images/users/avatar.png') }}" alt="Avatar"
-                        class="h-10 w-10 rounded-full border-2 border-classic-black dark:border-classic-white">
-                    <div>
-                        <a href="{{ route('profile.show', $post->user) }}" class="font-semibold">
-                            {{ $post->user->firstname }}
-                        </a>
-                        @role('admin|moderator')
-                            <p class="text-sm text-gray-500 dark:text-gray-400">
-                                {{ ucfirst($post->created_at->diffForHumans()) }}
-                                <span @class([
-                                    'rounded ml-1 px-2 py-0.5 text-xs font-semibold mt-auto',
-                                    'bg-green-500 text-classic-white' => $post->status === 'approved',
-                                    'bg-yellow-500 text-classic-black' => $post->status === 'pending',
-                                    'bg-red-500 text-classic-white' => $post->status === 'rejected',
-                                ])>
-                                    {{ $statusTranslations[$post->status] ?? ucfirst($post->status) }}
-                                </span>
-                            @endrole
-                        </p>
-                    </div>
-                </div>
-
-                <x-post.menu :post="$post" />
-            </div>
-            <div x-data="{ expanded: false }">
-                <p class="mt-3 cursor-pointer" @click="expanded = !expanded">
-                    <span x-show="!expanded">
-                        {{ Str::limit($post->description, 300, '...') }}
-                    </span>
-                    <span x-show="expanded">
-                        {{ $post->description }}
-                    </span>
-                </p>
-
-                @if (Str::length($post->description) > 300)
-                    <button @click="expanded = !expanded" class="mt-2 text-blue-500 hover:underline">
-                        <span x-show="!expanded">Voir plus</span>
-                        <span x-show="expanded">Voir moins</span>
-                    </button>
-                @endif
-            </div>
+            <x-post.header :post="$post" />
+        </div>
+        <div class="card">
             @if ($medias->isNotEmpty())
                 <div x-data="{ showModal: false, modalSrc: '', isVideo: false }" class="mt-3 grid grid-cols-1 gap-2">
                     @foreach ($medias as $index => $file)
@@ -116,8 +76,6 @@
                 </div>
             @endif
         </div>
-
-
         @if ($otherFiles->isNotEmpty())
             <div class="card">
                 <h3 class="mb-3 text-lg font-semibold">Fichiers joints</h3>

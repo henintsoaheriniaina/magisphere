@@ -32,7 +32,7 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'affiliation_id' => fake()->numberBetween(1, 3),
             'status' => 'pending',
-            'email_verified_at' => null,
+            'email_verified_at' => now(),
         ];
     }
 

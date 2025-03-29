@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AffiliationSeeder::class);
         $this->call(RoleSeeder::class);
         User::factory(40)->create();
-
+        Post::factory(50)->create();
         $users = User::get();
         foreach ($users as $user) {
             $user->assignRole('user');

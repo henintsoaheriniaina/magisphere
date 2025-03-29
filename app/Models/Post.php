@@ -32,4 +32,8 @@ class Post extends Model
     {
         return 'slug';
     }
+    public function likedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'likes')->withTimestamps();
+    }
 }
