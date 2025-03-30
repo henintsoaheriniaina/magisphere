@@ -19,7 +19,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view("pages.admin.users.index");
+        $count = User::count();
+        return view("pages.admin.users.index", ['count' => $count]);
     }
 
     /**

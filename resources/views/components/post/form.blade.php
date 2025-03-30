@@ -22,12 +22,50 @@
     }" @submit.prevent="submitForm">
     @csrf
     <div class="auth-group">
+        <label for="description" class="auth-label @error('description') error @enderror font-bold">Description</label>
         <textarea name="description" id="description" class="@error('description') error @enderror auth-input" rows="4">{{ old('description') }}</textarea>
         @error('description')
             <x-message variant="error">{{ $message }}</x-message>
         @enderror
     </div>
+    @role('admin|verificator|moderator')
+        <div x-data="{ open: false, selectedCategory: '' }" class="relative space-y-1">
+            <label for="category" class="auth-label @error('category') error @enderror font-bold">Catégorie</label>
 
+            <div class="cursor-pointer border-b-2 border-b-classic-black bg-transparent py-2 outline-none transition-all duration-300 dark:border-b-classic-white"
+                @click="open = !open">
+                <span
+                    x-text="selectedCategory === 'post' ? 'Publication' : (selectedCategory === 'announcement' ? 'Annonce' : 'Sélectionner une catégorie')"></span>
+            </div>
+            <div x-show="open" @click.away="open = false" x-transition
+                class="absolute left-0 z-10 mt-2 w-full overflow-hidden rounded border-2 bg-classic-white dark:bg-classic-black">
+                <div @click="selectedCategory = 'post'; open = false"
+                    class="dark:hover:text-classic-blacke flex cursor-pointer items-center p-2 hover:bg-classic-black hover:text-classic-white dark:hover:bg-classic-white dark:hover:text-classic-black">
+                    <span>Publication</span>
+                </div>
+                <div @click="selectedCategory = 'announcement'; open = false"
+                    class="dark:hover:text-classic-blacke flex cursor-pointer items-center p-2 hover:bg-classic-black hover:text-classic-white dark:hover:bg-classic-white dark:hover:text-classic-black">
+                    <span>Annonce</span>
+                </div>
+            </div>
+
+            <select id="category" name="category" class="hidden">
+                <option value="" selected></option>
+                <option value="post" x-bind:selected="selectedCategory === 'post'">
+                    Publication
+                </option>
+                <option value="announcement" x-bind:selected="selectedCategory === 'announcement'">
+                    Annonce
+                </option>
+            </select>
+            @error('category')
+                <div class="mt-auto">
+                    <x-message variant="error">{{ $message }}</x-message>
+                </div>
+            @enderror
+        </div>
+    @endrole
+    <label class="auth-label @error('files') error @enderror font-bold">Médias (moins de 10 Mo par fichier)</label>
     <div class="flex space-x-4">
         <button type="button" class="auth-button" @click.prevent="$refs.imageInput.click()"><svg
                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.3"
@@ -102,9 +140,11 @@
                         x-if="file.type.includes('pdf') || file.type.includes('word') || file.type.includes('text')">
                         <p class="text-gray-700 dark:text-gray-300" x-text="file.name"></p>
                     </template>
-                    <button type="button" class="auth-button absolute -right-3 -top-3" @click="removeFile(index)">
+                    <button type="button"
+                        class="absolute -right-3 -top-3 rounded bg-vintageRed-default p-1 font-semibold text-classic-white transition-colors duration-300 hover:bg-vintageRed-dark"
+                        @click="removeFile(index)">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            stroke-width="2.3" stroke="currentColor" class="size-5">
+                            stroke-width="2.3" stroke="currentColor" class="size-4">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                         </svg>
                     </button>

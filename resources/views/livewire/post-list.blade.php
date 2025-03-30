@@ -38,8 +38,7 @@
     </div> --}}
 
     @forelse ($posts as $post)
-        {{-- <x-post.post-card :post="$post" wire:key="post-{{ $post->id }}" /> --}}
-        <livewire:post-card :post="$post" />
+        <x-post.post-card :post="$post" wire:key="post-{{ $post->id }}" />
     @empty
         <p class="text-center text-gray-500">Aucune publication disponible.</p>
     @endforelse

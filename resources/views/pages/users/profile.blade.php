@@ -17,7 +17,7 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div class="flex flex-col items-center justify-center gap-2 rounded-lg p-2">
                             <h3 class="text-2xl font-black">{{ $user->totalLikes() }}</h3>
-                            <p>Yazzz</p>
+                            <p>Likes</p>
                         </div>
                         <div class="flex flex-col items-center justify-center gap-2 rounded-lg p-2">
                             <h3 class="text-2xl font-black">{{ $user->posts->count() }}</h3>

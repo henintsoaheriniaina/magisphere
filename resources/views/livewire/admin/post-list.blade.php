@@ -16,6 +16,9 @@
         <table class="w-full text-left text-sm rtl:text-right">
             <thead class="bg-classic-black text-classic-white dark:bg-classic-white dark:text-classic-black">
                 <tr>
+                    <th class="cursor-pointer px-6 py-3" wire:click="sortBy('id')">
+                        Id {!! $sortField === 'id' ? ($sortDirection === 'asc' ? '⬆' : '⬇') : '' !!}
+                    </th>
                     <th class="cursor-pointer px-6 py-3">
                         Auteur
                     </th>
@@ -38,11 +41,12 @@
             <tbody>
                 @foreach ($posts as $post)
                     <tr class="border-b bg-classic-black/10 dark:border-b-classic-white dark:bg-classic-white/10">
+                        <td class="px-6 py-2">{{ $post->id }}</td>
                         <td class="px-6 py-2">{{ $post->user->firstname . ' ' . $post->user->matriculation }}</td>
                         <td class="px-6 py-2">{{ Str::limit($post->description, 30, '...') }}</td>
                         <x-admin.media :post="$post" />
                         <td class="px-6 py-2">
-                            {{ $post->created_at }}
+                            {{ $post->created_at->format('d M Y, H:i') }}
                         </td>
                         <td class="px-6 py-2">
                             <span @class([

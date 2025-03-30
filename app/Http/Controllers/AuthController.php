@@ -133,7 +133,7 @@ class AuthController extends Controller
     public function updateProfileImage(Request $request)
     {
         $validated = $request->validate([
-            "image_url" => "required|image|file|mimes:png,jpg,jpeg,webp|max:2048",
+            "image_url" => "required|image|file|mimes:png,jpg,jpeg,webp|max:1024",
         ], [
             "image_url.required" => "L'image est requise.",
             "image_url.image" => "Le fichier doit être une image.",

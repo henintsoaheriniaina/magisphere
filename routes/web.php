@@ -30,7 +30,9 @@ Route::middleware(['auth', 'verified', 'approved'])->group(function () {
 
     // Posts
     Route::prefix('posts')->name('posts.')->group(function () {
-        Route::get('/', [PostController::class, 'index'])->name('index');
+        Route::get('/',  function () {
+            return redirect()->route('index');
+        });
         Route::post('/', [PostController::class, 'store'])->name('store');
         Route::get('/create', [PostController::class, 'create'])->name('create');
         Route::get('/{post}', [PostController::class, 'show'])->name('show');

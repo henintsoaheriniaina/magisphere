@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
 
 class Post extends Model
 {
@@ -32,10 +33,7 @@ class Post extends Model
     {
         return 'slug';
     }
-    public function likedByUsers()
-    {
-        return $this->belongsToMany(User::class, 'likes')->withTimestamps();
-    }
+
     public function likes()
     {
         return $this->hasMany(Like::class);
@@ -43,5 +41,13 @@ class Post extends Model
     public function likesCount()
     {
         return $this->likes()->count();
+    }
+    public function isLikedByUser()
+    {
+        return $this->likes()->where('user_id', Auth::user()->id)->exists();
+    }
+    public function likedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'likes')->withTimestamps();
     }
 }

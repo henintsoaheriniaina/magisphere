@@ -18,13 +18,13 @@
                 class="h-10 w-10 rounded-full border-2 border-classic-black dark:border-classic-white">
             <div>
                 <a href="{{ route('profile.show', $post->user) }}" class="font-semibold">
-                    {{ $post->user->firstname }}
+                    {{ $post->user->firstname }} - {{ $post->user->affiliation->label }}
                 </a>
                 <div class="flex items-center gap-2">
                     <p class="text-sm text-gray-500 dark:text-gray-400">{{ ucfirst($post->created_at->diffForHumans()) }}
                     </p>
                     @if ($post->category === 'announcement')
-                        <p class="rounded bg-red-500 px-2 py-1">
+                        <p class="rounded bg-red-500 px-2 py-1 text-classic-white">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="2.3" stroke="currentColor" class="size-4">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -32,27 +32,32 @@
                             </svg>
                         </p>
                     @endif
-                    @role('admin|moderator')
-                        <span @class([
-                            'rounded  px-2 py-1 text-xs font-semibold ',
-                            'bg-green-500 text-classic-white' => $post->status === 'approved',
-                            'bg-yellow-500 text-classic-black' => $post->status === 'pending',
-                            'bg-red-500 text-classic-white' => $post->status === 'rejected',
-                        ])>
-                            {{ $statusTranslations[$post->status] ?? ucfirst($post->status) }}
-                        </span>
-                    @endrole
 
                 </div>
             </div>
         </div>
-        <div class="relative">
-            <button @click="menuOpen = !menuOpen" class="p-1">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.3"
-                    stroke="currentColor" class="size-5">
+        <div class="relative flex items-center justify-center gap-2">
+            @role('admin|moderator')
+                <span @class([
+                    'rounded-lg text-xs p-2 border-2 font-semibold ',
+                    'bg-green-500 border-green-500 text-classic-white' =>
+                        $post->status === 'approved',
+                    'bg-yellow-500 border-yellow-500 text-classic-black' =>
+                        $post->status === 'pending',
+                    'bg-red-500 border-red-500 text-classic-white' =>
+                        $post->status === 'rejected',
+                ])>
+                    {{ $statusTranslations[$post->status] ?? ucfirst($post->status) }}
+                </span>
+            @endrole
+            <button @click="menuOpen = !menuOpen"
+                class="rounded-lg border-2 border-classic-black bg-classic-white p-2 dark:border-classic-white dark:bg-classic-black">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                    stroke="currentColor" class="size-4">
                     <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
+                        d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                 </svg>
+
             </button>
             <div x-show="menuOpen" @click.away="menuOpen = false" x-cloak
                 x-transition:enter="transition ease-out duration-200"
@@ -61,7 +66,7 @@
                 x-transition:leave="transition ease-in duration-150"
                 x-transition:leave-start="opacity-100 transform scale-100"
                 x-transition:leave-end="opacity-0 transform scale-95"
-                class="-2 absolute right-0 z-10 mt-2 w-48 overflow-hidden rounded-lg border-2 border-classic-black bg-classic-white shadow-lg dark:border-classic-white dark:bg-classic-black">
+                class="absolute right-2 top-12 z-10 mt-2 w-48 overflow-hidden rounded-lg border-2 border-classic-black bg-classic-white shadow-lg dark:border-classic-white dark:bg-classic-black">
                 <a href="{{ route('posts.show', $post) }}" class="card-link">
                     Voir plus
                 </a>
@@ -96,6 +101,7 @@
                 <span x-show="!expanded">
                     {{ Str::limit($post->description, 200, '...') }}
                     @if (strlen($post->description) > 200)
+                        <br>
                         <span class="text-blue-500 hover:underline">Voir
                             plus</span>
                     @endif
@@ -103,6 +109,7 @@
                 <span x-show="expanded">
                     {{ $post->description }}
                     @if (strlen($post->description) > 200)
+                        <br>
                         <span class="text-blue-500 hover:underline">Voir moin</span>
                     @endif
                 </span>
@@ -111,7 +118,7 @@
         <template x-if="editing">
             <div class="my-4">
                 <div class="auth-group">
-                    <label for="newDescription" class="auth-label">Modifier la description</label>
+                    <label for="newDescription" class="auth-label font-semibold">Modifier la description</label>
                     <textarea id="newDescription" x-model="newDescription" class="auth-input" rows="5"></textarea>
                 </div>
                 <div class="mt-2 flex space-x-2">

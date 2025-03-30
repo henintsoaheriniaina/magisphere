@@ -17,10 +17,7 @@ class PostController extends Controller
     {
         return view('pages.index');
     }
-    public function announcements()
-    {
-        return view('pages.posts.index');
-    }
+
 
     /**
      * Show the form for creating a new resource.

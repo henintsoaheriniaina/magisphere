@@ -10,7 +10,7 @@
         @endif
         <x-back />
         <div class="my-10 flex items-center justify-between gap-6">
-            <h1 class="text-3xl font-black md:text-4xl">Publications</h1>
+            <h1 class="text-3xl font-black md:text-4xl">Publications ({{ $count }})</h1>
             <a href="{{ route('admin.posts.create') }}" class="auth-button flex items-center justify-center gap-3">
                 <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.3"
                         stroke="currentColor" class="size-5">

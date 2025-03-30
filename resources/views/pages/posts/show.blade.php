@@ -19,10 +19,11 @@
     <div class="secondary-container min-h-screen space-y-6">
         <div class="card">
             <x-post.header :post="$post" />
+            <livewire:like-button :post="$post" :key="'like-button-' . $post->id" />
         </div>
-        <div class="card">
-            @if ($medias->isNotEmpty())
-                <div x-data="{ showModal: false, modalSrc: '', isVideo: false }" class="mt-3 grid grid-cols-1 gap-2">
+        @if ($medias->isNotEmpty())
+            <div class="card">
+                <div x-data="{ showModal: false, modalSrc: '', isVideo: false }" class="mt-3 grid grid-cols-1 gap-2 md:grid-cols-2">
                     @foreach ($medias as $index => $file)
                         <div class="relative overflow-hidden rounded-lg">
                             @if (Str::contains($file->type, 'image'))
@@ -74,8 +75,8 @@
                         </div>
                     </div>
                 </div>
-            @endif
-        </div>
+            </div>
+        @endif
         @if ($otherFiles->isNotEmpty())
             <div class="card">
                 <h3 class="mb-3 text-lg font-semibold">Fichiers joints</h3>

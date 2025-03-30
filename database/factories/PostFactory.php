@@ -28,6 +28,7 @@ class PostFactory extends Factory
             'user_id' => User::inRandomOrder()->first()->id,
             'status' => 'approved',
             'slug' => $slug,
+            'created_at' => fake()->dateTimeBetween("-3 days", 'now')
         ];
     }
 }

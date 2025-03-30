@@ -63,9 +63,19 @@ class PostList extends Component
             $query->where('status', $this->statusFilter);
         }
 
-        $this->posts = $query->take($this->count)->get();
+        // Récupérer les nouveaux posts (collection Eloquent)
+        $newPosts = $query->skip(count($this->posts))->take(10)->get();
+
+        // Fusionner en gardant des objets Post
+        $this->posts = collect($this->posts)->merge($newPosts);
+
+        // Vérifier s'il reste encore des posts à charger
         $this->hasMore = $query->count() > $this->posts->count();
     }
+
+
+
+
 
     public function render()
     {
