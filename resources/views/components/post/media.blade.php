@@ -6,7 +6,7 @@
         <div class="relative overflow-hidden rounded-lg">
             @if (Str::contains($file->type, 'image'))
                 <img src="{{ $file->url }}" alt="Image"
-                    class="h-full max-h-[400px] w-full cursor-pointer object-cover object-top"
+                    class="h-full max-h-[600px] w-full cursor-pointer object-cover object-center"
                     @click="modalSrc = '{{ $file->url }}'; isVideo = false; showModal = true">
             @elseif(Str::contains($file->type, 'video'))
                 <video class="h-full w-full object-cover" muted playsinline>

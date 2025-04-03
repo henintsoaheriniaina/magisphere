@@ -2,10 +2,14 @@
     x-data="{
         imagePreview: '{{ auth()->user()->image_url ?? asset('images/users/avatar.png') }}',
         hasImage: {{ auth()->user()->image_url ? 'true' : 'false' }},
-    }">
+        isLoading: false,
+        submitForm(event) {
+            this.isLoading = true;
+            event.target.submit();
+        }
+    }" @submit.prevent="submitForm">
     @csrf
     @method('put')
-
     <div class="flex flex-col items-center justify-center gap-8 sm:flex-row sm:justify-start">
         <div @class([
             'relative size-44 sm:size-52 rounded-full border-2 bg-classic-white p-2 dark:bg-classic-black cursor-pointer flex items-center justify-center overflow-hidden',
@@ -33,9 +37,21 @@
                          reader.onload = e => imagePreview = e.target.result;
                          reader.readAsDataURL(file);
                      }">
-            <button type="submit"
+            <button type="submit" :disabled="isLoading"
                 class="profile-btn border-vintageRed-default bg-vintageRed-default text-classic-white">
-                Enregistrer
+                <template x-if="isLoading">
+                    <svg class="mx-auto h-5 w-5 animate-spin text-classic-white" xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                            stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                    </svg>
+                </template>
+                <template x-if="!isLoading">
+                    <span>Enregistrer</span>
+                </template>
             </button>
             <a href="{{ route('profile.deleteProfileImage') }}"
                 class="profile-btn border-classic-black text-classic-black opacity-50 dark:border-classic-white dark:text-classic-white"

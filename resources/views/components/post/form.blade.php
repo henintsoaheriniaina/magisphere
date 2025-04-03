@@ -3,6 +3,10 @@
     x-data="{
         files: @json(old('files', [])),
         isLoading: false,
+        submitForm(event) {
+            this.isLoading = true;
+            event.target.submit();
+        }
         handleFiles(event) {
             Array.from(event.target.files).forEach(file => {
                 const reader = new FileReader();
@@ -15,10 +19,7 @@
         removeFile(index) {
             this.files.splice(index, 1);
         },
-        submitForm(event) {
-            this.isLoading = true;
-            event.target.submit();
-        }
+    
     }" @submit.prevent="submitForm">
     @csrf
     <div class="auth-group">

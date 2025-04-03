@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class PostList extends Component
@@ -50,6 +51,9 @@ class PostList extends Component
     private function loadPosts()
     {
         $query = Post::latest();
+        if (!Auth::user()->hasRole('admin|moderator')) {
+            $query->where('status', 'approved');
+        }
 
         if ($this->userId) {
             $query->where('user_id', $this->userId);

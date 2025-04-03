@@ -27,7 +27,7 @@ class UserFactory extends Factory
             'lastname' => fake()->lastName(),
             'firstname' => fake()->firstName(),
             'email' => fake()->unique()->email(),
-            'matriculation' => "ETSI-" . fake()->unique()->numberBetween(2000, 3000),
+            'matriculation' => "ETSI-" . fake()->unique()->numberBetween(1000, 2000),
             'password' => Hash::make('p@ssw0rd9*'),
             'remember_token' => Str::random(10),
             'affiliation_id' => fake()->numberBetween(1, 3),

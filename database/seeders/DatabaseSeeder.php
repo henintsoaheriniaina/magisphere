@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(AffiliationSeeder::class);
         $this->call(RoleSeeder::class);
-        User::factory(40)->create();
+        User::factory(20)->create();
         Post::factory(50)->create();
         $users = User::get();
         foreach ($users as $user) {
@@ -26,9 +26,9 @@ class DatabaseSeeder extends Seeder
         }
 
         $user = User::create([
-            'lastname' => "Rasolomampionona",
-            'firstname' => "Henintsoa Heriniaina",
-            'email' => "belouhtsoa@gmail.com",
+            'lastname' => "Admin",
+            'firstname' => "Umagis",
+            'email' => "umagis.multimedia@gmail.com",
             'matriculation' => "ETSI-4000",
             'password' => Hash::make('p@ssw0rd9*'),
             'remember_token' => Str::random(10),
