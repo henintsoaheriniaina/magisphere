@@ -90,55 +90,65 @@
                     </div>
                 @enderror
             </div>
-            <div x-data="{
-                open: false,
-                selectedRoles: [],
-                toggleRole(role, label) {
-                    if (this.selectedRoles.includes(role)) {
-                        this.selectedRoles = this.selectedRoles.filter(r => r !== role);
-                    } else {
-                        this.selectedRoles.push(role);
+            @role('admin')
+                <div x-data="{
+                    open: false,
+                    selectedRoles: [],
+                    toggleRole(role, label) {
+                        if (this.selectedRoles.includes(role)) {
+                            this.selectedRoles = this.selectedRoles.filter(r => r !== role);
+                        } else {
+                            this.selectedRoles.push(role);
+                        }
+                    },
+                    roleLabels: {
+                        user: 'Utilisateur',
+                        moderator: 'Modérateur',
+                        verificator: 'Vérificateur',
+                        admin: 'Administrateur'
                     }
-                },
-                roleLabels: {
-                    user: 'Utilisateur',
-                    moderator: 'Modérateur',
-                    verificator: 'Vérificateur',
-                    admin: 'Administrateur'
-                }
-            }" class="relative space-y-1">
-                <label for="roles" class="auth-label">Rôles :</label>
-                <div class="cursor-pointer border-b-2 border-b-classic-black bg-transparent p-2 outline-none transition-all duration-300 dark:border-b-classic-white"
-                    @click="open = !open">
-                    <span
-                        x-text="selectedRoles.length ? selectedRoles.map(role => roleLabels[role]).join(', ') : 'Sélectionner des rôles'"></span>
-                </div>
-
-                <div x-show="open" @click.away="open = false" x-transition
-                    class="absolute left-0 z-10 w-full overflow-hidden rounded border-2 bg-classic-white dark:bg-classic-black">
-                    <template
-                        x-for="role in [{value: 'user', label: 'Utilisateur'}, {value: 'moderator', label: 'Modérateur'}, {value: 'verificator', label: 'Vérificateur'}, {value: 'admin', label: 'Administrateur'}]"
-                        :key="role.value">
-                        <div @click="toggleRole(role.value, role.label)"
-                            class="flex cursor-pointer items-center p-2 hover:bg-classic-black hover:text-classic-white dark:hover:bg-classic-white dark:hover:text-classic-black">
-                            <input type="checkbox" class="mr-2" :value="role.value" x-model="selectedRoles">
-                            <span x-text="role.label"></span>
-                        </div>
-                    </template>
-                </div>
-
-                <select name="roles[]" id="roles" multiple class="hidden">
-                    <template x-for="role in selectedRoles" :key="role">
-                        <option :value="role" selected x-text="role"></option>
-                    </template>
-                </select>
-
-                @error('roles')
-                    <div class="mt-auto">
-                        <x-message variant="error">{{ $message }}</x-message>
+                }" class="relative space-y-1">
+                    <label for="roles" class="auth-label">Rôles :</label>
+                    <div class="cursor-pointer border-b-2 border-b-classic-black bg-transparent p-2 outline-none transition-all duration-300 dark:border-b-classic-white"
+                        @click="open = !open">
+                        <span
+                            x-text="selectedRoles.length ? selectedRoles.map(role => roleLabels[role]).join(', ') : 'Sélectionner des rôles'"></span>
                     </div>
-                @enderror
-            </div>
+
+                    <div x-show="open" @click.away="open = false" x-transition
+                        class="absolute left-0 z-10 w-full overflow-hidden rounded border-2 bg-classic-white dark:bg-classic-black">
+                        <template
+                            x-for="role in [{value: 'user', label: 'Utilisateur'}, {value: 'moderator', label: 'Modérateur'}, {value: 'verificator', label: 'Vérificateur'}, {value: 'admin', label: 'Administrateur'}]"
+                            :key="role.value">
+                            <div @click="toggleRole(role.value, role.label)"
+                                class="flex cursor-pointer items-center p-2 hover:bg-classic-black hover:text-classic-white dark:hover:bg-classic-white dark:hover:text-classic-black">
+                                <input type="checkbox" class="mr-2" :value="role.value" x-model="selectedRoles">
+                                <span x-text="role.label"></span>
+                            </div>
+                        </template>
+                    </div>
+
+                    <select name="roles[]" id="roles" multiple class="hidden">
+                        <template x-for="role in selectedRoles" :key="role">
+                            <option :value="role" selected x-text="role"></option>
+                        </template>
+                    </select>
+
+                    @error('roles')
+                        <div class="mt-auto">
+                            <x-message variant="error">{{ $message }}</x-message>
+                        </div>
+                    @enderror
+                </div>
+            @endrole
+            @if (!auth()->user()->hasRole('admin'))
+                <div class=""></div>
+                <div class="hidden">
+                    <select name="roles[]" id="role" multiple>
+                        <option value="user" selected>Utilisateur</option>
+                    </select>
+                </div>
+            @endif
 
             <div class="space-y-4">
                 <button type="submit" class="auth-button">Créer</button>
