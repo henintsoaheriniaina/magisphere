@@ -17,8 +17,8 @@
             <img src="{{ $post->user->image_url ?? asset('images/users/avatar.png') }}" alt="Avatar"
                 class="h-10 w-10 rounded-full border-2 border-classic-black dark:border-classic-white">
             <div>
-                <a href="{{ route('profile.show', $post->user) }}" class="font-semibold">
-                    {{ $post->user->firstname }} - {{ $post->user->affiliation->label }}
+                <a href="{{ route('profile.show', $post->user) }}" class="font-semibold sm:text-base">
+                    {{ $post->user->firstname }}
                 </a>
                 <div class="flex items-center gap-2">
                     <p class="text-sm text-gray-500 dark:text-gray-400">{{ ucfirst($post->created_at->diffForHumans()) }}

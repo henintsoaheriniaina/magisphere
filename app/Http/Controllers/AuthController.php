@@ -179,4 +179,29 @@ class AuthController extends Controller
         }
         return back()->withErrors('image_url', 'zzzz');
     }
+    public function updatePassword(Request $request)
+    {
+        $user = User::findOrFail(Auth::user()->id);
+        $fields = $request->validate(
+            [
+                'old_password' => 'required|string',
+                'password' => 'required|string|confirmed',
+            ],
+            [
+                'old_password.required' => 'L\'ancien mot de passe est obligatoire.',
+                'password.required' => 'Le nouveau mot de passe est obligatoire.',
+                'password.confirmed' => 'La confirmation du mot de passe ne correspond pas.',
+            ]
+        );
+
+        if (!password_verify($fields['old_password'], $user->password)) {
+            return back()->withErrors(['old_password' => 'L\'ancien mot de passe est incorrect.']);
+        }
+
+        $user->password = bcrypt($fields['password']);
+        $user->save();
+
+        return redirect()->route('profile.show', $user)
+            ->with('success', 'Votre mot de passe a été mis à jour avec succès.');
+    }
 }

@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ModerationController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
@@ -14,12 +16,12 @@ Route::prefix('auth')->group(function () {
     Route::middleware('guest')->group(function () {
         Route::get('login', [AuthController::class, 'loginPage'])->name('login');
         Route::post('login', [AuthController::class, 'login'])->name('login');
-
         Route::get('register', [AuthController::class, 'registerPage'])->name('register');
         Route::post('register', [AuthController::class, 'register'])->name('register');
     });
     Route::middleware(['auth', 'approved'])->delete('logout', [AuthController::class, 'logout'])->name('logout');
 });
+
 // email
 Route::get('/email/verify', [AuthController::class, 'verifyEmailPage'])->middleware('auth')->name('verification.notice');
 Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'handleVerifyEmail'])->middleware(['auth', 'signed'])->name('verification.verify');
@@ -51,7 +53,15 @@ Route::middleware(['auth', 'verified', 'approved'])->group(function () {
     Route::put('/edit-profile', [AuthController::class, 'update'])->name('profile.update');
     Route::put('/update-profile-image', [AuthController::class, 'updateProfileImage'])->name('profile.updateProfileImage');
     Route::get('/delete-profile-image', [AuthController::class, 'deleteProfileImage'])->name('profile.deleteProfileImage');
+    Route::put('/update-password', [AuthController::class, 'updatePassword'])->name('profile.updatePassword');
 });
+Route::prefix('auth')->middleware('approved')->group(function () {
+    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
+    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
+    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
+    Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.update');
+});
+
 
 // Admin
 Route::prefix('admin')->name("admin.")->middleware('verified')->group(function () {

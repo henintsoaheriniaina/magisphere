@@ -50,9 +50,7 @@ td {
 .auth-group {
     @apply flex flex-col gap-1;
 }
-.auth-label {
-    @apply capitalize;
-}
+
 .auth-label.error {
     @apply text-red-500;
 }

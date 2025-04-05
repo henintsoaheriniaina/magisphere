@@ -80,13 +80,12 @@
         @if ($otherFiles->isNotEmpty())
             <div class="card">
                 <h3 class="mb-3 text-lg font-semibold">Fichiers joints</h3>
-                <ul class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                <ul class="grid grid-cols-1 gap-2 sm:grid-cols-2">
                     @foreach ($otherFiles as $file)
                         <div
                             class="flex flex-col items-start justify-between gap-3 rounded-lg bg-white p-3 shadow-sm dark:bg-gray-700 md:flex-row">
                             <div class="w-full gap-3">
-                                <!-- Nom et taille du fichier -->
-                                <div class="text-sm font-medium">
+                                <div class="break-words text-sm font-medium">
                                     {{ $file->name }}
                                 </div>
                                 <div class="text-xs text-gray-500 dark:text-gray-400">
@@ -98,7 +97,7 @@
                                 </div>
                             </div>
                             <a href="{{ $file->url }}"
-                                class="mt-auto flex items-center rounded-lg bg-vintageRed-default p-2 text-classic-white hover:bg-vintageRed-dark">
+                                class="mt-auto rounded-lg bg-vintageRed-default p-2 text-classic-white hover:bg-vintageRed-dark">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="2.3" stroke="currentColor" class="size-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -110,7 +109,6 @@
                     @endforeach
                 </ul>
             </div>
-
         @endif
     </div>
 </x-layouts.app>

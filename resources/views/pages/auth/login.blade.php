@@ -5,7 +5,8 @@
         @csrf
         <div class="auth-group">
             <label for="email" class="auth-label @error('email') error @enderror">Email</label>
-            <input type="email" name="email" id="email" class="auth-input @error('email') error @enderror">
+            <input type="email" name="email" id="email" class="auth-input @error('email') error @enderror"
+                value="{{ old('email') }}">
             @error('email')
                 <x-message variant="error">{{ $message }}</x-message>
             @enderror
@@ -18,6 +19,7 @@
             @enderror
             @error('credentials')
                 <x-message variant="error">{{ $message }}</x-message>
+                <a href="{{ route('password.request') }}" class="auth-link">Mot de passe oublié?</a>
             @enderror
         </div>
 
