@@ -1,4 +1,4 @@
-<div class="mt-3">
+<div class="mx-4">
     <button wire:click.prevent="toggleLike"
         class="{{ $isLiked ? 'text-vintageRed-default' : 'border-classic-black dark:border-classic-white' }} flex items-center space-x-2">
         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="2.3"

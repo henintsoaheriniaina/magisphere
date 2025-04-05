@@ -1,9 +1,10 @@
 @props(['files', 'post'])
-<div class="mt-4 rounded-lg bg-gray-200 p-3 dark:bg-gray-800">
+<div class="mx-4 mt-4 rounded-lg bg-gray-200 p-4 dark:bg-gray-800">
     <div class="mb-3 flex items-center justify-between">
         <h3 class="text-lg font-semibold">Fichiers joints ({{ $files->count() }})</h3>
         @if ($files->count() > 3)
-            <a href="{{ route('posts.show', $post) }}" class="hover:text-vintageRed-default hover:underline">Voir tout</a>
+            <a href="{{ route('posts.show', $post) . '#attached' }}"
+                class="hover:text-vintageRed-default hover:underline">Voir tout</a>
         @endif
     </div>
     <ul class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">

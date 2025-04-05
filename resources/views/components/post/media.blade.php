@@ -1,7 +1,7 @@
 @props(['medias', 'post'])
 
 <div x-data="{ showModal: false, modalSrc: '', isVideo: false }"
-    class="{{ $medias->count() > 1 ? 'grid-cols-2 lg:grid-cols-2' : 'grid-cols-1' }} mt-3 grid gap-2">
+    class="{{ $medias->count() > 1 ? 'grid-cols-2 lg:grid-cols-2' : 'grid-cols-1' }} mt-3 grid gap-2 p-4">
     @foreach ($medias->take(4) as $index => $file)
         <div class="relative overflow-hidden rounded-lg">
             @if (Str::contains($file->type, 'image'))

@@ -11,7 +11,7 @@
         'rejected' => ['approved' => 'Approuver'],
     ];
 @endphp
-<div x-data="{ expanded: false, editing: false, newDescription: '{{ $post->description }}', menuOpen: false }">
+<div x-data="{ expanded: false, editing: false, newDescription: '{{ $post->description }}', menuOpen: false }" class="p-4">
     <div class="flex justify-between">
         <div class="flex items-center space-x-3">
             <img src="{{ $post->user->image_url ?? asset('images/users/avatar.png') }}" alt="Avatar"
@@ -21,7 +21,8 @@
                     {{ $post->user->firstname }}
                 </a>
                 <div class="flex items-center gap-2">
-                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ ucfirst($post->created_at->diffForHumans()) }}
+                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                        {{ ucfirst($post->created_at->diffForHumans()) }}
                     </p>
                     @if ($post->category === 'announcement')
                         <p class="rounded bg-red-500 px-2 py-1 text-classic-white">

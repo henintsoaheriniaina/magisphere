@@ -54,6 +54,5 @@
         </div>
     </div>
 
-    {{-- Chargement infini --}}
     <div x-show="$wire.hasMore" x-intersect="$wire.loadMore()" class="h-2"></div>
 </div>
