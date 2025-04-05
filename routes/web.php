@@ -27,7 +27,6 @@ Route::get('/email/verify', [AuthController::class, 'verifyEmailPage'])->middlew
 Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'handleVerifyEmail'])->middleware(['auth', 'signed'])->name('verification.verify');
 Route::post('/email/verification-notification', [AuthController::class, 'resendEMailVerification'])->middleware(['auth'])->name('verification.send');
 
-// users
 Route::middleware(['auth', 'verified', 'approved'])->group(function () {
 
     // Posts
@@ -43,6 +42,7 @@ Route::middleware(['auth', 'verified', 'approved'])->group(function () {
     });
 
     Route::get('/', [PostController::class, 'index'])->name('index');
+    Route::get('/search', [AuthController::class, 'search'])->name('search');
 
     // Theme
     Route::get('theme', [AuthController::class, 'toggleTheme'])->name('toggleTheme');

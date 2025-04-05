@@ -58,7 +58,10 @@ class AuthController extends Controller
         $request->user()->sendEmailVerificationNotification();
         return back()->with('success', 'Un lien de vérification a été envoyé à votre adresse email !');
     }
-
+    public function search()
+    {
+        return view('pages.search');
+    }
     public function login(Request $request)
     {
         $validated = $request->validate([

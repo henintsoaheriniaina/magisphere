@@ -11,7 +11,6 @@
         <div class="mb-10 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
             <input type="text" wire:model.live.debounce.500ms="search" placeholder="Rechercher..."
                 class="auth-input w-full max-w-md px-4">
-
         </div>
     @endif
     <div class="relative overflow-x-auto">

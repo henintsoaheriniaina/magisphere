@@ -2,7 +2,7 @@
     @if ($details)
         <h1 class="mb-6 text-2xl font-bold">Commentaires</h1>
     @endif
-    @forelse ($comments as $comment)
+    @foreach ($comments as $comment)
         <div class="@if (!$details) mx-4 @endif relative flex gap-2">
             <div class="size-10 overflow-hidden rounded-full">
                 <img src="{{ $comment->user->image_url ?? asset('images/users/avatar.png') }}"
@@ -27,11 +27,7 @@
                 </div>
             @endif
         </div>
-    @empty
-        <div class="text-center text-gray-500 dark:text-gray-400">
-            Aucun commentaire pour le moment.
-        </div>
-    @endforelse
+    @endforeach
     <div class="flex items-center justify-center">
         <div wire:loading class="mt-4 flex justify-center">
             <svg class="h-8 w-8 animate-spin text-vintageRed-default" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -65,17 +61,6 @@
             @endif
         </div>
     @endif
-    <div class="mt-4 flex justify-center">
-        <button wire:click="$wire.$refresh()"
-            class="flex items-center gap-2 rounded-lg bg-vintageRed-default p-2 text-classic-white">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.3"
-                stroke="currentColor" class="size-5">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M4.5 12a7.5 7.5 0 1112.95 4.95M19.5 12h-6m0 0V6" />
-            </svg>
-            Rafraîchir
-        </button>
-    </div>
     <form wire:submit.prevent="postComment" class="@if (!$details) mx-4 @endif">
         <div
             class="flex items-center justify-between gap-2 rounded-lg border-2 border-classic-black px-2 py-2 dark:border-classic-white">
