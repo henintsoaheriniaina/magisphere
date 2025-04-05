@@ -15,9 +15,18 @@ class AffiliationSeeder extends Seeder
     public function run(): void
     {
         $affiliations = [
-            ['label' => 'L1 info'],
-            ['label' => 'L2 info'],
-            ['label' => 'L3 info'],
+            ['label' => 'Personnel'],
+            ['label' => 'L1 INFO'],
+            ['label' => 'L2 IGLD'],
+            ['label' => 'L2 MSI'],
+            ['label' => 'L3 IGLD'],
+            ['label' => 'L3 MSI'],
+            ['label' => 'L1 SAMIS'],
+            ['label' => 'L2 SAMIS'],
+            ['label' => 'L3 SAMIS'],
+            ['label' => 'L1 ETS'],
+            ['label' => 'L2 ETS'],
+            ['label' => 'L3 ETS'],
         ];
 
         foreach ($affiliations as $affiliation) {

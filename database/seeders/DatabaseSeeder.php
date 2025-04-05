@@ -18,18 +18,25 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(AffiliationSeeder::class);
         $this->call(RoleSeeder::class);
-        User::factory(20)->create();
-        Post::factory(50)->create();
-        $users = User::get();
-        foreach ($users as $user) {
-            $user->assignRole('user');
-        }
-
         $user = User::create([
             'lastname' => "Admin",
             'firstname' => "Umagis",
             'email' => "umagis.multimedia@gmail.com",
             'matriculation' => "ETSI-4000",
+            'password' => Hash::make('umagis.multimedia'),
+            'remember_token' => Str::random(10),
+            'affiliation_id' => 1,
+            'status' => 'approved',
+            'email_verified_at' => now(),
+        ]);
+        $user->assignRole('admin');
+        $user->affiliation_id = 1;
+        $user->save();
+        $user = User::create([
+            'lastname' => "Rasolomampionona",
+            'firstname' => "Heniintsoa Heriniaina",
+            'email' => "rasolomampiononahenintsoaherin@gmail.com",
+            'matriculation' => "ETSI-0039",
             'password' => Hash::make('p@ssw0rd9*'),
             'remember_token' => Str::random(10),
             'affiliation_id' => 1,
@@ -37,5 +44,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
         $user->assignRole('admin');
+        $user->affiliation_id = 5;
+        $user->save();
     }
 }
