@@ -7,8 +7,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title !== 'Magisphère' ? $title . ' | Magisphère' : 'Magisphère' }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @if (app()->environment('local'))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @else
+        <link rel="stylesheet" href="{{ asset('build/assets/app.css') }}">
+        <script src="{{ asset('build/assets/app.js') }}" defer></script>
+    @endif
 </head>
 
 <body class="bg-classic-white text-classic-black dark:bg-classic-black dark:text-classic-white">

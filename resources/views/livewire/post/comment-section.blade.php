@@ -2,32 +2,69 @@
     @if ($details)
         <h1 class="mb-6 text-2xl font-bold">Commentaires</h1>
     @endif
+
     @foreach ($comments as $comment)
-        <div class="@if (!$details) mx-4 @endif relative flex gap-2">
-            <div class="size-10 overflow-hidden rounded-full">
-                <img src="{{ $comment->user->image_url ?? asset('images/users/avatar.png') }}"
-                    alt="{{ $comment->user->firstname }}" class="size-full">
-            </div>
-            <div class="w-full max-w-[calc(100%-48px)] rounded-lg bg-gray-200 p-3 pr-14 dark:bg-gray-800">
-                <a href="{{ route('profile.show', $comment->user) }}"
-                    class="font-semibold">{{ $comment->user->firstname }}</a>
-                <div class="break-words text-sm">{{ $comment->content }}</div>
-                <div class="text-xs text-gray-500">{{ $comment->created_at->diffForHumans() }}</div>
-            </div>
-            @if (auth()->id() === $comment->user_id)
-                <div class="absolute right-1 top-1 mr-2 mt-2">
-                    <button wire:click="deleteComment({{ $comment->id }})" wire:key="delete-{{ $comment->id }}"
-                        class="rounded-lg bg-vintageRed-default p-2 text-classic-white hover:bg-vintageRed-dark">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
-                            <path fill-rule="evenodd"
-                                d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </button>
+        <div class="@if (!$details) mx-4 @endif relative flex items-start gap-2"
+            wire:key='{{ 'comment-' . $comment->id }}'>
+            <!-- Avatar -->
+            <img src="{{ $comment->user->image_url ?? asset('images/users/avatar.png') }}"
+                alt="{{ $comment->user->firstname }}" class="h-10 w-10 flex-shrink-0 rounded-full object-cover">
+
+            <!-- Contenu du commentaire -->
+            <div class="flex-1 rounded-lg bg-gray-800 p-4 text-white" x-data="{ menuOpen: false, editing: false, commentUpdate: @js($comment->content) }">
+                <div class="flex items-center justify-between">
+                    <a href="{{ route('profile.show', $comment->user) }}" class="font-semibold">
+                        {{ $comment->user->firstname }}
+                    </a>
+                    @if (auth()->id() === $comment->user_id)
+                        <div class="relative flex items-center">
+                            <button x-on:click="menuOpen=!menuOpen" class="rounded-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2.3" stroke="currentColor" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                                </svg>
+                            </button>
+                            <div x-show="menuOpen" @click.away="menuOpen = false" x-cloak
+                                x-transition:enter="transition ease-out duration-200"
+                                x-transition:enter-start="opacity-0 transform scale-95"
+                                x-transition:enter-end="opacity-100 transform scale-100"
+                                x-transition:leave="transition ease-in duration-150"
+                                x-transition:leave-start="opacity-100 transform scale-100"
+                                x-transition:leave-end="opacity-0 transform scale-95"
+                                class="absolute right-0 top-8 z-10 w-40 overflow-hidden rounded-lg bg-classic-white text-classic-black shadow-lg dark:bg-classic-black dark:text-classic-white">
+                                <div class="card-link cursor-pointer"
+                                    x-on:click="$wire.deleteComment({{ $comment->id }})"
+                                    wire:key='{{ 'delete-comment-' . $comment->id }}'>Supprimer
+                                </div>
+                                <div x-on:click="editing=true;menuOpen=false" class="card-link cursor-pointer">
+                                    Modifier</div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
-            @endif
+                <div x-show="editing" class="my-2 space-y-4" x-cloak>
+                    <input type="text" x-model="commentUpdate" class="auth-input @error('content') error @enderror">
+                    @error('content')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+                    <div class="flex items-center gap-2">
+                        <button class="auth-button"
+                            x-on:click="$wire.updateComment({{ $comment->id }},commentUpdate );editing = false">Enregistrer</button>
+                        <button x-on:click="editing = false"
+                            class="rounded bg-gray-200 px-4 py-2 font-semibold text-classic-black duration-300">
+                            Annuler
+                        </button>
+                    </div>
+                </div>
+                <div x-show="!editing" class="mt-1 break-words break-all text-sm">{{ $comment->content }}</div>
+                <div class="mt-1 text-xs text-gray-400">{{ ucfirst($comment->created_at->diffForHumans()) }}</div>
+            </div>
         </div>
     @endforeach
+
+
+
     <div class="flex items-center justify-center">
         <div wire:loading class="mt-4 flex justify-center">
             <svg class="h-8 w-8 animate-spin text-vintageRed-default" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -38,7 +75,9 @@
             </svg>
         </div>
     </div>
-    @if ($details && ($hasMore || $isExtended))
+
+
+    @if ($comments->count() > 0 && $details && ($hasMore || $isExtended))
         <div class="flex gap-3">
             @if ($hasMore)
                 <button wire:click="loadMore"
@@ -64,7 +103,7 @@
     <form wire:submit.prevent="postComment" class="@if (!$details) mx-4 @endif">
         <div
             class="flex items-center justify-between gap-2 rounded-lg border-2 border-classic-black px-2 py-2 dark:border-classic-white">
-            <input type="text" wire:model.defer="newComment" class="w-full bg-transparent px-2 outline-none"
+            <input type="text" wire:model="newComment" class="w-full bg-transparent px-2 outline-none"
                 placeholder="Commenter">
             <button class="rounded-lg bg-vintageRed-default p-2 text-classic-white">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"

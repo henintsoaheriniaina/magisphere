@@ -41,6 +41,14 @@ class PostController extends Controller
         $count = Post::where('slug', 'like', "$slug%")->count();
         $fields['slug'] = $count ? "{$slug}-{$count}" : $slug;
         $fields['status'] = "approved";
+        if ($request->input('category')) {
+            $fields['category'] = $request->input('category');
+        } else {
+            $fields['category'] = 'post';
+        }
+        if (Auth::user()->hasRole("admin|moderator")) {
+            $fields['status'] = 'approved';
+        }
         $post = Auth::user()->posts()->create($fields);
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {

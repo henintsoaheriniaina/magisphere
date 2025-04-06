@@ -5,6 +5,7 @@ namespace App\Livewire\Post;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Illuminate\Support\Facades\Validator;
 
 class CommentSection extends Component
 {
@@ -14,13 +15,12 @@ class CommentSection extends Component
     public int $perPage = 5;
 
     protected $rules = [
-        'newComment' => 'required|string|max:500',
+        'newComment' => 'required|string',
     ];
 
     protected $messages = [
         'newComment.required' => 'Le commentaire est requis.',
         'newComment.string' => 'Le commentaire doit être une chaîne de caractères.',
-        'newComment.max' => 'Le commentaire ne peut pas dépasser 500 caractères.',
     ];
 
     public function postComment()
@@ -31,8 +31,7 @@ class CommentSection extends Component
             'user_id' => Auth::id(),
             'content' => $this->newComment,
         ]);
-        $this->newComment = ''; // Vide la variable
-        $this->dispatch('$refresh');
+        $this->newComment = '';
     }
 
     public function loadMore()
@@ -62,6 +61,30 @@ class CommentSection extends Component
 
         if ($comment && $comment->user_id === Auth::id()) {
             $comment->delete();
+        }
+    }
+
+    public function updateComment($commentId, string $content)
+    {
+        $validator = Validator::make(
+            ['content' => $content],
+            ['content' => 'required|string|max:1000'],
+            [
+                'content.required' => 'Le commentaire est requis.',
+                'content.string' => 'Le commentaire doit être une chaîne de caractères.',
+            ]
+        );
+
+        if ($validator->fails()) {
+            $this->addError('content', $validator->errors()->first('content'));
+            return;
+        }
+
+        $comment = $this->post->comments()->find($commentId);
+
+        if ($comment && $comment->user_id === Auth::id()) {
+            $comment->content = trim($content);
+            $comment->save();
         }
     }
 }

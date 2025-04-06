@@ -11,9 +11,9 @@
         'rejected' => ['approved' => 'Approuver'],
     ];
 @endphp
-<div x-data="{ expanded: false, editing: false, newDescription: '{{ $post->description }}', menuOpen: false }" class="p-4">
+<div x-data="{ expanded: false, editing: false, menuOpen: false }" class="p-4">
     <div class="flex justify-between">
-        <div class="flex items-center space-x-3">
+        <div class="mr-2 flex items-center space-x-3">
             <img src="{{ $post->user->image_url ?? asset('images/users/avatar.png') }}" alt="Avatar"
                 class="h-10 w-10 rounded-full border-2 border-classic-black dark:border-classic-white">
             <div>
@@ -58,7 +58,6 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                 </svg>
-
             </button>
             <div x-show="menuOpen" @click.away="menuOpen = false" x-cloak
                 x-transition:enter="transition ease-out duration-200"
@@ -79,13 +78,11 @@
                             <button type="submit" class="card-link w-full text-left">{{ $label }}</button>
                         </form>
                     @endforeach
-
                 @endcan
                 @if (auth()->user()->is($post->user))
-                    <button type="button" class="card-link w-full text-left"
-                        @click="editing = !editing; menuOpen = false">
+                    <a href="{{ route('posts.edit', $post) }}" class="card-link">
                         Modifier
-                    </button>
+                    </a>
                     <form action="{{ route('posts.destroy', $post) }}" method="POST" class="w-full">
                         @csrf
                         @method('delete')
@@ -97,45 +94,22 @@
         </div>
     </div>
     <div>
-        <template x-if="!editing">
-            <p class="mt-3 cursor-pointer" @click="expanded = !expanded">
-                <span x-show="!expanded">
-                    {{ Str::limit($post->description, 200, '...') }}
-                    @if (strlen($post->description) > 200)
-                        <br>
-                        <span class="text-blue-500 hover:underline">Voir
-                            plus</span>
-                    @endif
-                </span>
-                <span x-show="expanded">
-                    {{ $post->description }}
-                    @if (strlen($post->description) > 200)
-                        <br>
-                        <span class="text-blue-500 hover:underline">Voir moin</span>
-                    @endif
-                </span>
-            </p>
-        </template>
-        <template x-if="editing">
-            <div class="my-4">
-                <div class="auth-group">
-                    <label for="newDescription" class="auth-label font-semibold">Modifier la description</label>
-                    <textarea id="newDescription" x-model="newDescription" class="auth-input" rows="5"></textarea>
-                </div>
-                <div class="mt-2 flex space-x-2">
-                    <button @click="editing = false; $refs.form.submit()" class="auth-button flex items-center">
-                        Enregistrer
-                    </button>
-                    <button @click="editing = false" class="auth-button flex items-center bg-gray-200 text-gray-500">
-                        Annuler
-                    </button>
-                </div>
-                <form x-ref="form" method="POST" action="{{ route('posts.update', $post) }}" class="hidden">
-                    @csrf
-                    @method('PATCH')
-                    <input type="hidden" name="description" :value="newDescription">
-                </form>
-            </div>
-        </template>
+        <p class="mt-3 cursor-pointer" @click="expanded = !expanded">
+            <span x-show="!expanded">
+                {{ Str::limit($post->description, 200, '...') }}
+                @if (strlen($post->description) > 200)
+                    <br>
+                    <span class="text-blue-500 hover:underline">Voir
+                        plus</span>
+                @endif
+            </span>
+            <span x-show="expanded">
+                {!! nl2br($post->description) !!}
+                @if (strlen($post->description) > 200)
+                    <br>
+                    <span class="text-blue-500 hover:underline">Voir moin</span>
+                @endif
+            </span>
+        </p>
     </div>
 </div>

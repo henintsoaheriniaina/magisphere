@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
+use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -30,9 +31,16 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         $fields = $request->validated();
+        // dd($fields);
         $slug = Str::slug(substr($fields['description'], 0, 50));
         $count = Post::where('slug', 'like', "$slug%")->count();
+        $count = $count + 1;
         $fields['slug'] = $count ? "{$slug}-{$count}" : $slug;
+        if ($request->input('category')) {
+            $fields['category'] = $request->input('category');
+        } else {
+            $fields['category'] = 'post';
+        }
         if (Auth::user()->hasRole("admin|moderator")) {
             $fields['status'] = 'approved';
         }
@@ -74,6 +82,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        Gate::authorize('manage_posts', $post);
         return view('pages.posts.edit', compact('post'));
     }
 
@@ -82,15 +91,22 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        if ($post->user_id !== Auth::id()) {
-            abort(403);
-        }
+        Gate::authorize('manage_posts', $post);
         $fields = $request->validate([
             'description' => 'required|string',
+            'category' => 'nullable|in:post,announcement',
+        ], [
+            'description.required' => 'La description est obligatoire.',
+            'description.string' => 'La description doit être une chaîne de caractères.',
+            'description.max' => 'La description ne peut pas dépasser 1000 caractères.',
+            'category.in' => 'La catégorie sélectionnée est invalide.',
         ]);
-
+        if ($request->input('category')) {
+            $fields['category'] = $request->input('category');
+        } else {
+            $fields['category'] = 'post';
+        }
         $post->update($fields);
-
         return redirect()->route('posts.show', $post)->with('success', 'Publication Modifiée avec succès !');
     }
 

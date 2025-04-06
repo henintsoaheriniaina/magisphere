@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
         $user->save();
         $user = User::create([
             'lastname' => "Rasolomampionona",
-            'firstname' => "Heniintsoa Heriniaina",
+            'firstname' => "Henintsoa Heriniaina",
             'email' => "rasolomampiononahenintsoaherin@gmail.com",
             'matriculation' => "ETSI-0039",
             'password' => Hash::make('p@ssw0rd9*'),

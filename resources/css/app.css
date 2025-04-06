@@ -91,3 +91,6 @@ td {
 .admin-card-body {
     @apply flex w-full items-center justify-between;
 }
+.tag {
+    @apply underline;
+}
