@@ -44,7 +44,8 @@
                     @endif
                 </div>
                 <div x-show="editing" class="my-2 space-y-4" x-cloak>
-                    <input type="text" x-model="commentUpdate" class="auth-input @error('content') error @enderror">
+                    <input type="text" x-model="commentUpdate"
+                        class="auth-input @error('content') error @enderror focus:rounded-none focus:bg-transparent focus:px-0 focus:text-classic-white dark:focus:bg-transparent dark:focus:text-classic-white">
                     @error('content')
                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                     @enderror
