@@ -1,7 +1,6 @@
 @props(['title' => 'Magisphère'])
 <!DOCTYPE html>
-<html lang="fr"
-    class="{{ auth()->check() ? auth()->user()->theme : (request()->cookie('theme', 'light') === 'dark' ? 'dark' : '') }}">
+<html lang="fr" class="{{ auth()->check() ? auth()->user()->theme : 'dark' }}">
 
 <head>
     <meta charset="utf-8">
