@@ -70,7 +70,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->posts()->withCount('likes')->get()->sum('likes_count');
     }
 
-
     public function affiliation(): BelongsTo
     {
         return $this->belongsTo(Affiliation::class);
@@ -94,5 +93,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+    public function conversations()
+    {
+        return $this->hasMany(Conversation::class, 'sender_id')->orWhere('receiver_id', $this->id)->whereNotDeleted();
     }
 }

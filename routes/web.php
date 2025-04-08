@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PostController;
 use App\Livewire\Chat\ChatMain;
 use App\Livewire\Chat\Index;
@@ -61,6 +62,7 @@ Route::middleware(['auth', 'verified', 'approved'])->group(function () {
     // Chat
     Route::get('/chat', Index::class)->name('chat.index');
     Route::get('/chat/{query}', ChatMain::class)->name('chat.main');
+    Route::post('/chat/{userId}', [MessageController::class, 'message'])->name('chat.chat');
 });
 Route::prefix('auth')->middleware('approved')->group(function () {
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');

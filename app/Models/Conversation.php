@@ -21,10 +21,8 @@ class Conversation extends Model
     public function getReceiver()
     {
         if ($this->sender_id === Auth::id()) {
-
             return User::firstWhere('id', $this->receiver_id);
         } else {
-
             return User::firstWhere('id', $this->sender_id);
         }
     }
@@ -60,8 +58,9 @@ class Conversation extends Model
     }
     public  function unreadMessagesCount(): int
     {
-        return $unreadMessages = Message::where('conversation_id', '=', $this->id)
-            ->where('receiver_id', Auth::id())
+        $receiver_id = Auth::user()->id;
+        return Message::where('conversation_id', $this->id)
+            ->where('receiver_id', $receiver_id)
             ->whereNull('read_at')->count();
     }
 }

@@ -1,10 +1,19 @@
-<div class="w-full overflow-hidden">
-    <div class="flex h-full grow flex-col overflow-scroll">
+<div x-data="{
+    height: 0,
+    conversationElement: document.getElementById('conversation'),
+    markAsRead: null
+}" x-init="height = conversationElement.scrollHeight;
+$nextTick(() => conversationElement.scrollTop = height);"
+    @scroll-bottom.window="
+    $nextTick(()=>conversationElement.scrollTop= conversationElement.scrollHeight);
+"
+    class="w-full overflow-hidden">
+    <div class="scroll-hidden flex h-full flex-col overflow-scroll">
         {{-- header --}}
         <header
             class="sticky inset-x-0 top-0 z-10 flex w-full border-b-2 border-classic-black py-2 dark:border-classic-white">
             <div class="flex w-full items-center gap-2 px-2 md:gap-5 lg:px-4">
-                <a class="shrink-0 lg:hidden" href="#">
+                <a class="shrink-0 lg:hidden" href="{{ route('chat.index') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="h-6 w-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -13,75 +22,104 @@
                 </a>
                 {{-- avatar --}}
                 <div class="shrink-0">
-                    <x-chat.avatar class="h-9 w-9 lg:h-11 lg:w-11" />
+                    <x-chat.avatar :src="$selectedConversation->getReceiver()->image_url" class="h-9 w-9 lg:h-11 lg:w-11" />
                 </div>
-                <a href="#" class="truncate font-bold"> {{ fake()->name() }} </a>
+                <a href="#" class="truncate font-bold">
+                    {{ $selectedConversation->getReceiver()->lastname . ' ' . $selectedConversation->getReceiver()->firstname }}
+                </a>
             </div>
         </header>
         {{-- main --}}
         <main id="conversation"
+            @scroll="
+                scropTop = $el.scrollTop;
+                if(scropTop <= 0){
+                    $wire.dispatch('loadMore');
+                }
+            "
+            @update-chat-height.window="
+                newHeight= $el.scrollHeight;
+                oldHeight= height;
+                $el.scrollTop= newHeight- oldHeight;
+                height=newHeight;
+            "
             class="my-auto flex w-full flex-grow flex-col gap-3 overflow-y-auto overflow-x-hidden overscroll-contain p-2">
-
-            @if (true)
-                {{-- keep track of the previous message --}}
-                <div @class([
-                    'max-w-[85%] md:max-w-[78%] flex w-auto gap-2 relative mt-2',
-                    'ml-auto' => false,
-                ])>
-
-                    {{-- avatar --}}
-                    <div @class(['shrink-0'])>
-                        <x-chat.avatar />
-                    </div>
-                    {{-- messsage body --}}
+            <div class="flex items-center justify-center">
+                <div wire:loading class="mt-4 flex justify-center">
+                    <svg class="h-8 w-8 animate-spin text-vintageRed-default" xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                            stroke-width="4">
+                        </circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                    </svg>
+                </div>
+            </div>
+            @if ($loadedMessages)
+                @foreach ($loadedMessages as $message)
+                    {{-- keep track of the previous message --}}
                     <div @class([
-                        'flex flex-wrap rounded-xl p-2 flex flex-col ',
-                        'rounded-bl-none bg-classic-black text-classic-white dark:bg-classic-white dark:text-classic-black' => 0,
-                        'rounded-br-none bg-vintageRed-default text-classic-white' => 1,
+                        'max-w-[85%] md:max-w-[78%] flex items-start  gap-2  relative mt-2',
+                        'ml-auto' => $message->sender_id == auth()->id(),
                     ])>
-                        <p class="truncate whitespace-normal text-sm tracking-wide md:text-base lg:tracking-normal">
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Commodi repellat fugit non rem
-                            soluta
-                            alias quo veritatis enim ad cum inventore esse, officia, maiores ipsa aliquid eveniet
-                            illo?
-                            Culpa, consequuntur.
-                        </p>
-                        <div class="ml-auto flex gap-2">
-                            <p class="text-xs">
-                                5 am
+                        {{-- messsage body --}}
+                        <div @class([
+                            'flex flex-wrap rounded-xl py-2 px-4  flex-col ',
+                            'bg-classic-black text-classic-white dark:bg-classic-white dark:text-classic-black max-w-full' => !(
+                                $message->sender_id == auth()->id()
+                            ),
+                            'bg-vintageRed-default text-classic-white' =>
+                                $message->sender_id == auth()->id(),
+                        ])>
+                            <p
+                                class="truncate whitespace-normal break-words text-sm tracking-wide md:text-base lg:tracking-normal">
+                                {{ $message->body }}
                             </p>
-                            {{-- message status , only show if message belongs auth --}}
-                            @if (true)
-                                <div>
-                                    {{-- double ticks --}}
-                                    <span class="">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16">
-                                            <path
-                                                d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z" />
-                                            <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z" />
-                                        </svg>
-                                    </span>
+                            <div class="ml-auto flex gap-2">
+                                <p class="text-xs">
+                                    {{ $message->created_at->format('H:i') }}
+                                </p>
+                                {{-- message status , only show if message belongs auth --}}
+                                @if ($message->sender_id == auth()->id())
+                                    <div>
+                                        @if ($message->isRead())
+                                            <span class="relative block">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
+                                                    class="size-3">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="m4.5 12.75 6 6 9-13.5" />
+                                                </svg>
 
-                                    {{-- single ticks --}}
-                                    {{-- <span x-show="!markAsRead" @class('text-gray-200')>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                        fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
-                                        <path
-                                            d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
-                                    </svg>
-                                </span> --}}
-                                </div>
-                            @endif
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
+                                                    class="absolute right-1 top-0 size-3">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="m4.5 12.75 6 6 9-13.5" />
+                                                </svg>
+                                            </span>
+                                        @else
+                                            <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
+                                                    class="size-3">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="m4.5 12.75 6 6 9-13.5" />
+                                                </svg>
+                                            </span>
+                                        @endif
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endforeach
             @endif
         </main>
         {{-- send --}}
-        <footer class="inset-x-0 z-10 shrink-0">
+        <footer class="inset-x-0 z-10 shrink-0" wire:key='{{ 'form-' . $selectedConversation->id }}'>
             <div class="border-t-2 border-classic-black p-2 dark:border-classic-white">
-                <form x-data="{ body: @entangle('body').defer }" @submit.prevent="$wire.sendMessage" method="POST" autocapitalize="off">
+                <form x-data="{ body: @entangle('body') }" @submit.prevent="$wire.sendMessage" method="POST" autocapitalize="off">
                     @csrf
                     <input type="hidden" autocomplete="false" style="display:none">
                     <div class="flex items-center gap-2">

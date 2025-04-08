@@ -27,7 +27,7 @@
                     <h1 class="text-center text-2xl font-bold md:text-3xl">
                         {{ $user->lastname . ' ' . $user->firstname }}
                     </h1>
-                    <a href="mailto:{{ $user->email }}"
+                    {{-- <a href="mailto:{{ $user->email }}"
                         class="flex flex-col items-center justify-center gap-2 transition-colors hover:text-vintageRed-default">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -38,7 +38,7 @@
                         </span>
                         <span class="overflow-hidden break-all text-center">{{ $user->email }}</span>
 
-                    </a>
+                    </a> --}}
                     @if ($user->bio)
                         <p class="text-center text-base md:text-lg">{{ $user->bio }} </p>
                     @endif
@@ -73,6 +73,22 @@
                         </span>
                     @endrole
                 </div>
+                @if (auth()->id() != $user->id)
+                    <form action="{{ route('chat.chat', $user->id) }}" class="flex items-center justify-center pb-6"
+                        method="post">
+                        @csrf
+                        <button class="auth-button flex items-center justify-center gap-1">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2.3" stroke="currentColor" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
+                                </svg>
+                            </span>
+                            <span class="mr-2">Message</span>
+                        </button>
+                    </form>
+                @endif
                 <div class="absolute right-4 top-4 flex items-center justify-center gap-4">
                     @if (auth()->user()->id === $user->id)
                         <a href="{{ route('profile.edit') }}"

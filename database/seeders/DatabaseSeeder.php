@@ -32,19 +32,19 @@ class DatabaseSeeder extends Seeder
         $user->assignRole('admin');
         $user->affiliation_id = 1;
         $user->save();
-        // $user = User::create([
-        //     'lastname' => "Rasolomampionona",
-        //     'firstname' => "Henintsoa Heriniaina",
-        //     'email' => "rasolomampiononahenintsoaherin@gmail.com",
-        //     'matriculation' => "ETSI-0039",
-        //     'password' => Hash::make('p@ssw0rd9*'),
-        //     'remember_token' => Str::random(10),
-        //     'affiliation_id' => 1,
-        //     'status' => 'approved',
-        //     'email_verified_at' => now(),
-        // ]);
-        // $user->assignRole('admin');
-        // $user->affiliation_id = 5;
-        // $user->save();
+
+        $user = User::create([
+            'lastname' => "Rasolomampionona",
+            'firstname' => "Henintsoa Heriniaina",
+            'email' => "rasolomampiononahenintsoaherin@gmail.com",
+            'matriculation' => "ETSI-0039",
+            'password' => Hash::make('p@ssw0rd9*'),
+            'remember_token' => Str::random(10),
+            'affiliation_id' => 5,
+            'status' => 'approved',
+            'email_verified_at' => now(),
+        ]);
+        $user->assignRole('admin');
+        User::factory(20)->create();
     }
 }

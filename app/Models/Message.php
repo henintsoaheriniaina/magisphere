@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Message extends Model
 {
@@ -33,7 +34,10 @@ class Message extends Model
 
     public function isRead(): bool
     {
-
         return $this->read_at != null;
+    }
+    public function sender(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }
