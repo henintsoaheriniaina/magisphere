@@ -18,6 +18,15 @@
 *::-webkit-scrollbar-track {
     border-radius: 4px;
 }
+
+.scroll-hidden::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll-hidden {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
 th,
 td {
     @apply whitespace-nowrap;
@@ -79,7 +88,7 @@ td {
     @apply btn border-2;
 }
 .card-link {
-    @apply block px-4 py-2 text-sm text-classic-black dark:text-classic-white hover:bg-vintageRed-default hover:text-classic-white transition-colors;
+    @apply block px-4 py-2 text-sm text-classic-black dark:text-classic-white hover:bg-classic-black  hover:text-classic-white dark:hover:bg-classic-white dark:hover:text-classic-black transition-colors;
 }
 .admin-card {
     @apply space-y-4 rounded-lg border-2 border-classic-black p-6 dark:border-classic-white;

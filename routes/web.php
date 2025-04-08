@@ -7,6 +7,8 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
+use App\Livewire\Chat\ChatMain;
+use App\Livewire\Chat\Index;
 use Illuminate\Support\Facades\Route;
 
 
@@ -55,6 +57,10 @@ Route::middleware(['auth', 'verified', 'approved'])->group(function () {
     Route::put('/update-profile-image', [AuthController::class, 'updateProfileImage'])->name('profile.updateProfileImage');
     Route::get('/delete-profile-image', [AuthController::class, 'deleteProfileImage'])->name('profile.deleteProfileImage');
     Route::put('/update-password', [AuthController::class, 'updatePassword'])->name('profile.updatePassword');
+
+    // Chat
+    Route::get('/chat', Index::class)->name('chat.index');
+    Route::get('/chat/{query}', ChatMain::class)->name('chat.main');
 });
 Route::prefix('auth')->middleware('approved')->group(function () {
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
