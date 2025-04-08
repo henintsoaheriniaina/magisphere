@@ -37,7 +37,7 @@
         <h2 class="mb-4 text-xl font-bold">Publications</h2>
         <div class="grid grid-cols-1 gap-4">
             @forelse($posts as $post)
-                <div class="break-inside-avoid">
+                <div class="break-inside-avoid" wire:key="user-{{ $post->id }}">
                     <x-post.post-card :post="$post" />
                 </div>
             @empty
