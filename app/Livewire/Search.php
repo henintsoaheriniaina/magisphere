@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Post;
 use App\Models\User;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -11,11 +12,12 @@ class Search extends Component
 {
     use WithPagination;
 
-    public string $query = '';
     public int $usersPage = 1;
+
+    #[Url(except: '')]
+    public string $query = '';
     public int $postsPage = 1;
 
-    protected $queryString = ['query'];
 
     public function updatingQuery()
     {

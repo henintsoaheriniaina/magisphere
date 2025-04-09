@@ -19,7 +19,7 @@ class UpdateUserRequest extends FormRequest
             'matriculation' => [
                 'required',
                 'string',
-                'regex:/^(ETSI|ETS|SE)-\d{4}$/'
+                'regex:/^(ETSI|ETS|SE)-\d{2,4}$/'
             ],
             'email' => 'required|string|email|max:255',
             'affiliation' => 'required|exists:affiliations,id',

@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             'lastname' => "Admin",
             'firstname' => "Umagis",
             'email' => "umagis.multimedia@gmail.com",
-            'matriculation' => "ETSI-4000",
+            'matriculation' => "SE-0000",
             'password' => Hash::make('umagis.multimedia'),
             'remember_token' => Str::random(10),
             'affiliation_id' => 1,
@@ -32,7 +32,6 @@ class DatabaseSeeder extends Seeder
         $user->assignRole('admin');
         $user->affiliation_id = 1;
         $user->save();
-
         $user = User::create([
             'lastname' => "Rasolomampionona",
             'firstname' => "Henintsoa Heriniaina",
@@ -45,6 +44,5 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
         $user->assignRole('admin');
-        User::factory(20)->create();
     }
 }

@@ -33,11 +33,10 @@
                 </a>
             </div>
         </div>
-        <div class="card" id="comments">
-            <livewire:post.comment-section :perPage="5" :details="true" :post="$post" />
-        </div>
+
         @if ($medias->isNotEmpty())
             <div class="card">
+                <h1 class="mb-6 text-2xl font-bold">Médias</h1>
                 <div x-data="{ showModal: false, modalSrc: '', isVideo: false }" class="mt-3 grid grid-cols-1 gap-2 md:grid-cols-2">
                     @foreach ($medias as $index => $file)
                         <div class="relative overflow-hidden rounded-lg">
@@ -125,5 +124,8 @@
                 </ul>
             </div>
         @endif
+        <div class="card" id="comments">
+            <livewire:post.comment-section :perPage="5" :details="true" :post="$post" />
+        </div>
     </div>
 </x-layouts.app>

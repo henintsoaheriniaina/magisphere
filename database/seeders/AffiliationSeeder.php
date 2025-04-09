@@ -14,22 +14,37 @@ class AffiliationSeeder extends Seeder
      */
     public function run(): void
     {
-        $affiliations = [
-            ['label' => 'Personnel'],
+        $classes = [
+            ['label' => 'PERSONNEL'],
+            ['label' => 'ENSEIGNANT'],
             ['label' => 'L1 INFO'],
-            ['label' => 'L2 IGLD'],
-            ['label' => 'L2 MSI'],
-            ['label' => 'L3 IGLD'],
-            ['label' => 'L3 MSI'],
+            ['label' => 'L2 INFO IGLD'],
+            ['label' => 'L2 INFO MSIR'],
+            ['label' => 'L3 INFO IGLD'],
+            ['label' => 'L3 INFO MSIR'],
             ['label' => 'L1 SAMIS'],
             ['label' => 'L2 SAMIS'],
-            ['label' => 'L3 SAMIS'],
+            ['label' => 'L3 SAMIS CM'],
+            ['label' => 'L3 SAMIS CO'],
+            ['label' => 'L3 SAMIS SE'],
+            ['label' => 'M1 SAMIS CM'],
+            ['label' => 'M1 SAMIS CO'],
+            ['label' => 'M1 SAMIS SE'],
+            ['label' => 'M2 SAMIS CM'],
+            ['label' => 'M2 SAMIS CO'],
+            ['label' => 'M2 SAMIS SE'],
             ['label' => 'L1 ETS'],
-            ['label' => 'L2 ETS'],
-            ['label' => 'L3 ETS'],
+            ['label' => 'L2 ETS EM'],
+            ['label' => 'L2 ETS GM'],
+            ['label' => 'L3 ETS EM'],
+            ['label' => 'L3 ETS GM'],
+            ['label' => 'M2 ETS EM'],
+            ['label' => 'M2 ETS GM'],
+            ['label' => 'M1 ETS EM'],
+            ['label' => 'M1 ETS GM'],
         ];
 
-        foreach ($affiliations as $affiliation) {
+        foreach ($classes as $affiliation) {
             Affiliation::create($affiliation);
         }
     }

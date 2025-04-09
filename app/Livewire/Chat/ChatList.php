@@ -4,16 +4,19 @@ namespace App\Livewire\Chat;
 
 use App\Models\Conversation;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class ChatList extends Component
 {
     public $selectedConversation;
-    public $query;
+
+    #[Url(except: '')]
+    public $search;
     protected $listeners = ['refresh' => '$refresh'];
 
 
-    public function deleteByUser($id)
+    public function deletedByUser($id)
     {
         $userId = Auth::id();
         $conversation = Conversation::find(decrypt($id));
@@ -39,8 +42,22 @@ class ChatList extends Component
     }
     public function render()
     {
+        $conversations = Auth::user()->conversations()
+            ->latest('updated_at')
+            ->get()
+            ->filter(function ($conversation) {
+                $receiver = $conversation->getReceiver();
+                if (!$receiver) return false;
+
+                $firstname = strtolower($receiver->firstname);
+                $lastname = strtolower($receiver->lastname);
+                $search = strtolower($this->search);
+
+                return str_contains($firstname, $search) || str_contains($lastname, $search);
+            });
+
         return view('livewire.chat.chat-list', [
-            'conversations' => Auth::user()->conversations()->latest('updated_at')->get()
+            'conversations' => $conversations,
         ]);
     }
 }

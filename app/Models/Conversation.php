@@ -18,6 +18,7 @@ class Conversation extends Model
     {
         return $this->hasMany(Message::class);
     }
+
     public function getReceiver()
     {
         if ($this->sender_id === Auth::id()) {
