@@ -3,7 +3,14 @@
     if (conversationElement) {
         conversationElement.scrollIntoView({ 'behavior': 'smooth' });
     }
-}, 200);" class="flex h-full flex-col overflow-hidden transition-all">
+}, 200);
+Echo.private('users.{{ Auth()->User()->id }}')
+    .notification((notification) => {
+        if (notification['type'] == 'App\\Notifications\\MessageRead' || notification['type'] == 'App\\Notifications\\MessageSent') {
+            window.Livewire.dispatch('refresh');
+            {{-- $wire.dispatch('refresh'); --}}
+        }
+    });" class="flex h-full flex-col overflow-hidden transition-all">
     <header class="sticky top-0 z-10 w-full p-4">
         <div class="flex items-center justify-between border-b-2 border-classic-black pb-4 dark:border-classic-white">
             <div class="flex items-center gap-2">
@@ -56,9 +63,42 @@
                                         <span class="shrink-0 rounded-full bg-vintageRed-default p-1 text-xs font-bold">
                                         </span>
                                     @endif
-                                    <p class="grow truncate text-sm font-light">
-                                        {{ $conversation?->messages?->last()?->body ?? '' }}
-                                    </p>
+                                    @if ($conversation?->messages?->last())
+                                        <p class="grow truncate text-sm font-light">
+                                            {{ $conversation?->messages?->last()?->body ?? '' }}
+                                        </p>
+                                    @else
+                                        <p class="grow truncate text-sm font-light">
+                                            Aucun message pour le moment.
+                                        </p>
+                                    @endif
+                                    @if ($conversation?->messages?->last()?->sender_id == auth()->id())
+                                        @if ($conversation->isLastMessageReadByUser())
+                                            <span class="relative">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
+                                                    class="size-3">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="m4.5 12.75 6 6 9-13.5" />
+                                                </svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
+                                                    class="absolute right-1 top-0 size-3">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="m4.5 12.75 6 6 9-13.5" />
+                                                </svg>
+                                            </span>
+                                        @else
+                                            <span class="relative">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
+                                                    class="size-3">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="m4.5 12.75 6 6 9-13.5" />
+                                                </svg>
+                                            </span>
+                                        @endif
+                                    @endif
                                 </div>
                             </a>
                             {{-- Dropdown --}}
@@ -82,9 +122,12 @@
                                         <a href="#" class="card-link text-left">
                                             Profile
                                         </a>
-                                        <a href="#" class="card-link text-left">
+                                        <button
+                                            onclick="confirm('Êtes-vous sûr de vouloir supprimer cette conversation ?')||event.stopPropagation()"
+                                            wire:click="deleteByUser('{{ encrypt($conversation->id) }}')"
+                                            class="card-link text-left">
                                             Supprimer
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
                             </div>

@@ -18,8 +18,11 @@
                         </div>
                     </div>
                     <p class="text-xl font-semibold">{{ $user->lastname . ' ' . $user->firstname }}</p>
-                    <a href="mailto:{{ $user->email }}" class="w-full break-words text-sm">{{ $user->email }}</a>
-                    <a href="{{ route('profile.show', $user) }}" class="auth-button">Profil</a>
+                    <div class="flex items-center justify-center gap-2">
+                        <x-chat.chat-button :user="$user" />
+                        <a href="{{ route('profile.show', $user) }}"
+                            class="btn bg-classic-black/30 dark:bg-classic-white/30">Profil</a>
+                    </div>
                 </div>
             @empty
                 <p class="text-gray-500">Aucun utilisateur trouvé.</p>

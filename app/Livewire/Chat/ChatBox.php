@@ -3,7 +3,11 @@
 namespace App\Livewire\Chat;
 
 use App\Models\Message;
+use App\Notifications\MessageRead;
+use App\Notifications\MessageSent;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ChatBox extends Component
@@ -17,9 +21,37 @@ class ChatBox extends Component
      */
     public $loadedMessages;
 
-    protected $listeners = [
-        'loadMore'
-    ];
+    public function getListeners()
+    {
+        $auth_id = Auth::user()->id;
+        return [
+            'loadMore',
+            "echo-private:users.{$auth_id},.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated" => 'broadcastedNotifications'
+        ];
+    }
+
+    public function broadcastedNotifications($event)
+    {
+        if ($event['type'] == MessageSent::class) {
+
+            if ($event['conversation_id'] == $this->selectedConversation->id) {
+
+                $this->dispatch('scroll-bottom');
+                $newMessage = Message::find($event['message_id']);
+
+                #push message
+                $this->loadedMessages->push($newMessage);
+
+                #mark as read
+                $newMessage->read_at = now();
+                $newMessage->save();
+
+                #broadcast
+                $this->selectedConversation->getReceiver()
+                    ->notify(new MessageRead($this->selectedConversation->id));
+            }
+        }
+    }
 
     public function loadMore()
     {
@@ -59,16 +91,15 @@ class ChatBox extends Component
 
         #refresh chatlist
         $this->dispatch('refresh')->to('chat.chat-list');
+
         #broadcast
-
-        // $this->selectedConversation->getReceiver()
-        //     ->notify(new MessageSent(
-        //         Auth()->User(),
-        //         $createdMessage,
-        //         $this->selectedConversation,
-        //         $this->selectedConversation->getReceiver()->id
-
-        //     ));
+        $this->selectedConversation->getReceiver()
+            ->notify(new MessageSent(
+                Auth::user(),
+                $createdMessage,
+                $this->selectedConversation,
+                $this->selectedConversation->getReceiver()->id
+            ));
     }
     public function mount()
     {

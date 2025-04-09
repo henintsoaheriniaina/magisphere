@@ -98,4 +98,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Conversation::class, 'sender_id')->orWhere('receiver_id', $this->id)->whereNotDeleted();
     }
+
+    public function receivesBroadcastNotificationsOn(): string
+    {
+        return "users.{$this->id}";
+    }
 }

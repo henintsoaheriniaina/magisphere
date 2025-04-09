@@ -3,7 +3,13 @@
     conversationElement: document.getElementById('conversation'),
     markAsRead: null
 }" x-init="height = conversationElement.scrollHeight;
-$nextTick(() => conversationElement.scrollTop = height);"
+$nextTick(() => conversationElement.scrollTop = height);
+Echo.private('users.{{ Auth()->User()->id }}')
+    .notification((notification) => {
+        if (notification['type'] == 'App\\Notifications\\MessageRead' && notification['conversation_id'] == {{ $selectedConversation->id }}) {
+            markAsRead = true;
+        }
+    });"
     @scroll-bottom.window="
     $nextTick(()=>conversationElement.scrollTop= conversationElement.scrollHeight);
 "
@@ -56,9 +62,9 @@ $nextTick(() => conversationElement.scrollTop = height);"
                 </div>
             </div>
             @if ($loadedMessages)
-                @foreach ($loadedMessages as $message)
+                @foreach ($loadedMessages as $key => $message)
                     {{-- keep track of the previous message --}}
-                    <div @class([
+                    <div wire:key="{{ time() . $key }}" @class([
                         'max-w-[85%] md:max-w-[78%] flex items-start  gap-2  relative mt-2',
                         'ml-auto' => $message->sender_id == auth()->id(),
                     ])>
@@ -81,33 +87,28 @@ $nextTick(() => conversationElement.scrollTop = height);"
                                 </p>
                                 {{-- message status , only show if message belongs auth --}}
                                 @if ($message->sender_id == auth()->id())
-                                    <div>
-                                        @if ($message->isRead())
-                                            <span class="relative block">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
-                                                    class="size-3">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="m4.5 12.75 6 6 9-13.5" />
-                                                </svg>
+                                    <div x-data="{ markAsRead: @json($message->isRead()) }">
+                                        <span x-cloack x-show="markAsRead" class="relative block">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="2.5" stroke="currentColor" class="size-3">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="m4.5 12.75 6 6 9-13.5" />
+                                            </svg>
 
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
-                                                    class="absolute right-1 top-0 size-3">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="m4.5 12.75 6 6 9-13.5" />
-                                                </svg>
-                                            </span>
-                                        @else
-                                            <span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
-                                                    class="size-3">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="m4.5 12.75 6 6 9-13.5" />
-                                                </svg>
-                                            </span>
-                                        @endif
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="2.5" stroke="currentColor"
+                                                class="absolute right-1 top-0 size-3">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="m4.5 12.75 6 6 9-13.5" />
+                                            </svg>
+                                        </span>
+                                        <span x-show="!markAsRead">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="2.5" stroke="currentColor" class="size-3">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="m4.5 12.75 6 6 9-13.5" />
+                                            </svg>
+                                        </span>
                                     </div>
                                 @endif
                             </div>

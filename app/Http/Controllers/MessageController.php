@@ -28,15 +28,12 @@ class MessageController extends Controller
                     ->where('receiver_id', $authenticatedUserId);
             })->first();
 
-        if ($existingConversation) {
-            return redirect()->route('chat', ['query' => $existingConversation->id]);
+        if (!$existingConversation) {
+            $existingConversation = Conversation::create([
+                'sender_id' => $authenticatedUserId,
+                'receiver_id' => $userId,
+            ]);
         }
-
-        $createdConversation = Conversation::create([
-            'sender_id' => $authenticatedUserId,
-            'receiver_id' => $userId,
-        ]);
-
-        return redirect()->route('chat.main', ['query' => $createdConversation->id]);
+        return redirect()->route('chat.main', ['query' => $existingConversation->id]);
     }
 }

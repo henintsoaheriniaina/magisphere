@@ -10,9 +10,12 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PostController;
 use App\Livewire\Chat\ChatMain;
 use App\Livewire\Chat\Index;
+use App\Models\Conversation;
+use App\Models\Message;
+use App\Models\User;
+use App\Notifications\MessageSent;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
-
-
 
 // Auth
 Route::prefix('auth')->group(function () {
@@ -94,4 +97,21 @@ Route::prefix('admin')->name("admin.")->middleware('verified')->group(function (
         Route::post('/moderation/{post}/approve', [ModerationController::class, 'approve'])->name('moderation.approve');
         Route::post('/moderation/{post}/reject', [ModerationController::class, 'reject'])->name('moderation.reject');
     });
+});
+
+
+Route::get('/test-notif', function () {
+    $receiver = User::find(2); // Le receiver
+    $sender = User::find(1); // L’émetteur
+    $conversation = Conversation::first(); // Une conv existante ou fictive
+    $message = Message::create([
+        'conversation_id' => $conversation->id,
+        'sender_id' => $sender->id,
+        'receiver_id' => $receiver->id,
+        'body' => 'Hello test broadcast !'
+    ]);
+
+    $receiver->notify(new MessageSent($sender, $message, $conversation, $receiver->id));
+
+    return 'Notification envoyée via Pusher 🎯';
 });
