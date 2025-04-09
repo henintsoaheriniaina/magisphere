@@ -29,7 +29,7 @@ class UserProfileRequest extends FormRequest
                 'required',
                 'string',
                 Rule::unique('users')->ignore($this->user()->id),
-                'regex:/^(ETSI|ETS|SE)-\d{2,4}$/'
+                'regex:/^(ETSI|ETS|SE)-(?!0{2,4}$)\d{2,4}$/'
             ],
             'affiliation' => 'required|exists:affiliations,id',
             "bio" => "nullable|string|max:2000",

@@ -28,7 +28,7 @@ class StoreUserRequest extends FormRequest
                 'required',
                 'string',
                 'unique:users',
-                'regex:/^(ETSI|ETS|SE)-\d{2,4}$/'
+                'regex:/^(ETSI|ETS|SE)-(?!0{2,4}$)\d{2,4}$/'
             ],
             'password' => 'required|string|min:8|confirmed',
             'email' => 'required|string|email|max:255|unique:users',

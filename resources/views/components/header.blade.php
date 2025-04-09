@@ -2,11 +2,9 @@
     class="sticky left-0 right-0 top-0 z-50 border-b-2 border-classic-black bg-classic-white dark:border-classic-white dark:bg-classic-black">
     <div class="default-container">
         <div class="flex items-center justify-between lg:col-span-9">
-            <a href="{{ route('index') }}" class="flex items-center gap-2">
-                <h1 class="text-3xl font-black text-vintageRed-default">
-                    <span class="hidden sm:inline">Magisphère</span>
-                    <span class="sm:hidden">M</span>
-                </h1>
+            <a href="{{ route('index') }}"
+                class="flex items-center text-2xl font-black text-vintageRed-default sm:text-3xl">
+                Magisphère
             </a>
             <div class="flex items-center justify-center gap-6">
                 <x-desk-nav />
