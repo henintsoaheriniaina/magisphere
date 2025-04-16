@@ -2,6 +2,8 @@
 
 Magisphere est un réseau social universitaire permettant aux étudiants et aux enseignants de partager des posts et des annonces au sein de l'université.
 
+Utilisez un matricule type ETS-XXXX ETSI-XXXX SE-XXXX UMA-XXXX
+
 ## 🚀 Fonctionnalités actuelles
 
 -   📌 Publication de posts et annonces (CRUD complet)
