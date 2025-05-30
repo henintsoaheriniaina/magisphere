@@ -9,14 +9,13 @@ Utilisez un matricule type ETS-XXXX ETSI-XXXX SE-XXXX UMA-XXXX
 -   📌 Publication de posts et annonces (CRUD complet)
 -   🔎 Affichage du nombre de vues des posts
 -   👤 Gestion des administrateurs et approbation des posts/annonces
+-   📨 Messagerie privée
+-   💬 Commentaires et réactions (likes)
 
 ## 🔮 Fonctionnalités à venir
 
--   💬 Commentaires et réactions (likes)
 -   📢 Notifications en temps réel et Livewire
--   📨 Messagerie privée
--   🎨 Améliorations UI/UX
--   🗝️ Authentification : JWT / OAuth
+
 
 ## 🛠️ Technologies utilisées
 
